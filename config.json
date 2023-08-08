@@ -2,7 +2,7 @@
    "name": "Auto-Notify Module",
    "namespace": "IU\\AutoNotifyModule", 
    "description": "REDCap external module for setting up automatic notifications.",
-   "framework-version": 11,
+   "framework-version": 12,
    "authors": [
        {
            "name": "Jim Mullen",
@@ -22,7 +22,7 @@
     "compatibility": {
       "php-version-min": "7.3.0",
       "php-version-max": "",
-      "redcap-version-min": "13.0.0",
+      "redcap-version-min": "13.1.5",
       "redcap-version-max": ""
     },
     "links": {
