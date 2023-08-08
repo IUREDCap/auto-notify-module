@@ -2,7 +2,7 @@
    "name": "Auto-Notify Module",
    "namespace": "IU\\AutoNotifyModule", 
    "description": "REDCap external module for setting up automatic notifications.",
-   "framework-version": 9,
+   "framework-version": 10,
    "authors": [
        {
            "name": "Jim Mullen",
