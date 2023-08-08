@@ -13,5 +13,5 @@ namespace IU\AutoNotifyModule;
 class Version
 {
     # This release number should be updated each time a release is made.
-    public const RELEASE_NUMBER = "0.0.2";
+    public const RELEASE_NUMBER = "1.0.0";
 }
