@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!-- =================================================
+Copyright (C) 2023 The Trustees of Indiana University
+SPDX-License-Identifier: BSD-3-Clause
+================================================== -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" bootstrap="vendor/autoload.php">
+  <coverage>
+    <include>
+      <directory suffix=".php">classes</directory>
+    </include>
+    <exclude>
+    </exclude>
+  </coverage>
+  <testsuites>
+    <testsuite name="unit">
+      <file>tests/unit/ConditionsTest.php</file>
+      <file>tests/unit/ConfigTest.php</file>
+      <file>tests/unit/DateInfoTest.php</file>
+      <file>tests/unit/ExternalModuleInfoTest.php</file>
+      <file>tests/unit/FilterTest.php</file>
+      <file>tests/unit/HelpTest.php</file>
+      <file>tests/unit/LogTest.php</file>
+      <file>tests/unit/ModuleLogTest.php</file>
+      <file>tests/unit/NotificationsTest.php</file>
+      <file>tests/unit/NotificationTest.php</file>
+      <file>tests/unit/ProjectInfoTest.php</file>
+      <file>tests/unit/QueriesTest.php</file>
+      <file>tests/unit/QueryTest.php</file>
+      <file>tests/unit/RedCapDbTest.php</file>
+      <file>tests/unit/RedCapInfoTest.php</file>
+      <file>tests/unit/ScheduleTest.php</file>
+      <file>tests/unit/SettingsTest.php</file>
+      <file>tests/unit/TestRunTest.php</file>
+      <file>tests/unit/UserRightsTest.php</file>
+      <file>tests/unit/UsersQueryResultsTest.php</file>
+      <file>tests/unit/UsersSpecificationTest.php</file>
+      <file>tests/unit/UserTest.php</file>
+      <file>tests/unit/VariableTest.php</file>
+      <file>tests/unit/VersionTest.php</file>
+    </testsuite>
+  </testsuites>
+</phpunit>

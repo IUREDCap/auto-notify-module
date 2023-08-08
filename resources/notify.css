@@ -1,0 +1,151 @@
+/*
+ * Copyright (C) 2023 The Trustees of Indiana University
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+
+/* Data table */
+table.data-table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+}
+
+table.data-table tr.even-row {
+    /* background-color: #F3F3F3; */
+    background-color: #FFFFFF;
+}
+
+table.data-table th {
+    background-color: #ECECEC;
+    text-align: center;
+    font-weight: bold;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 1px 4px;
+}
+
+table.data-table td {
+    background-color: #FFFFFF;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 1px 4px;
+}
+
+
+/* Config field set */
+fieldset.config {
+    padding: 7px;
+    margin-bottom: 14px;
+    background-color: #E9F1F8; /* #D9E8F4; #F0F5FF; #f0f0f0; */
+    border: 1px solid #777;
+}
+
+fieldset.config legend {
+    font-weight: bold;
+    float: none;
+}
+
+/**********************************/
+/* Sbumit button                  */
+/**********************************/
+input.submit-button {
+    font-weight: bold;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+/**********************************/
+/* Condition List                 */
+/**********************************/
+ul.conditionList {
+    list-style-type: none;
+}
+
+ul.conditionList .ui-selecting {
+    background: #FECA40;
+}
+
+ul.conditionList .ui-selected {
+    background: #F39814;
+    color: white;
+}
+
+/*******************************/
+/*                             */
+/*******************************/
+ul.anm-query-builder {
+    list-style-type: none;
+    margin-bottom: 0px;
+}
+
+ul.anm-query-builder li {
+    border: 1px solid black;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding: 4px;
+}
+
+ul.anm-query-builder li.condition {
+    background-color: #E9F1F8;
+}
+
+/**************************************/
+/* Project table columns              */
+/**************************************/
+ul.anm-project-table-columns {
+    list-style-type: none;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+ul.anm-project-table-columns li {
+    margin-left: 0px;
+    margin-bottom: 4px;
+    padding-left: 0px;
+}
+
+/**************************************/
+/* Help                               */
+/**************************************/
+.ui-dialog.auto-notify-help {
+    border: 2px solid #286090;
+}
+
+.ui-dialog.auto-notify-help .ui-dialog-titlebar {
+    border: 1px solid #286090;
+    color: #286090;
+}
+
+.ui-dialog.auto-notify-help table {
+    border-top: 1px solid #000000;
+    border-right: 1px solid #000000;
+}
+
+.ui-dialog.auto-notify-help th {
+    border-bottom: 1px solid #000000;
+    border-left: 1px solid #000000;
+    font-weight: bold;
+    padding: 1px 4px;
+    background-color: #F8F8F8;
+}
+
+.ui-dialog.auto-notify-help td {
+    border-bottom: 1px solid #000000;
+    border-left: 1px solid #000000;
+    padding: 1px 4px;
+}
+
+/* User table */
+button.userTable {
+    font-weight: bold;
+}
+
+
+/* jQuery dialog */
+div.ui-dialog {
+    z-index: 100000 !important;
+}
+

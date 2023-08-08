@@ -1,0 +1,12 @@
+#pagecontainer {
+    max-width: 1100px;
+}
+
+#container {
+    /* width: 100%; */
+}
+
+h4 {
+    font-size: 18.2px;
+    font-weight: 700;
+}

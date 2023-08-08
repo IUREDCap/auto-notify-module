@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!-- =================================================
+Copyright (C) 2023 The Trustees of Indiana University
+SPDX-License-Identifier: BSD-3-Clause
+================================================== -->
+
+<ruleset name="Auto-Notify External Module coding standards">
+    <description>Auto-Notify External Module coding standards</description>
+
+    <!-- User colors for output -->
+    <arg name="colors"/>
+
+    <rule ref="PSR1"/>
+    <rule ref="PSR12"/>
+    
+    <!-- local variables need to use lower camel case -->
+    <rule ref="Squiz.NamingConventions.ValidVariableName.NotCamelCaps"/>
+    
+    <!-- member variables need to use lower camel case -->
+    <rule ref="Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps"/>
+    
+    <!-- variables embedded in strings need to use lower camel case -->
+    <rule ref="Squiz.NamingConventions.ValidVariableName.StringNotCamelCaps"/>
+
+    <!-- Paths to check -->
+    <file>.</file>
+        <!-- <file>tests/unit/</file> -->
+
+    <exclude-pattern>*/dev/*</exclude-pattern>
+    <exclude-pattern>*/tests/web/*</exclude-pattern>
+    <exclude-pattern>*/resources/*</exclude-pattern>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+
+</ruleset>

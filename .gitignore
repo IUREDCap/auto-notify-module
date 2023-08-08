@@ -1,0 +1,43 @@
+#-------------------------------------------------
+# Files to be ignored by Git
+#-------------------------------------------------
+
+# Composer 3rd-party software
+/dev
+
+# Composer PHP archive file
+composer.phar
+
+# ignore swap files
+*.swp
+
+# ignore cache files
+*.cache
+
+# Eclipse project file and settings directory
+.project
+.settings/
+
+# Geany project files
+*.geany
+
+# ignore atom tags
+*.tags*
+
+# Test mode configuration file
+test-config.ini
+
+# Web tests Composer dependencies directory
+/tests/web/vendor/
+
+# Ignore web tests .ini files, except for the example .ini file
+/tests/web/*.ini
+!/tests/web/config-example.ini
+
+# Ignore web test coverage files, except for README
+/tests/web/coverage/*
+!/tests/web/coverage/README.md
+
+# Ignore web test coverage data files, except for README
+/tests/web/coverage-data/*
+!/tests/web/coverage-data/README.md

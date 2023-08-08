@@ -1,0 +1,197 @@
+[
+    {
+        "name": "username",
+        "table": "redcap_user_information",
+        "label": "Username",
+        "operators": ["=", "<>", "like", "not like"],
+        "valueType": "inputText"
+    },
+    {
+        "name": "user_email",
+        "table": "redcap_user_information",
+        "label": "User E-mail",
+        "operators": ["=", "<>", "like", "not like"],
+        "valueType": "inputText"
+    },
+    {
+        "name": "user_lastlogin",
+        "table": "redcap_user_information",
+        "label": "User Last Login",
+        "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
+        "operatorClass": "anmTimeOpsSelect",
+        "valueType": "dateTimeNull"
+    },
+    {
+        "name": "user_suspended_time",
+        "table": "redcap_user_information",
+        "label": "User Suspended Time",
+        "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
+        "operatorClass": "anmTimeOpsSelect",
+        "valueType": "dateTimeNull"
+    },
+    {
+        "name": "user_expiration",
+        "table": "redcap_user_information",
+        "label": "User Expiration",
+        "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
+        "operatorClass": "anmTimeOpsSelect",
+        "valueType": "dateTimeNull"
+    },
+    {
+        "name": "expiration",
+        "table": "redcap_user_rights",
+        "label": "Project User Expiration Date",
+        "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
+        "operatorClass": "anmTimeOpsSelect",
+        "valueType": "dateTimeNull"
+    },
+    {
+        "name": "user_rights",
+        "table": "redcap_user_rights",
+        "label": "Project User Rights Privilege",
+        "operators": ["=", "<>"],
+        "valueType": "select",
+        "selectValues":  [
+            [1, "true"],
+            [0, "false"]
+        ]
+    },
+    {
+        "name": "design",
+        "table": "redcap_user_rights",
+        "label": "Project Design and Setup Privilege",
+        "operators": ["=", "<>"],
+        "valueType": "select",
+        "selectValues":  [
+            [1, "true"],
+            [0, "false"]
+        ]
+    },
+    {
+        "name": "api_token",
+        "table": "redcap_user_rights",
+        "label": "User Project API Token",
+        "operators": ["is", "is not"],
+        "valueType": "null"
+    },
+    {
+        "name": "api_export",
+        "table": "redcap_user_rights",
+        "label": "User Project API Export",
+        "operators": ["=", "<>"],
+        "valueType": "select",
+        "selectValues":  [
+            [1, "true"],
+            [0, "false"]
+        ]
+    },
+    {
+        "name": "api_import",
+        "table": "redcap_user_rights",
+        "label": "User Project API Import/Update",
+        "operators": ["=", "<>"],
+        "valueType": "select",
+        "selectValues":  [
+            [1, "true"],
+            [0, "false"]
+        ]
+    },
+    {
+        "name": "mobile_app",
+        "table": "redcap_user_rights",
+        "label": "User Project Mobile App",
+        "operators": ["=", "<>"],
+        "valueType": "select",
+        "selectValues":  [
+            [1, "true"],
+            [0, "false"]
+        ]
+    },
+    {
+        "name": "project_id",
+        "table": "redcap_projects",
+        "label": "Project ID",
+        "operators": ["=", "<", "<=", ">", ">=", "<>"],
+        "valueType": "inputText"
+    },
+    {
+        "name": "app_title",
+        "table": "redcap_projects",
+        "label": "Project Title",
+        "operators": ["=", "<>", "like", "not like"],
+        "valueType": "inputText"
+    },
+    {
+        "name": "status",
+        "table": "redcap_projects",
+        "label": "Project Status",
+        "operators": ["=", "<>"],
+        "valueType": "select",
+        "selectValues":  [
+            [0, "Development"],
+            [1, "Production"],
+            [2, "Analysis/Cleanup or Complete"]
+        ]
+    },
+    {
+        "name": "purpose",
+        "table": "redcap_projects",
+        "label": "Project Purpose",
+        "operators": ["=", "<>"],
+        "valueType": "select",
+        "selectValues":  [
+            [0, "Practice / Just for fun"],
+            [4, "Operational Support"],
+            [2, "Research"],
+            [3, "Quality Improvement"],
+            [1, "Other"],
+            ["null", "NULL"]
+        ]
+    },
+    {
+        "name": "repeatforms",
+        "table": "redcap_projects",
+        "label": "Project is Longitudinal",
+        "operators": ["=", "<>"],
+        "valueType": "select",
+        "selectValues":  [
+            [1, "true"],
+            [0, "false"]
+        ]
+    },
+    {
+        "name": "surveys_enabled",
+        "table": "redcap_projects",
+        "label": "Project Surveys Enabled",
+        "operators": ["=", "<>"],
+        "valueType": "select",
+        "selectValues":  [
+            [1, "true"],
+            [0, "false"]
+        ]
+    },
+    {
+        "name": "completed_time",
+        "table": "redcap_projects",
+        "label": "Project Completed Time",
+        "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
+        "operatorClass": "anmTimeOpsSelect",
+        "valueType": "dateTimeNull"
+    },
+    {
+        "name": "directory_prefix",
+        "table": "redcap_external_modules",
+        "label": "Project External Module",
+        "operators": ["=", "<>"],
+        "valueType": "select",
+        "selectValues":  [
+        ]
+    },
+    {
+        "name": "cpp_destination_project_id",
+        "table": "cpp",
+        "label": "Cross-Project Piping Destination Project",
+        "operators": ["is not", "is"],
+        "valueType": "null"
+    }
+]

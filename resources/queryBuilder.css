@@ -1,0 +1,23 @@
+/*
+ * Copyright (C) 2023 The Trustees of Indiana University
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+
+/*******************************/
+/*                             */
+/*******************************/
+ul.anm-query-builder {
+    list-style-type: none;
+}
+
+ul.anm-query-builder li {
+    border: 1px solid black;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding: 4px;
+}
+
+ul.anm-query-builder li.condition {
+    background-color: #E9F1F8;
+}

@@ -1,0 +1,37 @@
+{
+   "name": "Auto-Notify Module",
+   "namespace": "IU\\AutoNotifyModule", 
+   "description": "REDCap external module for setting up automatic notifications.",
+   "framework-version": 8,
+   "authors": [
+       {
+           "name": "Jim Mullen",
+           "email": "mullen2@iu.edu",
+           "institution": "Indiana University"
+       }
+   ],
+   "crons": [
+       {
+           "cron_name": "auto_notify",
+           "cron_description": "Cron that checks for notifications to send",
+           "method": "cron",
+           "cron_frequency": "900",
+           "cron_max_run_time": "3600"
+        }
+    ],
+    "compatibility": {
+      "php-version-min": "7.3.0",
+      "php-version-max": "",
+      "redcap-version-min": "13.0.0",
+      "redcap-version-max": ""
+    },
+    "links": {
+       "control-center": [
+           {
+               "name": "Auto-Notify",
+               "icon": "fas fa-envelope",
+               "url": "web/admin/index.php"
+           }
+       ]
+    }
+}
