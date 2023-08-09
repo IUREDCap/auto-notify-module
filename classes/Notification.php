@@ -180,7 +180,7 @@ class Notification
                             $table .= "{$emName}<br/>";
                         }
 
-                        $table .= print_r($users, true) . '</td>';
+                        $table .= '</td>';
                     } else {
                         $table .= '<td style="margin: 1px 4px 1px 4px;">' . "&nbsp;";
                     }

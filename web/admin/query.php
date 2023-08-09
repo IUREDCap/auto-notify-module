@@ -113,36 +113,12 @@ $buffer = str_replace('</head>', "    {$link}\n{$jsInclude}\n</head>", $buffer);
 echo $buffer;
 ?>
 
-<?php
-# print "<pre>\n";
-# print_r($_POST);
-# print "</pre>\n";
-?>
-
 
 <h4>
 <i class="fas fa-envelope"></i>&nbsp;
 Auto-Notify
 </h4>
 
-<?php
-#if (!empty($query)) {
-#    print("<pre>\n");
-#    print_r($query->getConditions()->getSqlWhereClauseConditions());
-#    print("</pre>\n");
-#}
-
-//print "<pre>";
-//$conditions = new Conditions();
-//try {
-//    $conditions->setFromJson($jsonConditions);
-//} catch (\Exception $exception) {
-//    $error = 'ERROR: ' . $exception->getMessage();
-//}
-//print_r($jsonConditions);
-// print($jsonConditions);
-//print "</pre>";
-?>
 
 <div id="variablesJson" hidden>
 <pre>
@@ -357,34 +333,6 @@ $(document).ready(function() {
 <div id="query-builder-help" title="Query Builder" style="display: none;">
     <?php echo Help::getHelpWithPageLink('query-builder', $module); ?>
 </div>
-
-
-<?php
-    /*
-    print "<pre>\n";
-    print_r($query);
-    print "\n----------------------------------------------\n";
-    $json = $query->toJson();
-    print($json);
-    print "\n----------------------------------------------\n";
-    $query2 = new Query();
-    $query2->setFromJson($json);
-    print_r($query2);
-     */
-
-    /*
-    print "</pre>\n";
-    $serial = serialize($query);
-    print "<pre>\n";
-    print_r($query);
-    print "\n----------------------------------------------\n";
-    print $serial;
-    print "\n----------------------------------------------\n";
-    $query2 = unserialize($serial);
-    print_r($query2);
-    print "</pre>\n";
-    */
-?>
 
 
 <?php require_once APP_PATH_DOCROOT . 'ControlCenter/footer.php'; ?>
