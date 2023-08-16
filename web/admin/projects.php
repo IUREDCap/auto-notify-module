@@ -25,11 +25,11 @@ use IU\AutoNotifyModule\Conditions;
 use IU\AutoNotifyModule\Config;
 use IU\AutoNotifyModule\Filter;
 use IU\AutoNotifyModule\Help;
+use IU\AutoNotifyModule\ProjectInfo;
 use IU\AutoNotifyModule\RedCapDb;
 
 $selfUrl   = $module->getUrl(AutoNotifyModule::USERS_PAGE);
 $conditionsServiceUrl = $module->getUrl(AutoNotifyModule::CONDITIONS_SERVICE);
-$userProjectsUrl = $module->getUrl(AutoNotifyModule::USER_PROJECTS_PAGE);
 
 
 ?>
@@ -71,8 +71,8 @@ $buffer = str_replace('</head>', "    {$link}\n{$jsInclude}\n</head>", $buffer);
 echo $buffer;
 
 $jsonConditions = '';
-if (array_key_exists('tableJsonConditions', $_POST)) {
-    $jsonConditions = $_POST['tableJsonConditions'];
+if (array_key_exists('viewProjectsJsonConditions', $_POST)) {
+    $jsonConditions = $_POST['viewProjectsJsonConditions'];
 }
 
 $queryName = '';
@@ -80,25 +80,45 @@ if (array_key_exists('tableQueryName', $_POST)) {
     $queryName = Filter::sanitizeString($_POST['tableQueryName']);
 }
 
+$username = '';
+if (array_key_exists('tableUserName', $_POST)) {
+    $username = Filter::sanitizeString($_POST['tableUserName']);
+}
+
 try {
     $db = $module->getDb();
 
-    # Validate conditions
     $conditions = new Conditions();
     $conditions->setFromJson($jsonConditions);
+
+    # Validate conditions
     $variables = $module->getVariables();
     $conditions->validate($variables);
 
-    $queryResults = $db->getUsersFromJsonConditions($jsonConditions);
-    $users = $queryResults->getUsers();
+    $jsonConditions = $conditions->toJson();
+
+    $getProjectInfo = true;
+    $queryResults = $db->getUsersFromJsonConditions($jsonConditions, $getProjectInfo);
+
+    # print "<pre>\n";
+    # print_r($queryResults);
+    # print "</pre>\n";
+
+    $projectInfoMap = $queryResults->getProjectInfoMap();
+
+    #print "<pre>\n";
+    #print_r($projectInfoMap);
+    #print "</pre>\n";
+
 } catch (\Exception $exception) {
     $error = 'Error: ' . $exception->getMessage();
 }
 
 
-#print "<pre>";
-#print_r($users);
-#print "</pre>";
+# print "<pre>";
+# print_r($conditions);
+# print_r($users);
+# print "</pre>";
 
 ?>
 
@@ -106,9 +126,9 @@ try {
 <div>
 
 <?php
-#print "<pre>\n";
-#print_r($_POST);
-#print "</pre>\n";
+# print "<pre>\n";
+# print_r($_POST);
+# print "</pre>\n";
 ?>
 
 <h4>
@@ -116,13 +136,19 @@ try {
 Auto-Notify
 </h4>
 
+<div id="projects-help" style="font-size: 140%; float: right;">
+<i class="fa fa-question-circle" style="color: blue;"></i>
+</div>
+
+<div style="clear: both"></div>
+
 <?php
 $module->renderAdminMessageHeader($error, $warning, $success);
 ?>
 
 
 <div style="font-weight: bold; font-size: 120%; text-align: center;">
-Users
+Projects
 <?php
 if (!empty($queryName)) {
     echo ' for query "' . Filter::escapeForHtml($queryName) . '"';
@@ -130,42 +156,67 @@ if (!empty($queryName)) {
 ?>
 </div>
 <div id="resultsDisplay" style="margin-top: 17px; padding: 5px; border: 1px solid #777777;">
-    <?php if (isset($users)) { ?>
+    <?php
+    if (true || isset($projectInfoMap)) {
+        ?>
         <div>
             <div id="colVis" style="float: left;"></div>
-            <div id="userTableButtons" style="float: right; margin-bottom: 7px;">
+            <div id="projectsTableButtons" style="float: right; margin-bottom: 7px;">
             </div>
             <div style="clear: both;"></div>
         </div>
 
-        <div id="userTableDiv" style="display: none;">
-            <table id="userTable" style="white-space: nowrap;">
+        <div id="projectsTableDiv" style="display: none;">
+
+            <table id="projectsTable" style="white-space: nowrap;">
                 <thead>
                     <tr> 
-                        <th>username</th> <th>user first name</th> <th>user last name</th> <th>user e-mail</th>
-                        <th>last login</th>
-                        <th># of projects</th>
-                        <th>suspended time</th>
-                        <th>expiration</th>
+                        <th>Project ID</th>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Purpose</th>
+                        <th>Surveys Enabled</th>
+                        <th>Is Longitudinal</th>
+                        <th>Completed Time</th>
+                        <th>Number of Users</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <?php
-                    foreach ($users as $user) {
+                    foreach ($projectInfoMap as $projectId => $projectInfo) {
+                        $projectName = $projectInfo->getName();
+
+                        $projectUrl =  APP_PATH_WEBROOT . 'index.php?pid=' . $projectId;
+                        $userRightsUrl =  APP_PATH_WEBROOT . 'UserRights/index.php?pid=' . $projectId;
+
+                        $projectStatus  = $projectInfo->getStatusLabel($variables);
+                        $projectPurpose = $projectInfo->getPurposeLabel($variables);
+
+                        $projectSurveysEnabled = $projectInfo->getSurveysEnabled();
+                        $variable = $variables['surveys_enabled'];
+                        $projectSurveysEnabledLabel = $variable->getSelectValueLabel($projectSurveysEnabled);
+                        $projectSurveysEnabledLabel = ProjectInfo::convertTrueFalseToYesNo($projectSurveysEnabledLabel);
+
+                        $projectIsLongitudinal = $projectInfo->getIsLongitudinal();
+                        $variable = $variables['repeatforms'];
+                        $projectIsLongitudinalLabel = $variable->getSelectValueLabel($projectIsLongitudinal);
+                        $projectIsLongitudinalLabel = ProjectInfo::convertTrueFalseToYesNo($projectIsLongitudinalLabel);
+
+                        $projectCompletedTime = $projectInfo->getCompletedTime();
+
                         echo "<tr>";
-                        echo "<td>{$user->getUsername()}</td>";
-                        echo "<td>{$user->getFirstName()}</td>";
-                        echo "<td>{$user->getLastName()}</td>";
-                        echo "<td>{$user->getEmail()}</td>";
-                        echo "<td>{$user->getLastLogin()}</td>";
-                        echo '<td style="text-align: right;">'
-                            . '<button value="' . $user->getUsername() . '" class="userProjectsButton">'
-                            . $user->getNumberOfProjects()
-                            . '</button>'
-                            . '</td>';
-                        echo "<td>{$user->getSuspendedTime()}</td>";
-                        echo "<td>{$user->getExpiration()}</td>";
+                        echo "<td style=\"text-align: right;\">{$projectId}</td>";
+                        echo '<td><a href="' . $projectUrl . '" target="_blank">' . $projectName . '</a></td>';
+                        echo "<td>{$projectStatus}</td>";
+                        echo "<td>{$projectPurpose}</td>";
+                        echo "<td>{$projectSurveysEnabledLabel}</td>";
+                        echo "<td>{$projectIsLongitudinalLabel}</td>";
+                        echo "<td>{$projectCompletedTime}</td>";
+                        echo '<td style="text-align: right;">';
+                        echo '<a href="' . $userRightsUrl . '" target="_blank">'
+                            . $projectInfo->getNumberOfUsers() . '</a></td>';
+                        echo '</td>';
                         echo "</tr>\n";
                     }
                     ?>
@@ -176,22 +227,20 @@ if (!empty($queryName)) {
 
         <script>
         $(document).ready(function() {
-
-            $("#userTable").DataTable({
+            $("#projectsTable").DataTable({
                 "aLengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
                 "iDisplayLength": 10,
                 // dom: 'Bfrtip',
                 scrollX: true,
                 initComplete: function () {
                     var api = this.api();
-                    $('#userTableDiv').show();
+                    $('#projectsTableDiv').show();
                     api.columns.adjust();
                 }
+
             });
 
-            $("#userTable").show();
-
-            var buttons = new $.fn.dataTable.Buttons($("#userTable"), {
+            var buttons = new $.fn.dataTable.Buttons($("#projectsTable"), {
                 buttons: [
                     {
                         text: '<i class="fa fa-eye"></i> Show Query Conditions',
@@ -217,13 +266,14 @@ if (!empty($queryName)) {
                         }
                     }
                 ]
-            }).container().appendTo($('#userTableButtons'));
+            }).container().appendTo($('#projectsTableButtons'));
 
-            var buttons = new $.fn.dataTable.Buttons($("#userTable"), {
+            var buttons = new $.fn.dataTable.Buttons($("#projectsTable"), {
+
                 buttons: [
                     {
                         extend: 'csv',
-                        filename: 'redcap_users',
+                        filename: 'redcap_projects',
                         text: '<i class="fa fa-file-arrow-down"></i> CSV Download',
                         className: 'userTable',
                         exportOptions: {
@@ -231,9 +281,9 @@ if (!empty($queryName)) {
                         }
                     }
                 ]
-            }).container().appendTo($('#userTableButtons'));
+            }).container().appendTo($('#projectsTableButtons'));
 
-            var buttons2 = new $.fn.dataTable.Buttons($("#userTable"), {
+            var buttons2 = new $.fn.dataTable.Buttons($("#projectsTable"), {
                 buttons: [
                     {
                         extend: 'colvis',
@@ -243,33 +293,31 @@ if (!empty($queryName)) {
                 ]
             }).container().appendTo($('#colVis'));
 
-            $('body').on("click", ".userProjectsButton", function() {
-                let username = $( this ).val();
-                $("#tableUserName").val(username);
-
-                let jsonConditions = $("#jsonConditions").text();
-                $("#tableJsonConditions").val(jsonConditions);
-
-                $("#tableForm").submit();
-                // alert(username);
+            $(document).ready(function() {
+                //---------------------------------------------
+                // Help dialog events
+                //---------------------------------------------
+                $("#projects-help").on("click", function () {
+                    $('#projects-help-dialog').dialog({dialogClass: 'auto-notify-help', width: 640, maxHeight: 440})
+                        .dialog('widget').position({my: 'left top', at: 'right+50 top-10', of: $(this)})
+                        ;
+                    return false;
+                });
             });
+
         });
         </script>
     <?php } // End if isset($users) ?>
 </div>
 
+<!-- PROJECTS HELP DIALOG -->
+<div id="projects-help-dialog" title="Projects Help" style="display: none;">
+    <?php echo Help::getHelpWithPageLink('projects', $module); ?>
+</div>
+
 <form style="display: none">
     <input type="hidden" id="emailList" name="emailList"></input>
 </form>
-
-<form id="tableForm" style="display: none;" target="_blank" action="<?php echo $userProjectsUrl;?>" method="post">
-    <input type="hidden" id="tableJsonConditions" name="tableJsonConditions"/>
-    <input type="hidden" id="tableQueryName" name="tableQueryName"
-           value="<?php echo Filter::escapeForHtml($queryName); ?>"/>
-    <input type="hidden" id="tableUserName" name="tableUserName"/>
-    <input type="hidden" name="redcap_csrf_token" value="<?php echo $module->getCsrfToken(); ?>"/>
-</form>
-
 
 <div id="jsonConditions" hidden>
 <pre>

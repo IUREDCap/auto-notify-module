@@ -65,6 +65,32 @@ class Help
             . ' "User Rights" privileges.'
             . "</p>"
         ,
+        'projects' =>
+            "<p>"
+            . 'This page displays the projects for a query. Queries are constructed to find sets of users,'
+            . ' so please note that:'
+            . '<ul>'
+            . '<li>Projects without any users will not be displayed.</li>'
+            . '<li>Projects without any users that meet the user conditions specified (if any) will not be displayed.</li>'
+            . '<li>The number of users displayed for the project will be the number of users that meet the specified'
+            . ' user conditions (if any), which will be less than or equal to the total number of users'
+            . ' for the project.</li>'
+            . '</ul>'
+            . "</p>"
+            . "<p>"
+            . ' For example, if you specify only the condition "Project Status = Development", then the query would'
+            . ' find all users who have at least one Development project, and as a result, this page would'
+            . ' display all Development projects with at least one user. If you had Development projects with no'
+            . ' users, then these projects would not be displayed.'
+            . "</p>"
+            . "<p>"
+            . 'As another example,'
+            . ' if you specified only the condition "User Last Login age < 1 week", then this page would display'
+            . ' the projects where at least one user of the project had logged in within the past week.'
+            . ' The number of users for each project would be the number of users who had logged in'
+            . ' within the past week (and not the total number of users).'
+            . "</p>"
+        ,
         'query-builder' =>
             '<p>'
             . 'The query builder allows you to create custom queries that'

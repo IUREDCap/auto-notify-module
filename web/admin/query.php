@@ -27,7 +27,9 @@ try {
     $selfUrl  = $module->getUrl(AutoNotifyModule::QUERY_PAGE);
     $queryServiceUrl = $module->getUrl(AutoNotifyModule::QUERY_SERVICE);
     $conditionsServiceUrl = $module->getUrl(AutoNotifyModule::CONDITIONS_SERVICE);
-    $usersUrl  = $module->getUrl(AutoNotifyModule::USERS_PAGE);
+
+    $usersUrl     = $module->getUrl(AutoNotifyModule::USERS_PAGE);
+    $projectsUrl  = $module->getUrl(AutoNotifyModule::PROJECTS_PAGE);
 
 
 
@@ -188,6 +190,10 @@ $module->renderAdminPageContentHeader($selfUrl, $error, $warning, $success);
 
         <button id="viewUsersButton" name="viewUsersButton"><i class="fa fa-users"></i> View Users</button>
 
+        &nbsp;&nbsp;
+
+        <button id="viewProjectsButton" name="viewProjectsButton"><i class="fa fa-list-alt"></i> View Projects</button>
+
         <!--
         &nbsp;&nbsp;
 
@@ -211,12 +217,17 @@ $module->renderAdminPageContentHeader($selfUrl, $error, $warning, $success);
 </form>
 
 
-<form id="tableForm" style="display: none;" target="_blank" action="<?php echo $usersUrl;?>" method="post">
+<form id="viewUsersForm" style="display: none;" target="_blank" action="<?php echo $usersUrl;?>" method="post">
     <input type="hidden" id="tableJsonConditions" name="tableJsonConditions"></input>
     <input type="hidden" id="tableQueryName" name="tableQueryName"></input>
     <input type="hidden" name="redcap_csrf_token" value="<?php echo $module->getCsrfToken(); ?>"/>
 </form>
 
+<form id="viewProjectsForm" style="display: none;" target="_blank" action="<?php echo $projectsUrl;?>" method="post">
+    <input type="hidden" id="viewProjectsJsonConditions" name="viewProjectsJsonConditions"></input>
+    <input type="hidden" id="tableQueryName" name="tableQueryName"></input>
+    <input type="hidden" name="redcap_csrf_token" value="<?php echo $module->getCsrfToken(); ?>"/>
+</form>
 
 
 <!--
@@ -312,10 +323,20 @@ $(document).ready(function() {
         $("#tableQueryName").val(queryName);
         let jsonConditions = AutoNotifyModule.toFormattedJson();
         $("#tableJsonConditions").val(jsonConditions);
-        $("#tableForm").submit();
+        $("#viewUsersForm").submit();
         return false;
     });
 
+    $("#viewProjectsButton").on("click", function() {
+        let queryName = $("#queryName").val();
+        $("#tableQueryName").val(queryName);
+        let jsonConditions = AutoNotifyModule.toFormattedJson();
+        $("#viewProjectsJsonConditions").val(jsonConditions);
+        $("#viewProjectsForm").submit();
+        return false;
+    });
+
+    //---------------------------------------------
     //---------------------------------------------
     // Help dialog events
     //---------------------------------------------

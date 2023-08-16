@@ -260,6 +260,7 @@ if ($id == null) {
                             echo '<td> <input type="checkbox"'
                                 . ' name="' . UsersSpecification::EXTERNAL_MODULES . '[]"'
                                 . ' value="' . Filter::escapeForHtmlAttribute($directoryPrefix) . '"'
+                                . ' class="externalModuleOption" '
                                 . $checked . '/> </td>' . "\n";
 
                             echo "<td>" . Filter::escapeForHtml($id) . "</td>\n";
@@ -737,52 +738,58 @@ if ($id == null) {
         AutoNotifyModule.initializeMessageEditor();
 
         // Users speification option display
-        $(function() {
-            $("select[name=<?php echo UsersSpecification::USERS_OPTION;?>]").change(function() {
-                var value = $(this).val();
+        $("select[name=<?php echo UsersSpecification::USERS_OPTION;?>]").change(function() {
+            var value = $(this).val();
 
-                if (value === "<?php echo UsersSpecification::USERS_OPT_API_TOKEN; ?>") {
-                    $("#apiTokenUsers").show();
-                    $("#commonFormInputs").show();
-                    $("#externalModuleUsers").hide();
-                    $("#customQuery").hide();
-                } else if (value === "<?php echo UsersSpecification::USERS_OPT_EXT_MOD; ?>") {
-                    $("#apiTokenUsers").hide();
-                    $("#commonFormInputs").show();
-                    $("#externalModuleUsers").show();
-                    $("#customQuery").hide();
-                } else if (value === "<?php echo UsersSpecification::USERS_OPT_CUSTOM_QUERY; ?>") {
-                    $("#apiTokenUsers").hide();
-                    $("#commonFormInputs").hide();
-                    $("#externalModuleUsers").hide();
-                    $("#customQuery").show();
-                } else {
-                    $("#adminUsers").hide();
-                    $("#apiTokenUsers").hide();
-                    $("#externalModuleUsers").hide();
-                }
+            if (value === "<?php echo UsersSpecification::USERS_OPT_API_TOKEN; ?>") {
+                $("#apiTokenUsers").show();
+                $("#commonFormInputs").show();
+                $("#externalModuleUsers").hide();
+                $("#customQuery").hide();
+            } else if (value === "<?php echo UsersSpecification::USERS_OPT_EXT_MOD; ?>") {
+                $("#apiTokenUsers").hide();
+                $("#commonFormInputs").show();
+                $("#externalModuleUsers").show();
+                $("#customQuery").hide();
+            } else if (value === "<?php echo UsersSpecification::USERS_OPT_CUSTOM_QUERY; ?>") {
+                $("#apiTokenUsers").hide();
+                $("#commonFormInputs").hide();
+                $("#externalModuleUsers").hide();
+                $("#customQuery").show();
+            } else {
+                $("#adminUsers").hide();
+                $("#apiTokenUsers").hide();
+                $("#externalModuleUsers").hide();
+            }
         }).change();
-    });
 
-    //---------------------------------------------
-    // Help dialog events
-    //---------------------------------------------
-    $("#notification-help").on("click", function () {
-        $('#notification-help-dialog').dialog({dialogClass: 'auto-notify-help', width: 640, maxHeight: 440})
-            .dialog('widget').position({my: 'left top', at: 'right+50 top-10', of: $(this)})
-        ;
-        return false;
-    });
+        //--------------------------------------------------------------------------------------------
+        // Select the "Any of external module" option when a specific external module is selected
+        //--------------------------------------------------------------------------------------------
+        $(".externalModuleOption").change(function() {
+            $('input[name="<?php echo UsersSpecification::EXTERNAL_MODULE_OPTION; ?>"]'
+                + '[value="<?php echo UsersSpecification::EXT_MOD_OPT_ANY_OF; ?>"]').prop('checked', true);
+        });
 
-    $("#project-owners-help").on("click", function () {
-        // alert("TEST");
-        $('#project-owners-help-dialog').dialog({dialogClass: 'auto-notify-help', width: 640, maxHeight: 200})
-            .dialog('widget').position({my: 'left top', at: 'right+50 top-10', of: $(this)})
-        ;
-        return false;
-    });
+        //---------------------------------------------
+        // Help dialog events
+        //---------------------------------------------
+        $("#notification-help").on("click", function () {
+            $('#notification-help-dialog').dialog({dialogClass: 'auto-notify-help', width: 640, maxHeight: 440})
+                .dialog('widget').position({my: 'left top', at: 'right+50 top-10', of: $(this)})
+            ;
+            return false;
+        });
 
-});
+        $("#project-owners-help").on("click", function () {
+            // alert("TEST");
+            $('#project-owners-help-dialog').dialog({dialogClass: 'auto-notify-help', width: 640, maxHeight: 200})
+                .dialog('widget').position({my: 'left top', at: 'right+50 top-10', of: $(this)})
+            ;
+            return false;
+        });
+
+    });
 </script>
 
 <!-- NOTIFICATION HELP DIALOG -->

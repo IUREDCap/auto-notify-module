@@ -303,7 +303,7 @@ if (!empty($queryName)) {
                 buttons: [
                     {
                         extend: 'csv',
-                        filename: 'redcap_users',
+                        filename: 'redcap_user_projects',
                         text: '<i class="fa fa-file-arrow-down"></i> CSV Download',
                         className: 'userTable',
                         exportOptions: {

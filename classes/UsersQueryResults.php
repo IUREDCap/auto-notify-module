@@ -51,6 +51,13 @@ class UsersQueryResults
     public function addOrUpdateProjectInfo($projectInfo)
     {
         $pid = $projectInfo->getId();
+
+        if (array_key_exists($pid, $this->projectInfoMap)) {
+            # Merge existing usernames with new usernames
+            $usernames = array_merge($this->projectInfoMap[$pid]->getUsernames(), $projectInfo->getUsernames());
+            $projectInfo->setUsernames($usernames);
+        }
+
         $this->projectInfoMap[$pid] = $projectInfo;
     }
 

@@ -19,6 +19,12 @@ class ProjectInfo
     private $surveysEnabled;
     private $isLongitudinal;
     private $completedTime;
+    private $usernames; // array with usernames as key (set of usernames)
+
+    public function __construct()
+    {
+        $usernames = array();
+    }
 
     public static function convertTrueFalseToYesNo($value)
     {
@@ -45,6 +51,31 @@ class ProjectInfo
         $variable = $variables['purpose'];
         $purposeLabel = $variable->getSelectValueLabel($purpose);
         return $purposeLabel;
+    }
+
+    public function addUsername($username)
+    {
+        $this->usernames[$username] = 1;
+    }
+
+    public function getNumberOfUsers()
+    {
+        return count($this->usernames);
+    }
+
+    public function getUsernames()
+    {
+        return $this->usernames;
+    }
+
+    public function setUsernames($usernames)
+    {
+        $this->usernames = $usernames;
+    }
+
+    public function getUsernamesList()
+    {
+        return sort(array_keys($this->usernames));
     }
 
     #----------------------------------------------------------
