@@ -59,3 +59,13 @@ Feature: Notifications
     And I should see "Status"
     And I should see "Purpose"
 
+  Scenario: View projects
+    When I follow "Queries"
+    And I follow last query
+    And I press button "viewProjectsButton" to new window
+    Then I should see "Projects"
+    And I should see "Project ID"
+    And I should see "Title"
+    And I should see "Status"
+    And I should see "Purpose"
+
