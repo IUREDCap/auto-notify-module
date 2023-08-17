@@ -109,7 +109,6 @@ try {
     #print "<pre>\n";
     #print_r($projectInfoMap);
     #print "</pre>\n";
-
 } catch (\Exception $exception) {
     $error = 'Error: ' . $exception->getMessage();
 }
