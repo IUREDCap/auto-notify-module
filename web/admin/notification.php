@@ -24,25 +24,37 @@ use IU\AutoNotifyModule\RedCapDb;
 use IU\AutoNotifyModule\Schedule;
 use IU\AutoNotifyModule\UsersSpecification;
 
-$selfUrl = $module->getUrl(AutoNotifyModule::NOTIFICATION_PAGE);
+try {
+    $selfUrl = $module->getUrl(AutoNotifyModule::NOTIFICATION_PAGE);
 
-$notificationsUrl = $module->getUrl(AutoNotifyModule::NOTIFICATIONS_PAGE);
+    $notificationsUrl = $module->getUrl(AutoNotifyModule::NOTIFICATIONS_PAGE);
 
-$username = USERID;
+    $toConditionsServiceUrl     = $module->getUrl(AutoNotifyModule::TO_CONDITIONS_SERVICE);
+    $toJsonConditionsServiceUrl = $module->getUrl(AutoNotifyModule::TO_JSON_CONDITIONS_SERVICE);
+    $toQueryServiceUrl          = $module->getUrl(AutoNotifyModule::TO_QUERY_SERVICE);
 
-$notification = new Notification();
+    $usersUrl     = $module->getUrl(AutoNotifyModule::USERS_PAGE);
+    $projectsUrl  = $module->getUrl(AutoNotifyModule::PROJECTS_PAGE);
 
 
-$notificationId = null;
-if (array_key_exists('notificationId', $_GET)) {
-    $notificationId = Filter::sanitizeInt($_GET['notificationId']);
-    $notification = $module->getNotification($notificationId);
-    if ($notification == null) {
-        $notification = new Notification();
+    $username = USERID;
+
+    $notification = new Notification();
+
+    $notificationId = null;
+    if (array_key_exists('notificationId', $_GET)) {
+        $notificationId = Filter::sanitizeInt($_GET['notificationId']);
+        $notification = $module->getNotification($notificationId);
+        if ($notification == null) {
+            $notification = new Notification();
+        }
     }
+
+    $adminConfig = $module->getAdminConfig();
+} catch (\Exception $exception) {
+    $error = 'ERROR: ' . $exception->getMessage();
 }
 
-$adminConfig = $module->getAdminConfig();
 ?>
 
 <?php
@@ -147,7 +159,7 @@ if ($id == null) {
 
 <div style="clear: both;"></div>
 
-<form action="<?php echo $selfUrl;?>" name="mailForm" method="post">
+<form action="<?php echo $selfUrl;?>" name="mailForm" id="mailForm" method="post">
 
     <input type="hidden" name="<?php echo Notification::NOTIFICATION_ID; ?>"
            value="<?php echo Filter::escapeForHtml($notification->getId()); ?>"/>
@@ -390,6 +402,23 @@ if ($id == null) {
                     ?>
                 </tbody>
             </table>
+        </div>
+
+        <!-- BUTTON DIV ========================================================================================== -->
+        <div style="margin 17px 0px 17px 0px; border: 1px solid black; padding: 7px; background-color: #F8F8F8;">
+            <button id="showConditionsButton" name="showConditionsButton"><i class="fa fa-eye"></i> Show Conditions</button>
+
+            &nbsp;&nbsp;
+
+            <button id="showSqlQueryButton" name="showSqlQueryButton"><i class="fa fa-eye"></i> Show SQL Query</button>
+
+            &nbsp;&nbsp;
+
+            <button id="viewUsersButton" name="viewUsersButton"><i class="fa fa-users"></i> View Users</button>
+
+            &nbsp;&nbsp;
+
+            <button id="viewProjectsButton" name="viewProjectsButton"><i class="fa fa-list-alt"></i> View Projects</button>
         </div>
 
         <!--
@@ -789,6 +818,121 @@ if ($id == null) {
             return false;
         });
 
+        //----------------------------------------------------------
+        // Show Conditions
+        //----------------------------------------------------------
+        $("#showConditionsButton").click(function(event) {
+
+            // Post form data
+            $.post("<?php echo $toConditionsServiceUrl; ?>", $("#mailForm").serialize(), function(data) {
+                $( '<div id="showConditions"><pre>' + data + '</pre></div>' ).dialog({
+                    title: "Query Conditions",
+                    resizable: false,
+                    height: "auto",
+                    width: 800,
+                    modal: false,
+                    buttons: {
+                        Close: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                });
+            });
+
+            event.preventDefault();
+        });
+
+        //--------------------------------------------------------------------
+        // Show SQL Query
+        //--------------------------------------------------------------------
+        $("#showSqlQueryButton").click(function(event) {
+
+            $.post("<?php echo $toQueryServiceUrl; ?>", $("#mailForm").serialize(), function(data) {
+                $( '<div id="showSqlQuery"><pre>' + data + '</pre></div>' ).dialog({
+                    title: "SQL Query",
+                    resizable: false,
+                    height: "auto",
+                    width: 800,
+                    modal: false,
+                    buttons: {
+                        Close: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                });
+            });
+
+            event.preventDefault();
+        });
+
+    });
+
+    //------------------------------------------------------------
+    // View Users
+    //------------------------------------------------------------
+    $("#viewUsersButton").click(function(event) {
+
+        let jsonConditions = '';
+
+        // Get the JSON conditions for the users query
+        // from the "to users" form values
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo $toJsonConditionsServiceUrl; ?>",
+            data: $("#mailForm").serialize(),
+            success: function(data) {
+                jsonConditions = data;
+            },
+            async:false
+        });
+
+        let usersWindow = window.open('about:blank', '_blank');
+
+        // Need to post tableJsonConditions,
+        // and tableQueryName if possible
+        jQuery.post(
+            "<?php echo $usersUrl?>",
+            {tableJsonConditions: jsonConditions},
+            function(data) {
+                usersWindow.document.write(data);
+                usersWindow.document.close();
+            }
+        );
+
+        event.preventDefault();
+    });
+
+    //------------------------------------------------------------
+    // View Projects
+    //------------------------------------------------------------
+    $("#viewProjectsButton").click(function(event) {
+
+        let jsonConditions = '';
+
+        // Get the JSON conditions for the users query
+        // from the "to users" form values
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo $toJsonConditionsServiceUrl; ?>",
+            data: $("#mailForm").serialize(),
+            success: function(data) {
+                jsonConditions = data;
+            },
+            async:false
+        });
+
+        let projectsWindow = window.open('about:blank', '_blank');
+
+        jQuery.post(
+            "<?php echo $projectsUrl?>",
+            {viewProjectsJsonConditions: jsonConditions},
+            function(data) {
+                projectsWindow.document.write(data);
+                projectsWindow.document.close();
+            }
+        );
+
+        event.preventDefault();
     });
 </script>
 

@@ -20,10 +20,14 @@ define('AUTO_NOTIFY_MODULE', 1);
 class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
 {
     public const ADMIN_HOME_PAGE    = 'web/admin/index.php';
-    public const QUERY_PAGE       = 'web/admin/query.php';
+    public const QUERY_PAGE         = 'web/admin/query.php';
 
     public const CONDITIONS_SERVICE = 'web/admin/conditions_service.php';
     public const QUERY_CONDITIONS_SERVICE = 'web/admin/query_conditions_service.php';
+
+    public const TO_CONDITIONS_SERVICE      = 'web/admin/to_conditions_service.php';
+    public const TO_JSON_CONDITIONS_SERVICE = 'web/admin/to_json_conditions_service.php';
+    public const TO_QUERY_SERVICE           = 'web/admin/to_query_service.php';
 
     public const CONFIG_PAGE        = 'web/admin/config.php';
     public const USERS_PAGE         = 'web/admin/users.php';

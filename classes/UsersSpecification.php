@@ -206,7 +206,7 @@ class UsersSpecification
             $subConditions = array();
 
             $tokenCondition = new Conditions();
-            $tokenCondition->setVariable('api_token', 'is not', 'null');
+            $tokenCondition->set('api_token', 'is not', 'null');
             $subConditions[] = $tokenCondition;
 
             if ($this->getExcludeSuspendedUsers()) {
