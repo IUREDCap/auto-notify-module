@@ -406,7 +406,9 @@ if ($id == null) {
 
         <!-- BUTTON DIV ========================================================================================== -->
         <div style="margin 17px 0px 17px 0px; border: 1px solid black; padding: 7px; background-color: #F8F8F8;">
-            <button id="showConditionsButton" name="showConditionsButton"><i class="fa fa-eye"></i> Show Conditions</button>
+            <button id="showConditionsButton" name="showConditionsButton"><i class="fa fa-eye">
+                </i> Show Conditions
+            </button>
 
             &nbsp;&nbsp;
 
@@ -418,7 +420,9 @@ if ($id == null) {
 
             &nbsp;&nbsp;
 
-            <button id="viewProjectsButton" name="viewProjectsButton"><i class="fa fa-list-alt"></i> View Projects</button>
+            <button id="viewProjectsButton" name="viewProjectsButton"><i class="fa fa-list-alt">
+                </i> View Projects
+            </button>
         </div>
 
         <!--

@@ -45,4 +45,3 @@ try {
 # Send back response to web service client
 $fh = fopen('php://output', 'w');
 fwrite($fh, $sqlQuery);
-
