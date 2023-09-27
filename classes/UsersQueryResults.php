@@ -18,6 +18,11 @@ class UsersQueryResults
     /** @var array map from project ID to ProjectInfo object for REDCap projects */
     private $projectInfoMap;
 
+    /** @var array map from project ID to ProjectInfo object for REDCap projects that are secondary to the
+     *             main projects of the query (e.g., destination projects for cross-project piping)
+     */
+    private $secondaryProjectInfoMap;
+
     private $externalModules;
 
     /** @var array of column names to use in the "applicable project info" table */
@@ -28,6 +33,8 @@ class UsersQueryResults
         $this->users = [];
 
         $this->projectInfoMap = [];
+
+        $this->secondaryProjectInfoMap = [];
 
         $this->externalModules = [];
 
@@ -61,6 +68,21 @@ class UsersQueryResults
         $this->projectInfoMap[$pid] = $projectInfo;
     }
 
+    public function addOrUpdateSecondaryProjectInfo($secondaryProjectInfo)
+    {
+        $pid = $secondaryProjectInfo->getId();
+
+        if (array_key_exists($pid, $this->secondaryProjectInfoMap)) {
+            # Merge existing usernames with new usernames
+            $usernames = array_merge(
+                $this->secondaryProjectInfoMap[$pid]->getUsernames(),
+                $secondaryProjectInfo->getUsernames()
+            );
+            $secondaryProjectInfo->setUsernames($usernames);
+        }
+
+        $this->secondaryProjectInfoMap[$pid] = $secondaryProjectInfo;
+    }
 
 
     #----------------------------------------------------------
@@ -120,6 +142,16 @@ class UsersQueryResults
     public function getProjectInfo($pid)
     {
         return $this->projectInfoMap[$pid];
+    }
+
+    public function getSecondaryProjectInfoMap()
+    {
+        return $this->secondaryProjectInfoMap;
+    }
+
+    public function getSecondaryProjectInfo($pid)
+    {
+        return $this->secondaryProjectInfoMap[$pid];
     }
 
     public function getProjectTableColumns()

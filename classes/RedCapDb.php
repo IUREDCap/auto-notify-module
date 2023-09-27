@@ -191,10 +191,10 @@ class RedCapDb
                         $userRights->addCppDestinationProjectId($cppDestinationProjectId);
 
                         $projectName = $row['cpp_destination_project_name'];
-                        $projectInfo = new ProjectInfo();
-                        $projectInfo->setId($cppDestinationProjectId);
-                        $projectInfo->setName($projectName);
-                        $queryResults->addOrUpdateProjectInfo($projectInfo);
+                        $secondaryProjectInfo = new ProjectInfo();
+                        $secondaryProjectInfo->setId($cppDestinationProjectId);
+                        $secondaryProjectInfo->setName($projectName);
+                        $queryResults->addOrUpdateSecondaryProjectInfo($secondaryProjectInfo);
                     }
                 }
 

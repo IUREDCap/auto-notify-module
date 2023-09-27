@@ -96,6 +96,7 @@ class Notification
         $redCapInfo,
         $extModInfo,
         $projectInfoMap,
+        $secondaryProjectInfoMap,
         $projectTableColumns,
         $queryVariables,
         $cronTimestamp = null
@@ -156,9 +157,9 @@ class Notification
                         sort($cppDestinationProjectIds, SORT_NUMERIC);
                         foreach ($cppDestinationProjectIds as $cppDestinationProjectId) {
                             $projectName = '';
-                            if (array_key_exists($cppDestinationProjectId, $projectInfoMap)) {
-                                $projectInfo = $projectInfoMap[$cppDestinationProjectId];
-                                $projectName = $projectInfo->getName();
+                            if (array_key_exists($cppDestinationProjectId, $secondaryProjectInfoMap)) {
+                                $secondaryProjectInfo = $secondaryProjectInfoMap[$cppDestinationProjectId];
+                                $projectName = $secondaryProjectInfo->getName();
                             }
                             $table .= "{$projectName} [Project ID = {$cppDestinationProjectId}]<br/>";
                         }
@@ -210,6 +211,8 @@ class Notification
         $projectInfoMap      = $usersQueryResults->getProjectInfoMap();
         $projectTableColumns = $usersQueryResults->getProjectTableColumns();
 
+        $secondaryProjectInfoMap = $usersQueryResults->getSecondaryProjectInfoMap();
+
 
         $redCapInfo = $module->getRedCapInfo();
         # $extModInfo = RedCapDb::getExternalModuleInfo($module);
@@ -254,6 +257,7 @@ class Notification
                 $redCapInfo,
                 $extModInfo,
                 $projectInfoMap,
+                $secondaryProjectInfoMap,
                 $projectTableColumns,
                 $queryVariables,
                 $cronTimestamp
