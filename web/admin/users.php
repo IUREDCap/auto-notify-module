@@ -153,8 +153,11 @@ if (!empty($queryName)) {
                 <tbody>
                     <?php
                     foreach ($users as $user) {
+                        $username = $user->getUsername();
+
                         echo "<tr>";
-                        echo "<td>{$user->getUsername()}</td>";
+                        echo '<td><a href="' . APP_PATH_WEBROOT . 'ControlCenter/view_users.php?username='
+                            . $username . '" target="_blank">' . $username . '</a>';
                         echo "<td>{$user->getFirstName()}</td>";
                         echo "<td>{$user->getLastName()}</td>";
                         echo "<td>{$user->getEmail()}</td>";
