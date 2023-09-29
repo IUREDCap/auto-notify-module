@@ -111,7 +111,9 @@ class Schedule
         $this->dayTimes  = array();
 
         $this->weekTimes = array_fill(0, 7, null);
-        $this->monthTimes = array_fill(1, 12, null);
+
+        $this->monthChecks = array();
+        $this->monthTimes  = array_fill(1, 12, null);
     }
 
     public function migrate()

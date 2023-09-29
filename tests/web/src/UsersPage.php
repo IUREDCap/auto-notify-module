@@ -19,7 +19,7 @@ use Behat\Behat\Context\SnippetAcceptingContext;
  */
 class UsersPage
 {
-    public function pressFirstNumberOfProjectsButton($session)
+    public static function pressFirstNumberOfProjectsButton($session)
     {
         # Save the current window names
         $windowNames = $session->getWindowNames();

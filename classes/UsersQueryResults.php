@@ -59,7 +59,7 @@ class UsersQueryResults
     {
         $pid = $projectInfo->getId();
 
-        if (array_key_exists($pid, $this->projectInfoMap)) {
+        if (array_key_exists($pid, $this->projectInfoMap) && $this->projectInfoMap[$pid] != null) {
             # Merge existing usernames with new usernames
             $usernames = array_merge($this->projectInfoMap[$pid]->getUsernames(), $projectInfo->getUsernames());
             $projectInfo->setUsernames($usernames);

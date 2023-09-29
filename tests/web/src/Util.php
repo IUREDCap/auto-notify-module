@@ -259,7 +259,7 @@ class Util
      *
      * @return string the name of the new window
      */
-    public function goToNewWindow($session, $link)
+    public static function goToNewWindow($session, $link)
     {
         # Save the current window names
         $windowNames = $session->getWindowNames();
@@ -279,7 +279,7 @@ class Util
         return $newWindowName;
     }
 
-    public function pressButtonToNewWindow($session, $button)
+    public static function pressButtonToNewWindow($session, $button)
     {
         # Save the current window names
         $windowNames = $session->getWindowNames();

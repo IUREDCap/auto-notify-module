@@ -23,7 +23,7 @@ class ProjectInfo
 
     public function __construct()
     {
-        $usernames = array();
+        $this->usernames = array();
     }
 
     public static function convertTrueFalseToYesNo($value)
@@ -70,7 +70,9 @@ class ProjectInfo
 
     public function setUsernames($usernames)
     {
-        $this->usernames = $usernames;
+        if ($usernames != null && is_array($usernames)) {
+            $this->usernames = $usernames;
+        }
     }
 
     public function getUsernamesList()

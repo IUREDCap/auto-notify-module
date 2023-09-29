@@ -41,15 +41,10 @@ class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
     public const QUERIES_PAGE       = 'web/admin/queries.php';
     public const QUERY_SERVICE      = 'web/admin/query_service.php';
 
+    # Note: access $db or $settings using their getter methods instead of directly, since lazy evaluation is used
+    #       in the getters to initialize them.
     private $db;
     private $settings;
-
-    public function __construct()
-    {
-        $this->db = new RedCapDb($this);
-        $this->settings = new Settings($this, $this->db);
-        parent::__construct();
-    }
 
     /**
      * Cron function that is run for this modules cron job.
@@ -259,33 +254,33 @@ class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
 
     public function getVersion()
     {
-        return $this->settings->getVersion();
+        return $this->getSettings()->getVersion();
     }
 
     public function getLastRunTime()
     {
-        return $this->settings->getLastRunTime();
+        return $this->getSettings()->getLastRunTime();
     }
 
     public function setLastRunTime($timestamp)
     {
-        $this->settings->setLastRunTime($timestamp);
+        $this->getSettings()->setLastRunTime($timestamp);
     }
 
     public function getAdminConfig()
     {
-        return $this->settings->getAdminConfig();
+        return $this->getSettings()->getAdminConfig();
     }
 
     public function setAdminConfig($config)
     {
-        $this->settings->setAdminConfig($config);
+        $this->getSettings()->setAdminConfig($config);
     }
 
     /* External Module methods */
     public function getExternalModuleInfoMap()
     {
-        return ($this->db)->getExternalModuleInfoMap();
+        return ($this->getDb())->getExternalModuleInfoMap();
     }
 
     /**
@@ -293,13 +288,13 @@ class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
      */
     public function getUsers($usersSpecification, $nowDateTime = null)
     {
-        return ($this->db)->getUsers($usersSpecification, $nowDateTime);
+        return ($this->getDb())->getUsers($usersSpecification, $nowDateTime);
     }
 
     /* RedCapInfo */
     public function getRedCapInfo()
     {
-        return ($this->db)->getRedCapInfo();
+        return ($this->getDb())->getRedCapInfo();
     }
 
 
@@ -321,64 +316,75 @@ class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
     /* Query methods */
     public function getQueries()
     {
-        return $this->settings->getQueries();
+        return $this->getSettings()->getQueries();
     }
 
     public function getQuery($queryId)
     {
-        return $this->settings->getQuery($queryId);
+        return $this->getSettings()->getQuery($queryId);
     }
 
     public function addOrUpdateQuery($query)
     {
-        $this->settings->addOrUpdateQuery($query);
+        $this->getSettings()->addOrUpdateQuery($query);
     }
 
     public function deleteQueryById($queryId)
     {
-        $this->settings->deleteQueryById($queryId);
+        $this->getSettings()->deleteQueryById($queryId);
     }
 
     public function copyQueryById($queryId)
     {
-        $this->settings->copyQueryById($queryId);
+        $this->getSettings()->copyQueryById($queryId);
     }
 
 
     /* Notification methods */
     public function getNotifications()
     {
-        return $this->settings->getNotifications();
+        return $this->getSettings()->getNotifications();
     }
 
     public function getActiveNotifications()
     {
-        return $this->settings->getActiveNotifications();
+        return $this->getSettings()->getActiveNotifications();
     }
 
     public function getNotification($notificationId)
     {
-        return $this->settings->getNotification($notificationId);
+        return $this->getSettings()->getNotification($notificationId);
     }
 
     public function addOrUpdateNotification($notification)
     {
-        $this->settings->addOrUpdateNotification($notification);
+        $this->getSettings()->addOrUpdateNotification($notification);
     }
 
     public function copyNotificationById($notificationId)
     {
-        $this->settings->copyNotificationById($notificationId);
+        $this->getSettings()->copyNotificationById($notificationId);
     }
 
     public function deleteNotificationById($notificationId)
     {
-        $this->settings->deleteNotificationById($notificationId);
+        $this->getSettings()->deleteNotificationById($notificationId);
     }
 
     /* REDCap Database */
     public function getDb()
     {
+        if ($this->db == null) {
+            $this->db = new RedCapDb($this);
+        }
         return $this->db;
+    }
+
+    public function getSettings()
+    {
+        if ($this->settings == null) {
+            $this->settings = new Settings($this, $this->getDb());
+        }
+        return $this->settings;
     }
 }
