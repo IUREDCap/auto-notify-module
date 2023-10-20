@@ -135,6 +135,7 @@ print Variable::variablesToJson($variables) . "\n";
 <?php
 
 $module->renderAdminPageContentHeader($selfUrl, $error, $warning, $success);
+$module->renderAdminQuerySubTabs($selfUrl);
 
 ?>
 

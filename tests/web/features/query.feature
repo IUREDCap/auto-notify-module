@@ -14,16 +14,18 @@ Feature: Notifications
 
   Scenario: Create new Query
     When I follow "Queries"
+    And I follow "Saved Queries"
     And I delete queries with name "Query creation web test"
-    And I follow "Query"
+    And I follow "Query Builder"
     And I fill in "Query Name:" with "Query creation web test"
     And I press "Save"
-    And I follow "Queries"
+    And I follow "Saved Queries"
     Then I should see "Queries"
     And I should see "Query creation web test"
 
   Scenario: Show SQL query
     When I follow "Queries"
+    And I follow "Saved Queries"
     And I follow last query
     And I press "Show SQL Query"
     And I wait for 2 seconds
@@ -34,6 +36,7 @@ Feature: Notifications
 
   Scenario: Show conditions
     When I follow "Queries"
+    And I follow "Saved Queries"
     And I follow last query
     And I press button "showConditionsButton" to new window
     Then I should see "Query Conditions"
@@ -41,6 +44,7 @@ Feature: Notifications
 
   Scenario: Show queries conditions
     When I follow "Queries"
+    And I follow "Saved Queries"
     And I show conditions for last query
     And I wait for 4 seconds
     Then I should see "Query Conditions"
@@ -48,6 +52,7 @@ Feature: Notifications
 
   Scenario: View users
     When I follow "Queries"
+    And I follow "Saved Queries"
     And I follow last query
     And I press button "viewUsersButton" to new window
     Then I should see "user first name"
@@ -61,6 +66,7 @@ Feature: Notifications
 
   Scenario: View projects
     When I follow "Queries"
+    And I follow "Saved Queries"
     And I follow last query
     And I press button "viewProjectsButton" to new window
     Then I should see "Projects"

@@ -139,6 +139,7 @@ if (array_key_exists('submitValue', $_POST)) {
 <?php
 # Page Content Header
 $module->renderAdminPageContentHeader($selfUrl, $error, $warning, $success);
+$module->renderAdminNotificationSubTabs($selfUrl);
 ?>
 
 <?php

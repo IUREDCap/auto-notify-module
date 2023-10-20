@@ -14,4 +14,5 @@ Feature: Notifications
 
   Scenario: Access the Notifications page
     When I follow "Notifications"
+    When I follow "Saved Notifications"
     Then I should see "Notifications"

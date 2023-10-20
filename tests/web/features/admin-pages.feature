@@ -16,9 +16,7 @@ Feature: Admin-Interface
     Then I should see "Info"
     And I should see "Config"
     And I should see "Test"
-    And I should see "Notification"
     And I should see "Notifications"
-    And I should see "Query"
     And I should see "Queries"
     And I should see "Log"
 
@@ -39,7 +37,8 @@ Feature: Admin-Interface
     And I should see "E-mail all notifications to:"
 
   Scenario: Access the Notification page
-    When I follow "Notification"
+    When I follow "Notifications"
+    And I follow "Notification"
     Then I should see "Subject"
     And I should see "From"
     And I should see "To"
@@ -48,10 +47,12 @@ Feature: Admin-Interface
 
   Scenario: Access the Notifications page
     When I follow "Notifications"
+    And I follow "Saved Notifications"
     Then I should see "Notifications"
 
   Scenario: Access the Query page
-    When I follow "Query"
+    When I follow "Queries"
+    And I follow "Query Builder"
     Then I should see "Query Name"
     And I should see "ID"
     And I should see "Query Conditions"
@@ -59,6 +60,7 @@ Feature: Admin-Interface
 
   Scenario: Access the Queries page
     When I follow "Queries"
+    And I follow "Saved Queries"
     Then I should see "Queries"
     And I should see "ID"
     And I should see "Name"

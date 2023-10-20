@@ -62,6 +62,19 @@ class DateInfo
         $this->daysInMonth = cal_days_in_month(CAL_GREGORIAN, $this->info['mon'], $this->info['year']);
     }
 
+
+    /**
+     * Modify the date/time using values such as "+1 year" "-2 weeks";
+     * see strtotime documentation (https://www.php.net/manual/en/function.strtotime.php)
+     * for more information.
+     */
+    public function modify($value)
+    {
+        $this->timestamp = strtotime($value, $this->timestamp);
+        $this->info = getdate($timestamp);
+        $this->daysInMonth = cal_days_in_month(CAL_GREGORIAN, $this->info['mon'], $this->info['year']);
+    }
+
     /**
      * @param string $dateTime date time string
      */
@@ -232,6 +245,30 @@ class DateInfo
         $dateTime = new \DateTime();
         $dateTime->setTimestamp($this->timestamp);
         $value = date_format($dateTime, "Y-m-d H:i");
+        return $value;
+    }
+
+    public function getYmdDate()
+    {
+        $dateTime = new \DateTime();
+        $dateTime->setTimestamp($this->timestamp);
+        $value = date_format($dateTime, "Y-m-d");
+        return $value;
+    }
+
+    public function getMdyDate()
+    {
+        $dateTime = new \DateTime();
+        $dateTime->setTimestamp($this->timestamp);
+        $value = date_format($dateTime, "m/d/Y");
+        return $value;
+    }
+
+    public function getTime()
+    {
+        $dateTime = new \DateTime();
+        $dateTime->setTimestamp($this->timestamp);
+        $value = date_format($dateTime, "H:i");
         return $value;
     }
 

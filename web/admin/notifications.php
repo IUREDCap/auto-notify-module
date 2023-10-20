@@ -67,7 +67,9 @@ Auto-Notify
 
 <?php
 
-$module->renderAdminPageContentHeader($selfUrl, $error, $warning, $success);
+$module->renderAdminPageContentHeader($notificationUrl, $error, $warning, $success);
+$module->renderAdminNotificationSubTabs($selfUrl);
+
 
 $users = null;
 

@@ -57,6 +57,51 @@ class Notifications
         return $activeNotifications;
     }
 
+    /**
+     * WORK IN PROGRESS
+     *
+     */
+    public function getScheduledNotificationsForMonth($month, $year)
+    {
+    }
+
+    /**
+     * WORK IN PROGRESS
+     *
+     * Gets the notifications scheduled for the specified time range, specifically
+     * notifications specified after the begin time and before or on the end time.
+     */
+    public function getScheduledNotifications($beginTime, $endTime)
+    {
+        $scheduledNotifications = array();
+
+        $activeNotifications = $this->getActiveNotifications();
+
+        foreach ($activeNotifications as $notification) {
+            $currentBeginTime = $beginTime;
+            $schedule = $notification->getSchedule();
+            if ($schedule->getSchedulingOption() === Schedule::SCHED_OPT_FUTURE) {
+                $sendTimestamp = strtotime($schedule->getSendTime());
+                if ($sendTimestamp > $currentBeginTime && $sendTimestamp <= $endTime) {
+                    $scheduledNotifications[$sendTimestamp] = $notification;
+                }
+            } elseif ($schedule->getSchedulingOption() === Schedule::SCHED_OPT_RECURRING) {
+                while (($nextTimestamp = $schedule->getNextRecurringTimestamp($currentBeginTime)) != null) {
+                    if ($nextTimestamp <= $endTime) {
+                        $scheduledNotifications[$nextTimestamp] = $notification;
+                        $currentBeginTime = $nextTimestamp;
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        ksort($scheduledNotifications);
+
+        return $scheduledNotifications;
+    }
+
     public function getNotification($notificationId)
     {
         $notification = null;

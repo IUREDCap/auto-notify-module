@@ -33,7 +33,7 @@ class QueriesPage
     {
         $page = $session->getPage();
 
-        $elements = $page->findAll("xpath", "//tr/td[4]");
+        $elements = $page->findAll("xpath", "//tr/td[4]/a");
         $lastElement = end($elements);
         $lastElement->click();
     }
@@ -42,7 +42,7 @@ class QueriesPage
     {
         $page = $session->getPage();
 
-        $elements = $page->findAll("xpath", "//tr/td[3]");
+        $elements = $page->findAll("xpath", "//tr/td[3]/button");
         $lastElement = end($elements);
         $lastElement->click();
     }

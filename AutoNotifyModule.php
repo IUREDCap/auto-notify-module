@@ -34,12 +34,15 @@ class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
     public const USER_PROJECTS_PAGE = 'web/admin/user_projects.php';
     public const PROJECTS_PAGE      = 'web/admin/projects.php';
     public const TEST_PAGE          = 'web/admin/test.php';
+    public const CALENDAR_PAGE      = 'web/admin/calendar.php';
     public const LOG_PAGE           = 'web/admin/log.php';
     public const LOG_SERVICE        = 'web/admin/log_service.php';
     public const NOTIFICATION_PAGE  = 'web/admin/notification.php';
     public const NOTIFICATIONS_PAGE = 'web/admin/notifications.php';
     public const QUERIES_PAGE       = 'web/admin/queries.php';
     public const QUERY_SERVICE      = 'web/admin/query_service.php';
+
+    public const SCHEDULE_PAGE      = 'web/admin/schedule.php';
 
     # Note: access $db or $settings using their getter methods instead of directly, since lazy evaluation is used
     #       in the getters to initialize them.
@@ -136,19 +139,23 @@ class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
 
         $notificationUrl = $this->getUrl(self::NOTIFICATION_PAGE);
         $notificationLabel = '<span class="fas fa-envelope"></span>'
-           . ' Notification</span>';
-
-        $notificationsUrl = $this->getUrl(self::NOTIFICATIONS_PAGE);
-        $notificationsLabel = '<span class="fas fa-bars"></span>'
            . ' Notifications</span>';
 
+        #$notificationsUrl = $this->getUrl(self::NOTIFICATIONS_PAGE);
+        #$notificationsLabel = '<span class="fas fa-envelope"></span>'
+           #. ' Notifications</span>';
+
         $builderUrl = $this->getUrl(self::QUERY_PAGE);
-        $builderLabel = '<span class="fas fa-file-code"></span>'
-           . ' Query</span>';
+        $builderLabel = '<span class="fas fa-bars"></span>'
+           . ' Queries</span>';
 
         $queriesUrl = $this->getUrl(self::QUERIES_PAGE);
         $queriesLabel = '<span class="fas fa-bars"></span>'
            . ' Queries</span>';
+
+        $calendarUrl = $this->getUrl(self::CALENDAR_PAGE);
+        $calendarLabel = '<span class="fas fa-calendar"></span>'
+           . ' Cal.</span>';
 
         $logUrl = $this->getUrl(self::LOG_PAGE);
         $logLabel = '<span class="fas fa-book"></span>'
@@ -161,12 +168,90 @@ class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
         $tabs[$testUrl]          = $testLabel;
         #$tabs[$usersUrl]         = $usersLabel;
         $tabs[$notificationUrl]  = $notificationLabel;
-        $tabs[$notificationsUrl] = $notificationsLabel;
+        #$tabs[$notificationsUrl] = $notificationsLabel;
         $tabs[$builderUrl]       = $builderLabel;
-        $tabs[$queriesUrl]       = $queriesLabel;
+        # $tabs[$queriesUrl]       = $queriesLabel;
+        $tabs[$calendarUrl]      = $calendarLabel;
         $tabs[$logUrl]           = $logLabel;
 
         $this->renderTabs($tabs, $activeUrl);
+    }
+
+    /**
+     * Render sub-tabs for the admin query pages.
+     */
+    public function renderAdminQuerySubTabs($activeUrl = '')
+    {
+        $queryUrl = $this->getUrl(self::QUERY_PAGE);
+        $queryLabel = '<span class="fas fa-cog"></span>'
+           . ' Query Builder';
+
+        $queriesUrl   = $this->getUrl(self::QUERIES_PAGE);
+        $queriesLabel = '<span class="fas fa-list"></span>'
+           . ' Saved Queries';
+
+        $tabs = array();
+
+        $tabs[$queryUrl]    = $queryLabel;
+        $tabs[$queriesUrl]  = $queriesLabel;
+
+        $this->renderSubTabs($tabs, $activeUrl);
+    }
+
+    /**
+     * Render sub-tabs for the admin notification pages.
+     */
+    public function renderAdminNotificationSubTabs($activeUrl = '')
+    {
+        $notificationUrl = $this->getUrl(self::NOTIFICATION_PAGE);
+        $notificationLabel = '<span class="fas fa-envelope"></span>'
+           . ' Notification';
+
+        $notificationsUrl   = $this->getUrl(self::NOTIFICATIONS_PAGE);
+        $notificationsLabel = '<span class="fas fa-bars"></span>'
+           . ' Saved Notifications';
+
+        $scheduleUrl   = $this->getUrl(self::SCHEDULE_PAGE);
+        $scheduleLabel = '<span class="fas fa-calendar-days"></span>'
+           . ' Schedule';
+
+        $tabs = array();
+
+        $tabs[$notificationUrl]  = $notificationLabel;
+        $tabs[$notificationsUrl] = $notificationsLabel;
+        $tabs[$scheduleUrl]      = $scheduleLabel;
+
+        $this->renderSubTabs($tabs, $activeUrl);
+    }
+
+    /**
+     * Renders sub-tabs (second-level tabs) on the page.
+     *
+     * @param array $tabs map from URL to tab label.
+     * @param string $activeUrl the URL that should be marked as active.
+     */
+    public function renderSubTabs($tabs = array(), $activeUrl = '')
+    {
+        echo '<div style="text-align:right; margin-bottom: 17px; margin-top: 0px; padding-top: 0px;">';
+        $isFirst = true;
+        foreach ($tabs as $url => $label) {
+            $style = '';
+            if (strcasecmp($url, $activeUrl) === 0) {
+                $style = ' style="padding: 1px; text-decoration: none; '
+                    . 'font-weight: bold; border-bottom: 3px solid black;" ';
+            } else {
+                $style = ' style="padding: 1px; text-decoration: none;" ';
+            }
+
+            if ($isFirst) {
+                $isFirst = false;
+            } else {
+                echo "&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;";
+            }
+            echo '<a href="' . $url . '" ' . $style . '>' . "{$label}</a>";
+        }
+        echo "&nbsp;&nbsp;&nbsp;";
+        echo "</div>\n";
     }
 
     public function renderErrorMessageDiv($message)

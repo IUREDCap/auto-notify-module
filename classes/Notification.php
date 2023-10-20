@@ -359,6 +359,7 @@ class Notification
         $schedule = $this->getSchedule();
 
         if ($schedule->getSchedulingOption() === Schedule::SCHED_OPT_FUTURE) {
+            # If the notification is scheduled to be sent at a single future time
             $sendTimestamp = strtotime($schedule->getSendTime());
 
             if ($sendTimestamp > $lastSendTimestamp && $sendTimestamp <= $currentSendTimestamp) {
@@ -369,6 +370,7 @@ class Notification
                 }
             }
         } elseif ($schedule->getSchedulingOption() === Schedule::SCHED_OPT_RECURRING) {
+            # If the notification is scheduled to be sent recurringly
             $endTimetamp  = $schedule->getEndTimestamp();
             if ($endTimestamp != null && $endTimestamp <= $lastSendTimestamp) {
                 # If this notification has an end time specified, and it is

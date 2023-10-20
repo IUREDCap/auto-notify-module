@@ -14,12 +14,14 @@ Feature: Notification
 
   Scenario: Create new Notification
     When I follow "Notifications"
+    And I follow "Saved Notifications"
     And I wait for 2 seconds
     And I delete notifications with subject "Notification creation web test"
     And I follow "Notification"
     And I fill in "subject" with "Notification creation web test"
     And I press "Save as Draft"
     And I follow "Notifications"
+    And I follow "Saved Notifications"
     Then I should see "Notifications"
     And I should see "ID"
     And I should see "Status"
@@ -28,7 +30,8 @@ Feature: Notification
   # Note: this scenario needs to go last, because it follows a link to a new page,
   # which can causes problems for Behat/Mink for scenarios that come after this
   Scenario: Notification help
-    When I follow "Notification"
+    When I follow "Notifications"
+    And I follow "Notification"
     And I click "notificationHelp"
     Then I should see "Notification Help"
     And I should see "Use this page to create a new notification"
