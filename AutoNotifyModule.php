@@ -153,9 +153,9 @@ class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
         $queriesLabel = '<span class="fas fa-bars"></span>'
            . ' Queries</span>';
 
-        $calendarUrl = $this->getUrl(self::CALENDAR_PAGE);
-        $calendarLabel = '<span class="fas fa-calendar"></span>'
-           . ' Cal.</span>';
+        #$calendarUrl = $this->getUrl(self::CALENDAR_PAGE);
+        #$calendarLabel = '<span class="fas fa-calendar"></span>'
+        #   . ' Cal.</span>';
 
         $logUrl = $this->getUrl(self::LOG_PAGE);
         $logLabel = '<span class="fas fa-book"></span>'
@@ -170,8 +170,8 @@ class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
         $tabs[$notificationUrl]  = $notificationLabel;
         #$tabs[$notificationsUrl] = $notificationsLabel;
         $tabs[$builderUrl]       = $builderLabel;
-        # $tabs[$queriesUrl]       = $queriesLabel;
-        $tabs[$calendarUrl]      = $calendarLabel;
+        #$tabs[$queriesUrl]       = $queriesLabel;
+        #$tabs[$calendarUrl]      = $calendarLabel;
         $tabs[$logUrl]           = $logLabel;
 
         $this->renderTabs($tabs, $activeUrl);
