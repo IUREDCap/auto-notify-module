@@ -9,11 +9,11 @@ namespace IU\AutoNotifyModule;
 
 use PHPUnit\Framework\TestCase;
 
-class LogTest extends TestCase
+class LogFilterTest extends TestCase
 {
     public function testCreate()
     {
-        $log = new Log();
+        $log = new LogFilter();
         $this->assertNotNull($log, 'Object creation test');
 
         $exceptionCaught = false;
@@ -25,12 +25,12 @@ class LogTest extends TestCase
         $this->assertFalse($exceptionCaught, 'Default log valid test');
     }
 
-    public function testInvalidLog()
+    public function testInvalidLogFilter()
     {
-        $log = new Log();
+        $log = new LogFilter();
 
         # Null start date
-        $log->set([Log::START_DATE => null, Log::END_DATE => null]);
+        $log->set([LogFilter::START_DATE => null, LogFilter::END_DATE => null]);
         $exceptionCaught = false;
         try {
             $log->validate();
@@ -40,7 +40,7 @@ class LogTest extends TestCase
         $this->assertTrue($exceptionCaught, 'Null start date test');
 
         # Null end date
-        $log->set([Log::START_DATE => '01/02/2023', Log::END_DATE => null]);
+        $log->set([LogFilter::START_DATE => '01/02/2023', LogFilter::END_DATE => null]);
         $exceptionCaught = false;
         try {
             $log->validate();
@@ -51,7 +51,7 @@ class LogTest extends TestCase
         $this->assertStringContainsString('end date', $exception->getMessage(), 'End date message test');
 
         # End date before start date
-        $log->set([Log::START_DATE => '01/02/2023', Log::END_DATE => '01/01/2023']);
+        $log->set([LogFilter::START_DATE => '01/02/2023', LogFilter::END_DATE => '01/01/2023']);
         $exceptionCaught = false;
         try {
             $log->validate();

@@ -17,7 +17,6 @@ use ExternalModules\ExternalModules;
 use IU\AutoNotifyModule\AutoNotifyModule;
 use IU\AutoNotifyModule\DateInfo;
 use IU\AutoNotifyModule\Filter;
-use IU\AutoNotifyModule\Log;
 use IU\AutoNotifyModule\ModuleLog;
 use IU\AutoNotifyModule\RedCapDb;
 
@@ -27,8 +26,6 @@ $logServiceUrl = $module->getUrl(AutoNotifyModule::LOG_SERVICE);
 $cssFile = $module->getUrl('resources/notify.css');
 
 $log = new ModuleLog($module);
-
-$logFilter = new Log();
 
 $adminConfig = $module->getAdminConfig();
 

@@ -19,7 +19,7 @@ SPDX-License-Identifier: BSD-3-Clause
       <file>tests/unit/ExternalModuleInfoTest.php</file>
       <file>tests/unit/FilterTest.php</file>
       <file>tests/unit/HelpTest.php</file>
-      <file>tests/unit/LogTest.php</file>
+      <file>tests/unit/LogFilterTest.php</file>
       <file>tests/unit/ModuleLogTest.php</file>
       <file>tests/unit/NotificationsTest.php</file>
       <file>tests/unit/NotificationTest.php</file>

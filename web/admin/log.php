@@ -16,7 +16,7 @@ $module->checkAdminPagePermission();
 use ExternalModules\ExternalModules;
 use IU\AutoNotifyModule\AutoNotifyModule;
 use IU\AutoNotifyModule\Filter;
-use IU\AutoNotifyModule\Log;
+use IU\AutoNotifyModule\LogFilter;
 use IU\AutoNotifyModule\ModuleLog;
 use IU\AutoNotifyModule\RedCapDb;
 
@@ -27,7 +27,7 @@ $cssFile = $module->getUrl('resources/notify.css');
 
 $log = new ModuleLog($module);
 
-$logFilter = new Log();
+$logFilter = new LogFilter();
 
 $adminConfig = $module->getAdminConfig();
 
@@ -87,12 +87,12 @@ if ($submitValue === 'Display') {
 
     <fieldset class="config">
         Start date: 
-            <input id="startDate" name="<?php echo Log::START_DATE; ?>"
+            <input id="startDate" name="<?php echo LogFilter::START_DATE; ?>"
                value="<?php echo Filter::escapeForHtml($logFilter->getStartDate()); ?>"
                type="text" size="10" style="text-align: right; margin-right: 1em;"/>
 
         End date:
-        <input id="endDate" name="<?php echo Log::END_DATE; ?>"
+        <input id="endDate" name="<?php echo LogFilter::END_DATE; ?>"
                value="<?php echo Filter::escapeForHtml($logFilter->getEndDate()); ?>"
                type="text" size="10" style="text-align: right; margin-right: 1em;"/>
 

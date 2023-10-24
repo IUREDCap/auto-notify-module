@@ -10,7 +10,7 @@ namespace IU\AutoNotifyModule;
 /**
  * Class for specifying log results.
  */
-class Log
+class LogFilter
 {
     public const START_DATE = 'startDate';
     public const END_DATE   = 'endDate';
