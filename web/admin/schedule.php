@@ -19,18 +19,55 @@ use IU\AutoNotifyModule\DateInfo;
 use IU\AutoNotifyModule\Filter;
 use IU\AutoNotifyModule\ModuleLog;
 use IU\AutoNotifyModule\RedCapDb;
+use IU\AutoNotifyModule\ScheduleFilter;
 
-$selfUrl         = $module->getUrl(AutoNotifyModule::SCHEDULE_PAGE);
-$notificationUrl = $module->getUrl(AutoNotifyModule::NOTIFICATION_PAGE);
-$logServiceUrl   = $module->getUrl(AutoNotifyModule::LOG_SERVICE);
+try {
+    $selfUrl         = $module->getUrl(AutoNotifyModule::SCHEDULE_PAGE);
+    $notificationUrl = $module->getUrl(AutoNotifyModule::NOTIFICATION_PAGE);
+    $logServiceUrl   = $module->getUrl(AutoNotifyModule::LOG_SERVICE);
 
-$cssFile = $module->getUrl('resources/notify.css');
+    $cssFile = $module->getUrl('resources/notify.css');
 
-$log = new ModuleLog($module);
+    $scheduleFilter = new ScheduleFilter();
 
-$adminConfig = $module->getAdminConfig();
+    $notifications = $module->getNotifications();
 
-$notifications = $module->getNotifications();
+    #------------------------------------------------------
+    # Set the default start and end dates
+    #------------------------------------------------------
+    $startDateInfo = new DateInfo();
+    $endDateInfo   = new DateInfo($startDateInfo->getTimestamp());
+    $endDateInfo->modify("+1 year");
+
+    $startDate = $startDateInfo->getMdyDate();
+    $endDate   = $endDateInfo->getMdyDate();
+
+    #-------------------------
+    # Get the submit value
+    #-------------------------
+    $submitValue = '';
+    if (array_key_exists('submitValue', $_POST)) {
+        $submitValue = Filter::sanitizeButtonLabel($_POST['submitValue']);
+
+        if ($submitValue === 'Display') {
+            $scheduleFilter->set($_POST);
+            $scheduleFilter->validate();
+
+            $startDate = $scheduleFilter->getStartDate();
+            $startDateInfo->modify($startDate);
+
+            $endDate   = $scheduleFilter->getEndDate();
+            $endDateInfo->modify($endDate);
+        }
+    }
+
+    $endDateInfo->modify("23:59");
+    $startTimestamp = $startDateInfo->getTimestamp();
+    $endTimestamp   = $endDateInfo->getTimestamp();
+
+} catch (\Exception $exception) {
+    $error = $exception->getMessage();
+}
 
 ?>
 
@@ -48,8 +85,6 @@ $buffer = str_replace('</head>', "    {$link}\n{$jsInclude}\n</head>", $buffer);
 echo $buffer;
 ?>
 
-
-
 <h4>
 <i class="fas fa-envelope"></i>&nbsp;
 <!-- <img style="margin-right: 7px;" src="<?php echo APP_PATH_IMAGES ?>email.png" alt=""> -->
@@ -59,45 +94,8 @@ Auto-Notify
 <?php
 
 $module->renderAdminPageContentHeader($notificationUrl, $error, $warning, $success);
+
 $module->renderAdminNotificationSubTabs($selfUrl);
-
-
-$users = null;
-
-$prefix = "auto-notify-module";
-$config = ExternalModules::getConfig($prefix);
-
-
-#-------------------------
-# Get the submit value
-#-------------------------
-$startDateInfo = new DateInfo();
-$endDateInfo   = new DateInfo($startDateInfo->getTimestamp());
-$endDateInfo->modify("+1 year");
-
-$startDate = $startDateInfo->getMdyDate();
-$endDate   = $endDateInfo->getMdyDate();
-
-$submitValue = '';
-if (array_key_exists('submitValue', $_POST)) {
-    $submitValue = Filter::sanitizeButtonLabel($_POST['submitValue']);
-}
-
-if ($submitValue === 'Display') {
-    if (array_key_exists('startDate', $_POST)) {
-        $startDate = $_POST['startDate'];
-    }
-
-    if (array_key_exists('endDate', $_POST)) {
-        $endDate = $_POST['endDate'];
-        // NEED TO ADD CHECKING HERE AND FOR START DATE!!!!!!!!!!!!!!!!!!!!!!!!!!
-        $endDateInfo->modify($endDate);
-    }
-}
-
-$endDateInfo->modify("23:59");
-$startTimestamp = $startDateInfo->getTimestamp();
-$endTimestamp   = $endDateInfo->getTimestamp();
 
 ?>
 
