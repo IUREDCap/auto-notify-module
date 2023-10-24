@@ -74,24 +74,33 @@ $config = ExternalModules::getConfig($prefix);
 #-------------------------
 # Get the submit value
 #-------------------------
+$startDateInfo = new DateInfo();
+$endDateInfo   = new DateInfo($startDateInfo->getTimestamp());
+$endDateInfo->modify("+1 year");
+
+$startDate = $startDateInfo->getMdyDate();
+$endDate   = $endDateInfo->getMdyDate();
+
 $submitValue = '';
 if (array_key_exists('submitValue', $_POST)) {
     $submitValue = Filter::sanitizeButtonLabel($_POST['submitValue']);
 }
 
 if ($submitValue === 'Display') {
-    $logFilter->set($_POST);
+    if (array_key_exists('startDate', $_POST)) {
+        $startDate = $_POST['startDate'];
+    }
+
+    if (array_key_exists('endDate', $_POST)) {
+        $endDate = $_POST['endDate'];
+        // NEED TO ADD CHECKING HERE AND FOR START DATE!!!!!!!!!!!!!!!!!!!!!!!!!!
+        $endDateInfo->modify($endDate);
+    }
 }
 
-
-$dateInfo = new DateInfo();
-$startDate = $dateInfo->getMdyDate();
-$startTimestamp = $dateInfo->getTimestamp();
-
-$dateInfo->modify("+1 year");
-$dateInfo->modify("23:59");
-$endDate = $dateInfo->getMdyDate();
-$endTimestamp = $dateInfo->getTimestamp();
+$endDateInfo->modify("23:59");
+$startTimestamp = $startDateInfo->getTimestamp();
+$endTimestamp   = $endDateInfo->getTimestamp();
 
 ?>
 
@@ -101,12 +110,12 @@ $endTimestamp = $dateInfo->getTimestamp();
 
     <fieldset class="config">
         Start date:
-            <input id="startDate" name="<?php echo Log::START_DATE; ?>"
+            <input id="startDate" name="startDate"
                value="<?php echo Filter::escapeForHtml($startDate); ?>"
                type="text" size="10" style="text-align: right; margin-right: 1em;"/>
 
         End date:
-        <input id="endDate" name="<?php echo Log::END_DATE; ?>"
+        <input id="endDate" name="endDate"
                value="<?php echo Filter::escapeForHtml($endDate); ?>"
                type="text" size="10" style="text-align: right; margin-right: 1em;"/>
 
