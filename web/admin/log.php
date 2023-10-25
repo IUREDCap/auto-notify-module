@@ -20,16 +20,34 @@ use IU\AutoNotifyModule\LogFilter;
 use IU\AutoNotifyModule\ModuleLog;
 use IU\AutoNotifyModule\RedCapDb;
 
-$selfUrl       = $module->getUrl(AutoNotifyModule::LOG_PAGE);
-$logServiceUrl = $module->getUrl(AutoNotifyModule::LOG_SERVICE);
+try {
+    $selfUrl         = $module->getUrl(AutoNotifyModule::LOG_PAGE);
+    $notificationUrl = $module->getUrl(AutoNotifyModule::NOTIFICATION_PAGE);
+    $logServiceUrl   = $module->getUrl(AutoNotifyModule::LOG_SERVICE);
 
-$cssFile = $module->getUrl('resources/notify.css');
+    $cssFile = $module->getUrl('resources/notify.css');
 
-$log = new ModuleLog($module);
+    $log = new ModuleLog($module);
 
-$logFilter = new LogFilter();
+    $logFilter = new LogFilter();
 
-$adminConfig = $module->getAdminConfig();
+
+    #-------------------------
+    # Get the submit value
+    #-------------------------
+    $submitValue = '';
+    if (array_key_exists('submitValue', $_POST)) {
+        $submitValue = Filter::sanitizeButtonLabel($_POST['submitValue']);
+    }
+
+    if ($submitValue === 'Display') {
+        $logFilter->set($_POST);
+        $logFilter->validate();
+    }
+} catch (\Exception $exception) {
+    $error = 'ERROR: ' . $exception->getMessage();
+}
+
 
 
 ?>
@@ -58,25 +76,9 @@ Auto-Notify
 
 <?php
 
-$module->renderAdminPageContentHeader($selfUrl, $error, $warning, $success);
+$module->renderAdminPageContentHeader($notificationUrl, $error, $warning, $success);
 
-$users = null;
-
-$prefix = "auto-notify-module";
-$config = ExternalModules::getConfig($prefix);
-
-
-#-------------------------
-# Get the submit value
-#-------------------------
-$submitValue = '';
-if (array_key_exists('submitValue', $_POST)) {
-    $submitValue = Filter::sanitizeButtonLabel($_POST['submitValue']);
-}
-
-if ($submitValue === 'Display') {
-    $logFilter->set($_POST);
-}
+$module->renderAdminNotificationSubTabs($selfUrl);
 
 
 ?>
@@ -162,17 +164,6 @@ if ($submitValue === 'Display') {
 </table>
 
 <p>&nbsp;</p>
-
-<?php
-if (isset($adminConfig) && $adminConfig->getDebugMode()) {
-    #$logData = $log->getData();
-    #foreach ($logData as $entry) {
-    #    print "<pre>\n";
-    #    print_r($entry);
-    #    print "</pre>\n";
-    #}
-}
-?>
 
 
 <?php

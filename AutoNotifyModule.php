@@ -157,22 +157,23 @@ class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
         #$calendarLabel = '<span class="fas fa-calendar"></span>'
         #   . ' Cal.</span>';
 
-        $logUrl = $this->getUrl(self::LOG_PAGE);
-        $logLabel = '<span class="fas fa-book"></span>'
-           . ' Log</span>';
+        #$logUrl = $this->getUrl(self::LOG_PAGE);
+        #$logLabel = '<span class="fas fa-book"></span>'
+        #   . ' Log</span>';
 
         $tabs = array();
 
         $tabs[$adminUrl]         = $adminLabel;
-        $tabs[$configUrl]        = $configLabel;
-        $tabs[$testUrl]          = $testLabel;
         #$tabs[$usersUrl]         = $usersLabel;
         $tabs[$notificationUrl]  = $notificationLabel;
         #$tabs[$notificationsUrl] = $notificationsLabel;
         $tabs[$builderUrl]       = $builderLabel;
+        $tabs[$configUrl]        = $configLabel;
+        $tabs[$testUrl]          = $testLabel;
+
         #$tabs[$queriesUrl]       = $queriesLabel;
         #$tabs[$calendarUrl]      = $calendarLabel;
-        $tabs[$logUrl]           = $logLabel;
+        #$tabs[$logUrl]           = $logLabel;
 
         $this->renderTabs($tabs, $activeUrl);
     }
@@ -211,6 +212,10 @@ class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
         $notificationsLabel = '<span class="fas fa-bars"></span>'
            . ' Saved Notifications';
 
+        $logUrl   = $this->getUrl(self::LOG_PAGE);
+        $logLabel = '<span class="fas fa-receipt"></span>'
+           . ' Log';
+
         $scheduleUrl   = $this->getUrl(self::SCHEDULE_PAGE);
         $scheduleLabel = '<span class="fas fa-calendar-days"></span>'
            . ' Schedule';
@@ -219,6 +224,7 @@ class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
 
         $tabs[$notificationUrl]  = $notificationLabel;
         $tabs[$notificationsUrl] = $notificationsLabel;
+        $tabs[$logUrl]           = $logLabel;
         $tabs[$scheduleUrl]      = $scheduleLabel;
 
         $this->renderSubTabs($tabs, $activeUrl);

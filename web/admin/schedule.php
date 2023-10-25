@@ -64,9 +64,8 @@ try {
     $endDateInfo->modify("23:59");
     $startTimestamp = $startDateInfo->getTimestamp();
     $endTimestamp   = $endDateInfo->getTimestamp();
-
 } catch (\Exception $exception) {
-    $error = $exception->getMessage();
+    $error = 'ERROR: ' . $exception->getMessage();
 }
 
 ?>

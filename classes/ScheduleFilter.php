@@ -8,9 +8,9 @@
 namespace IU\AutoNotifyModule;
 
 /**
- * Class for specifying filtering of log results.
+ * Class for specifying filtering of notification schedule results.
  */
-class LogFilter
+class ScheduleFilter
 {
     public const START_DATE = 'startDate';
     public const END_DATE   = 'endDate';

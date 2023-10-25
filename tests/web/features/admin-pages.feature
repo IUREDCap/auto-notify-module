@@ -14,11 +14,10 @@ Feature: Admin-Interface
 
   Scenario: Access the admin home page
     Then I should see "Info"
-    And I should see "Config"
-    And I should see "Test"
     And I should see "Notifications"
     And I should see "Queries"
-    And I should see "Log"
+    And I should see "Config"
+    And I should see "Test"
 
   Scenario: Access the admin Info page
     When I follow "Info"
@@ -68,8 +67,17 @@ Feature: Admin-Interface
     But I should not see "Error:"
 
   Scenario: Access the Log page
-    When I follow "Log"
+    When I follow "Notifications"
+    And I follow "Log"
     Then I should see "Log"
+    And I should see "Start date:"
+    And I should see "End date:"
+    But I should not see "Error:"
+
+  Scenario: Access the Schedule page
+    When I follow "Notifications"
+    And I follow "Schedule"
+    Then I should see "Schedule"
     And I should see "Start date:"
     And I should see "End date:"
     But I should not see "Error:"

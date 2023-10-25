@@ -79,6 +79,27 @@ custom queries for generating sets of users for notifications.
     </tr>
 
     <tr>
+        <td><i class="fas fa-envelope"></i>&nbsp;Notifications</td>
+        <td>
+        Page for:
+            <ul>
+                <li>creating and editing notifications</li>
+                <li>listing saved notifications</li>
+                <li>listing past notification sends</li>
+                <li>listing scheduled notification sends</li>
+            </ul>
+        </td>
+    </tr>
+
+    <tr>
+        <td><i class="fas fa-bars"></i> Queries</td>
+        <td>
+        Page for creating queries of REDCap user information and project metadata. The queries
+        can be used to specify the recipients of notifications.
+        </td>
+    </tr>
+
+    <tr>
         <td><i class="fas fa-gear"></i> Config</td>
         <td>
         Configuration information and settings for this module.
@@ -92,34 +113,6 @@ custom queries for generating sets of users for notifications.
         </td>
     </tr>
 
-    <tr>
-        <td><i class="fas fa-envelope"></i>&nbsp;Notification</td>
-        <td>
-        Page for creating and editing notifications.
-        </td>
-    </tr>
-
-    <tr>
-        <td style="width: 10em;"><i class="fas fa-bars"></i>&nbsp;Notifications</span></td>
-        <td>
-        Page that lists the notifications that have been created.
-        </td>
-    </tr>
-
-    <tr>
-        <td style="vertical-align: top;"><i class="fas fa-file-code"></i> Query</td>
-        <td>
-        Query builder for creating and editing custom queries that are used to
-        generate lists of REDCap users for use as the recipients of notifications.
-        </td>
-    </tr>
-
-    <tr>
-        <td><i class="fas fa-bars"></i> Queries</td>
-        <td>
-        Page that lists the queries that have been created.
-        </td>
-    </tr>
 </table>
 
 <?php require_once APP_PATH_DOCROOT . 'ControlCenter/footer.php'; ?>
