@@ -78,6 +78,14 @@ Feature: Admin-Interface
     When I follow "Notifications"
     And I follow "Schedule"
     Then I should see "Schedule"
+    And I should see "list"
+    And I should see "calendar"
+    But I should not see "Error:"
+
+  Scenario: Access the Schedule page
+    When I follow "Notifications"
+    And I follow "Schedule"
+    Then I should see "Schedule"
     And I should see "Start date:"
     And I should see "End date:"
     But I should not see "Error:"
