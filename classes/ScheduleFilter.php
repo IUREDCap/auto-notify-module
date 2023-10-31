@@ -12,28 +12,51 @@ namespace IU\AutoNotifyModule;
  */
 class ScheduleFilter
 {
+    public const NOTIFICATION_ID = 'notificationId';
+
     public const START_DATE = 'startDate';
     public const END_DATE   = 'endDate';
+
+    public const DISPLAY_MODE = 'displayMode';
+
+    public const LIST_DISPLAY_MODE = 1;
+    public const CALENDAR_DISPLAY_MODE = 2;
+
+    private $notificationId;
 
     private $startDate;
     private $endDate;
 
+    private $displayMode;
+
 
     public function __construct()
     {
+        $this->notificationId = 0;
+
         $this->startDate = date('m/d/Y');
         $this->endDate   = date('m/d/Y');
+
+        $this->displayMode = self::LIST_DISPLAY_MODE;
     }
 
     public function set($properties)
     {
         if ($properties != null && is_array($properties)) {
+            if (array_key_exists(self::NOTIFICATION_ID, $properties)) {
+                $this->notificationId = Filter::sanitizeInt($properties[self::NOTIFICATION_ID]);
+            }
+
             if (array_key_exists(self::START_DATE, $properties)) {
                 $this->startDate = Filter::sanitizeDate($properties[self::START_DATE]);
             }
 
             if (array_key_exists(self::END_DATE, $properties)) {
                 $this->endDate = Filter::sanitizeDate($properties[self::END_DATE]);
+            }
+
+            if (array_key_exists(self::DISPLAY_MODE, $properties)) {
+                $this->displayMode = Filter::sanitizeInt($properties[self::DISPLAY_MODE]);
             }
         }
     }
@@ -54,9 +77,20 @@ class ScheduleFilter
 
         $startTimestamp = strtotime($this->startDate);
         $endTimestamp   = strtotime($this->endDate);
+
+        $todayTimestamp = strtotime('00:00');
+        if ($startTimestamp < $todayTimestamp) {
+            throw new \Exception('The start date "' . $this->startDate . '" is before the current date. ');
+        }
+
         if ($endTimestamp < $startTimestamp) {
             throw new \Exception("The end date is before the start date.");
         }
+    }
+
+    public function getNotificationId()
+    {
+        return $this->notificationId;
     }
 
     public function getStartDate()
@@ -67,5 +101,10 @@ class ScheduleFilter
     public function getEndDate()
     {
         return $this->endDate;
+    }
+
+    public function getDisplayMode()
+    {
+        return $this->displayMode;
     }
 }

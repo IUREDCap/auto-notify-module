@@ -71,11 +71,15 @@ class Notifications
      * Gets the notifications scheduled for the specified time range, specifically
      * notifications specified after the begin time and before or on the end time.
      */
-    public function getScheduledNotifications($beginTime, $endTime)
+    public function getScheduledNotifications($beginTime, $endTime, $notificationId = null)
     {
         $scheduledNotifications = array();
 
-        $activeNotifications = $this->getActiveNotifications();
+        if (empty($notificationId)) {
+            $activeNotifications = $this->getActiveNotifications();
+        } else {
+            $activeNotifications[] = $this->getNotification($notificationId);
+        }
 
         foreach ($activeNotifications as $notification) {
             $currentBeginTime = $beginTime;

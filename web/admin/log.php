@@ -187,13 +187,8 @@ $module->renderAdminNotificationSubTabs($selfUrl);
 
     $(document).ready(function() {
 
-        $( function() {
-            $( "#startDate" ).datepicker();
-        } );
-
-        $( function() {
-            $( "#endDate" ).datepicker();
-        } );
+        $( "#startDate" ).datepicker();
+        $( "#endDate" ).datepicker();
 
         $(".viewMessageButton").on("click", function() {
             let logId = $(this).attr('value');

@@ -37,8 +37,11 @@ class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
     public const CALENDAR_PAGE      = 'web/admin/calendar.php';
     public const LOG_PAGE           = 'web/admin/log.php';
     public const LOG_SERVICE        = 'web/admin/log_service.php';
-    public const NOTIFICATION_PAGE  = 'web/admin/notification.php';
-    public const NOTIFICATIONS_PAGE = 'web/admin/notifications.php';
+
+    public const NOTIFICATION_PAGE     = 'web/admin/notification.php';
+    public const NOTIFICATIONS_PAGE    = 'web/admin/notifications.php';
+    public const NOTIFICATION_SERVICE  = 'web/admin/notification_service.php';
+
     public const QUERIES_PAGE       = 'web/admin/queries.php';
     public const QUERY_SERVICE      = 'web/admin/query_service.php';
 

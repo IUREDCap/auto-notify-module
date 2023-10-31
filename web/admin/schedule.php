@@ -22,15 +22,25 @@ use IU\AutoNotifyModule\RedCapDb;
 use IU\AutoNotifyModule\ScheduleFilter;
 
 try {
+    $error   = '';
+    $warning = '';
+    $success = '';
+
     $selfUrl         = $module->getUrl(AutoNotifyModule::SCHEDULE_PAGE);
     $notificationUrl = $module->getUrl(AutoNotifyModule::NOTIFICATION_PAGE);
-    $logServiceUrl   = $module->getUrl(AutoNotifyModule::LOG_SERVICE);
+
+    $notificationServiceUrl = $module->getUrl(AutoNotifyModule::NOTIFICATION_SERVICE);
 
     $cssFile = $module->getUrl('resources/notify.css');
 
     $scheduleFilter = new ScheduleFilter();
 
     $notifications = $module->getNotifications();
+
+    // Only active notifications will be scheduled to be sent in the future
+    $activeNotifications = $notifications->getActiveNotifications();
+
+    $notificationId = 0; // All notifications
 
     #------------------------------------------------------
     # Set the default start and end dates
@@ -51,13 +61,15 @@ try {
 
         if ($submitValue === 'Display') {
             $scheduleFilter->set($_POST);
-            $scheduleFilter->validate();
+            $notificationId = $scheduleFilter->getNotificationId();
 
             $startDate = $scheduleFilter->getStartDate();
             $startDateInfo->modify($startDate);
 
             $endDate   = $scheduleFilter->getEndDate();
             $endDateInfo->modify($endDate);
+
+            $scheduleFilter->validate();
         }
     }
 
@@ -103,13 +115,67 @@ $module->renderAdminNotificationSubTabs($selfUrl);
 <form action="<?php echo $selfUrl;?>" name="testForm" method="post" style="margin-bottom: 17px;">
 
     <fieldset class="config">
+
+        <!-- DISPLAY MODE -->
+        <div style="margin-bottom: 14px;">
+            <?php
+            $listChecked = '';
+            $calendarChecked = '';
+            if ($scheduleFilter->getDisplayMode() == ScheduleFilter::CALENDAR_DISPLAY_MODE) {
+                $calendarChecked = ' checked="checked" ';
+            } else {
+                $listChecked = ' checked="checked" ';
+            }
+            ?>
+
+            Display mode: 
+            <input type="radio" name="<?php echo ScheduleFilter::DISPLAY_MODE; ?>"
+                                value="<?php echo ScheduleFilter::LIST_DISPLAY_MODE; ?>"
+                                <?php echo $listChecked; ?>>
+            list
+
+            <input type="radio" name="<?php echo ScheduleFilter::DISPLAY_MODE; ?>"
+                                value="<?php echo ScheduleFilter::CALENDAR_DISPLAY_MODE; ?>"
+                                <?php echo $calendarChecked; ?>>
+            calendar
+        </div>
+
+
+        <!-- NOTIFICATION -->
+        <div style="margin-bottom: 14px;">
+            <?php
+            echo "Scheduled Notification(s):\n";
+            echo '<select name="' . ScheduleFilter::NOTIFICATION_ID . '">' . "\n";
+
+            if ($scheduleFilter->getNotificationId() == 0) {
+                echo '<option value="0" selected>ALL</options>' . "\n";
+            } else {
+                echo '<option value="0">ALL</options>' . "\n";
+            }
+
+            foreach ($activeNotifications as $notification) {
+                $id = $notification->getId();
+                $subject = $notification->getSubject();
+
+                $selected = '';
+                if ($id == $scheduleFilter->getNotificationId()) {
+                    $selected = ' selected';
+                }
+
+                echo '<option value="' . $id . '"' . $selected . '>' . $subject . ' [ID=' . $id . ']</option>' . "\n";
+            }
+            echo "</select>\n";
+            ?>
+        </div>
+
+        <!-- START DATE -->
         Start date:
-            <input id="startDate" name="startDate"
+        <input id="startDate" name="<?php echo ScheduleFilter::START_DATE; ?>"
                value="<?php echo Filter::escapeForHtml($startDate); ?>"
                type="text" size="10" style="text-align: right; margin-right: 1em;"/>
 
         End date:
-        <input id="endDate" name="endDate"
+        <input id="endDate" name="<?php echo ScheduleFilter::END_DATE; ?>"
                value="<?php echo Filter::escapeForHtml($endDate); ?>"
                type="text" size="10" style="text-align: right; margin-right: 1em;"/>
 
@@ -127,167 +193,143 @@ $now = new \DateTime('now');
 $monthName = $now->format('F');
 $month = $now->format('m');
 $year = $now->format('Y');
-$schedule = $notifications->getScheduledNotifications($startTimestamp, $endTimestamp);
+$schedule = $notifications->getScheduledNotifications($startTimestamp, $endTimestamp, $notificationId);
 
 ?>
 
-<table class="data-table">
-    <tr>
-        <th>Date</th> <th>Time</th> <th>Week Day</th> <th>Notification ID</th> <th>Subject</th>
-    </tr>
+<?php
+if ($scheduleFilter->getDisplayMode() != ScheduleFilter::CALENDAR_DISPLAY_MODE) {
+    ?>
+    <!-- LIST DISPLAY -->
+    <table class="data-table">
+        <tr>
+            <th>Date</th> <th>Time</th> <th>Week Day</th> <th>Notification ID</th> <th>Subject</th>
+            <th>Settings</th>
+        </tr>
+
+        <?php
+        foreach ($schedule as $timestamp => $notification) {
+            $dateInfo = new DateInfo($timestamp);
+            $dayOfWeek = $dateInfo->getDayOfWeekName();
+            $date = $dateInfo->getYmdDate();
+            $time = $dateInfo->getTime();
+
+            $id = $notification->getId();
+            $editUrl = $notificationUrl . '&notificationId=' . Filter::escapeForUrlParameter($id);
+
+            echo "<tr>";
+            echo "<td>{$date}</td>";
+            echo "<td>{$time}</td>";
+            echo "<td>{$dayOfWeek}</td>";
+            echo "<td style=\"text-align: right;\"><a href=\"{$editUrl}\">{$id}</a></td>";
+            echo "<td>{$notification->getSubject()}</td>";
+
+            # Schedule
+            echo '<td style="text-align:center;">';
+            echo '<input type="image" src="' . APP_PATH_IMAGES . 'calendar_task.png" alt="CONFIG" '
+                . ' class="viewScheduleButton" value="' . $id . '"/>';
+            echo "</td>\n";
+
+            echo "</tr>\n";
+        }
+        ?>
+    </table>
 
     <?php
+} else {
+    ?>
+    <!-- CALENDAR DISPLAY -->
+    <?php
+    $year = 0;
+    $month = 0;
     foreach ($schedule as $timestamp => $notification) {
+        $previousYear = $year;
+        $previousMonth = $month;
         $dateInfo = new DateInfo($timestamp);
         $dayOfWeek = $dateInfo->getDayOfWeekName();
         $date = $dateInfo->getYmdDate();
         $time = $dateInfo->getTime();
+        $year = $dateInfo->getYear();
+        $month = $dateInfo->getMonth();
+        $day = $dateInfo->getDay();
+        $monthName = $dateInfo->getMonthName();
 
         $id = $notification->getId();
         $editUrl = $notificationUrl . '&notificationId=' . Filter::escapeForUrlParameter($id);
 
+        if ($year != $previousYear) {
+            if ($previousYear != 0) {
+                echo "</table>\n";
+                echo "<hr style=\"height: 4px; background-color: black; margin-top: 24px;\"/>\n";
+            }
+            echo '<p style="text-align: center; margin-top: 22px; margin-bottom: 0px;">'
+                . '<span style="font-weight: bold; font-size: 140%;">'
+                . $year . '</span></p>';
+        }
+
+        if ($month != $previousMonth) {
+            if ($previousMonth != 0) {
+                echo "</table>\n";
+            }
+
+            echo "<table class=\"data-table\" style=\"margin: 17px auto;\">\n";
+            echo "<tr><th colspan=\"6\" style=\"font-size: 110%;\">{$monthName}</th></tr>\n";
+            echo "<tr> <th>Day</th> <th>Time</th> <th>Week Day</th> <th>Notification Id</th>"
+                . "<th>Subject</th> <th>Settings</th></tr>\n";
+        }
+
         echo "<tr>";
-        echo "<td>{$date}</td>";
-        echo "<td>{$time}</td>";
-        echo "<td>{$dayOfWeek}</td>";
+        echo "<td style=\"text-align: right;\">{$day}</td>";
+        echo "<td style=\"text-align: right;\">{$time}</td><td>{$dayOfWeek}</td>\n";
         echo "<td style=\"text-align: right;\"><a href=\"{$editUrl}\">{$id}</a></td>";
         echo "<td>{$notification->getSubject()}</td>";
+
+        # Schedule
+        echo '<td style="text-align:center;">';
+        echo '<input type="image" src="' . APP_PATH_IMAGES . 'calendar_task.png" alt="CONFIG" '
+            . ' class="viewScheduleButton" value="' . $id . '"/>';
+        echo "</td>\n";
+
         echo "</tr>\n";
     }
+
+    if (!empty($notifications)) {
+        echo "</table>\n";
+    }
     ?>
-</table>
 
-
+    <?php
+}
+?>
 
 <script>
 
     $(document).ready(function() {
 
-        $( function() {
-            $( "#startDate" ).datepicker();
-        } );
+        $( "#startDate" ).datepicker({ minDate: 0 }).datepicker();
+        $( "#endDate" ).datepicker({ minDate: 0 }).datepicker();
 
-        $( function() {
-            $( "#endDate" ).datepicker();
-        } );
+        $(".viewScheduleButton").on("click", function() {
+            let notificationId = $(this).attr('value');
 
-        $(".viewMessageButton").on("click", function() {
-            let logId = $(this).attr('value');
-
-            jQuery.post("<?php echo $logServiceUrl?>", {logId: logId}, function(data) {
-
+            jQuery.post("<?php echo $notificationServiceUrl?>", {notificationId: notificationId}, function(data) {
                 let dataObj = jQuery.parseJSON(data);
-
-                $( '<div id="showLogMessage"><pre>' + dataObj.notification + '</pre></div>' ).dialog({
-                    title: 'Message for Notification "' + dataObj.subject + '"',
-                    resizable: false,
-                    height: "auto",
-                    width: 600,
-                    modal: false,
-                    buttons: {
-                        Close: function() {
-                            $( this ).dialog( "close" );
-                        }
-                    }
-                });
-            });
-
-            event.preventDefault();
-        });
-
-        $(".viewToButton").on("click", function() {
-            let logId = $(this).attr('value');
-
-            jQuery.post("<?php echo $logServiceUrl?>", {logId: logId}, function(data) {
-
-                let toDataString = "<table class=\"data-table\" style=\"margin-left: auto; margin-right: auto;\">\n";
-
-                let dataObj = jQuery.parseJSON(data);
-
-                let toData = [];
-                if (dataObj.to != '') {
-                    toData = dataObj.to.split(",");
-                }
-
-                toDataString += "<tr><th>username</th><th>e-mail</th><th>send status</th><th>send count</th></tr>\n";
-                for (let i = 0; i < toData.length; i++) {
-                    let [username, email, count, sendStatus] = toData[i].trim().split(" ", 4);
-
-                    if (sendStatus == null) {
-                        sendStatus = "";
-                    }
-                    else if (sendStatus == 1) {
-                        sendStatus = "success";
-                    }
-                    else if (sendStatus == 0) {
-                        sendStatus = "fail";
-                    }
-
-                    if (count == null) count = '';
-                    toDataString += "<tr>";
-                    toDataString += "<td>" + username + "</td>";
-                    toDataString += "<td>" + email + "</td>";
-                    toDataString += '<td>' + sendStatus + "</td>";
-                    toDataString += '<td style="text-align: right;">' + count + "</td>";
-                    toDataString += "</tr>\n";
-                }
-                toDataString += "</table>";
-
-                //$( '<div id="showLogTo" style="background-color: #E9F1F8;">' + toDataString + '</div>' ).dialog({
-                $( '<div id="showLogTo"">' + toDataString + '</div>' ).dialog({
-                    title: 'To Users for Notification "' + dataObj.subject + '"',
-                    resizable: false,
-                    height: "auto",
-                    width: 600,
-                    modal: false
-                    //buttons: {
-                        //Close: function() {
-                        //    $( this ).dialog( "close" );
-                        //}
-                    //}
-                });
-            });
-
-            event.preventDefault();
-        });
-
-        $(".viewSettingsButton").on("click", function() {
-            let logId = $(this).attr('value');
-
-            jQuery.post("<?php echo $logServiceUrl?>", {logId: logId}, function(data) {
-                let dataObj = jQuery.parseJSON(data);
-                let schedule = dataObj.schedule;
-                let userConditions = dataObj.userConditions;
-                let testRun = dataObj.testRun;
-                let cronTime = dataObj.cronTime;
+                let schedule = dataObj['schedule'];
 
                 let settings = '';
-
-                if (cronTime != null && cronTime != '') {
-                    settings += '<p><span style="font-weight: bold;">Cron Time:</span></p>' + "\n";
-                    settings += "<pre>" + cronTime + "</pre>\n";
-                }
 
                 settings += '<p><span style="font-weight: bold;">Schedule:</span></p>' + "\n";
                 settings += "<pre>" + schedule + "</pre>\n";
                
-                settings += '<p><span style="font-weight: bold;">User Conditions:</span></p>' + "\n";
-                settings += "<pre>" + userConditions + "</pre>\n";
-
-                if (testRun != null && testRun != '') {
-                    settings += '<p><span style="font-weight: bold;">Test Configuration:</span></p>' + "\n";
-                    settings += "<pre>" + testRun + "</pre>\n";
-                }
-
                 //alert("Settings: " + JSON.stringify(dataObj));
 
                 //$( '<div id="showLogTo" style="background-color: #E9F1F8;">' + toDataString + '</div>' ).dialog({
-                $( '<div id="showLogSettings"">' + settings + '</div>' ).dialog({
-                    title: 'Settings for Notification "' + dataObj.subject + '"',
-                    resizable: false,
+                $( '<div id="showSchedule"">' + settings + '</div>' ).dialog({
+                    title: 'Schedule for Notification wth ID ' + notificationId,
+                    resizable: true,
                     height: "auto",
                     maxHeight: 600,
-                    width: 720,
+                    width: 440,
                     modal: false
                     //buttons: {
                         //Close: function() {
