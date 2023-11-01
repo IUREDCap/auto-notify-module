@@ -29,6 +29,7 @@ SPDX-License-Identifier: BSD-3-Clause
       <file>tests/unit/RedCapDbTest.php</file>
       <file>tests/unit/RedCapInfoTest.php</file>
       <file>tests/unit/ScheduleTest.php</file>
+      <file>tests/unit/ScheduleFilterTest.php</file>
       <file>tests/unit/SettingsTest.php</file>
       <file>tests/unit/TestRunTest.php</file>
       <file>tests/unit/UserRightsTest.php</file>

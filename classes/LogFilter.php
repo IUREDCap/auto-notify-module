@@ -12,15 +12,19 @@ namespace IU\AutoNotifyModule;
  */
 class LogFilter
 {
+    public const SUBJECT_PATTERN = 'subjectPattern';
+
     public const START_DATE = 'startDate';
     public const END_DATE   = 'endDate';
 
+    private $subjectPattern;
     private $startDate;
     private $endDate;
 
 
     public function __construct()
     {
+        $this->subjectPattern = null;
         $this->startDate = date('m/d/Y');
         $this->endDate   = date('m/d/Y');
     }
@@ -28,6 +32,10 @@ class LogFilter
     public function set($properties)
     {
         if ($properties != null && is_array($properties)) {
+            if (array_key_exists(self::SUBJECT_PATTERN, $properties)) {
+                $this->subjectPattern = Filter::sanitizeString($properties[self::SUBJECT_PATTERN]);
+            }
+
             if (array_key_exists(self::START_DATE, $properties)) {
                 $this->startDate = Filter::sanitizeDate($properties[self::START_DATE]);
             }
@@ -57,6 +65,11 @@ class LogFilter
         if ($endTimestamp < $startTimestamp) {
             throw new \Exception("The end date is before the start date.");
         }
+    }
+
+    public function getSubjectPattern()
+    {
+        return $this->subjectPattern;
     }
 
     public function getStartDate()

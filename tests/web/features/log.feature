@@ -15,7 +15,6 @@ Feature: Log
   Scenario: Create new Query
     When I follow "Notifications"
     And I follow "Log"
-    And I press "Display"
     And I wait for 2 seconds
     Then I should see table headers "Time", "Log ID", "NID", "Subject", "From", "To", "Message", "Settings"
     But I should not see "Error:"

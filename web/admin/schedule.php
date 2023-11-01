@@ -112,7 +112,7 @@ $module->renderAdminNotificationSubTabs($selfUrl);
 
 <h5>Notification Schedule</h5>
 
-<form action="<?php echo $selfUrl;?>" name="testForm" method="post" style="margin-bottom: 17px;">
+<form action="<?php echo $selfUrl;?>" id="scheduleForm" method="post" style="margin-bottom: 17px;">
 
     <fieldset class="config">
 
@@ -131,11 +131,13 @@ $module->renderAdminNotificationSubTabs($selfUrl);
             Display mode: 
             <input type="radio" name="<?php echo ScheduleFilter::DISPLAY_MODE; ?>"
                                 value="<?php echo ScheduleFilter::LIST_DISPLAY_MODE; ?>"
+                                class="scheduleFilterInput"
                                 <?php echo $listChecked; ?>>
             list
 
             <input type="radio" name="<?php echo ScheduleFilter::DISPLAY_MODE; ?>"
                                 value="<?php echo ScheduleFilter::CALENDAR_DISPLAY_MODE; ?>"
+                                class="scheduleFilterInput"
                                 <?php echo $calendarChecked; ?>>
             calendar
         </div>
@@ -145,7 +147,7 @@ $module->renderAdminNotificationSubTabs($selfUrl);
         <div style="margin-bottom: 14px;">
             <?php
             echo "Scheduled Notification(s):\n";
-            echo '<select name="' . ScheduleFilter::NOTIFICATION_ID . '">' . "\n";
+            echo '<select class="scheduleFilterInput" name="' . ScheduleFilter::NOTIFICATION_ID . '">' . "\n";
 
             if ($scheduleFilter->getNotificationId() == 0) {
                 echo '<option value="0" selected>ALL</options>' . "\n";
@@ -172,15 +174,20 @@ $module->renderAdminNotificationSubTabs($selfUrl);
         Start date:
         <input id="startDate" name="<?php echo ScheduleFilter::START_DATE; ?>"
                value="<?php echo Filter::escapeForHtml($startDate); ?>"
+               class="scheduleFilterInput"
                type="text" size="10" style="text-align: right; margin-right: 1em;"/>
 
         End date:
         <input id="endDate" name="<?php echo ScheduleFilter::END_DATE; ?>"
                value="<?php echo Filter::escapeForHtml($endDate); ?>"
+               class="scheduleFilterInput"
                type="text" size="10" style="text-align: right; margin-right: 1em;"/>
 
+        <input type="hidden" name="submitValue" id="Display" value="Display"/>
+        <!--
         <input type="submit" name="submitValue" id="Display" value="Display"
                style="padding-left: 2em; padding-right: 2em; font-weight: bold;"/>
+-->
     </fieldset>
 
     <input type="hidden" name="redcap_csrf_token" value="<?php echo $module->getCsrfToken(); ?>"/>
@@ -308,6 +315,10 @@ if ($scheduleFilter->getDisplayMode() != ScheduleFilter::CALENDAR_DISPLAY_MODE) 
 
         $( "#startDate" ).datepicker({ minDate: 0 }).datepicker();
         $( "#endDate" ).datepicker({ minDate: 0 }).datepicker();
+
+        $(".scheduleFilterInput").on("change", function() {
+            $("#scheduleForm").submit();
+        });
 
         $(".viewScheduleButton").on("click", function() {
             let notificationId = $(this).attr('value');

@@ -85,8 +85,8 @@ custom queries for generating sets of users for notifications.
             <ul>
                 <li>creating and editing notifications</li>
                 <li>listing saved notifications</li>
-                <li>listing past notification sends</li>
-                <li>listing scheduled notification sends</li>
+                <li>listing past notification sends (log)</li>
+                <li>listing scheduled notification sends (schedule)</li>
             </ul>
         </td>
     </tr>

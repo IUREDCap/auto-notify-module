@@ -85,28 +85,43 @@ $module->renderAdminNotificationSubTabs($selfUrl);
 
 <h5>Log</h5>
 
-<form action="<?php echo $selfUrl;?>" name="testForm" method="post" style="margin-bottom: 17px;">
+<form action="<?php echo $selfUrl;?>" id="logForm" method="post" style="margin-bottom: 17px;">
 
     <fieldset class="config">
+
+        <div style="margin-bottom: 12px;">
+            Subject contains: 
+            <input type="text" id="subjectPattern"
+                class="logFilterInputText"
+                name="<?php echo LogFilter::SUBJECT_PATTERN; ?>"
+                value="<?php echo $logFilter->getSubjectPattern(); ?>"/>
+        </div>
+
         Start date: 
-            <input id="startDate" name="<?php echo LogFilter::START_DATE; ?>"
-               value="<?php echo Filter::escapeForHtml($logFilter->getStartDate()); ?>"
-               type="text" size="10" style="text-align: right; margin-right: 1em;"/>
+        <input id="startDate" name="<?php echo LogFilter::START_DATE; ?>"
+            class="logFilterInput"
+            value="<?php echo Filter::escapeForHtml($logFilter->getStartDate()); ?>"
+            type="text" size="10" style="text-align: right; margin-right: 1em;"/>
 
         End date:
         <input id="endDate" name="<?php echo LogFilter::END_DATE; ?>"
-               value="<?php echo Filter::escapeForHtml($logFilter->getEndDate()); ?>"
-               type="text" size="10" style="text-align: right; margin-right: 1em;"/>
+            class="logFilterInput"
+            value="<?php echo Filter::escapeForHtml($logFilter->getEndDate()); ?>"
+            type="text" size="10" style="text-align: right; margin-right: 1em;"/>
 
+        <input type="hidden" name="submitValue" value="Display" />
+
+        <!--
         <input type="submit" name="submitValue" id="Display" value="Display"
                style="padding-left: 2em; padding-right: 2em; font-weight: bold;"/>
+        -->
     </fieldset>
 
     <input type="hidden" name="redcap_csrf_token" value="<?php echo $module->getCsrfToken(); ?>"/>
 </form>
 
 
-<table class="data-table">
+<table id="logTable" class="data-table">
     <thead>
         <tr>
             <th>Time</th> <th>Log ID</th> <th title="Notification ID">NID</th>
@@ -114,9 +129,14 @@ $module->renderAdminNotificationSubTabs($selfUrl);
             <th>Settings</th>
         </tr>
         <?php
+        //$logData =
+        //    $log->getData($logFilter->getStartDate(), $logFilter->getEndDate(), $logFilter->getSubjectPattern());
         $logData = $log->getData($logFilter->getStartDate(), $logFilter->getEndDate());
+
         foreach ($logData as $key => $entry) {
-            echo "<tr>\n";
+            # Hide all rows initially; they will be selectively displayed by JavaScript code after page load
+            echo "<tr style=\"display: none;\">\n";
+
             echo "<td>{$entry['timestamp']}</td>\n";
             echo "<td style=\"text-align: right;\">{$entry['log_id']}</td>\n";
             echo "<td style=\"text-align: right;\">{$entry['notificationId']}</td>\n";
@@ -155,7 +175,7 @@ $module->renderAdminNotificationSubTabs($selfUrl);
             . "</td>\n";
              */
 
-            echo "<tr>\n";
+            echo "</tr>\n";
         }
         ?>
     </thead>
@@ -187,8 +207,46 @@ $module->renderAdminNotificationSubTabs($selfUrl);
 
     $(document).ready(function() {
 
+        filterLogTable();
+            
         $( "#startDate" ).datepicker();
         $( "#endDate" ).datepicker();
+
+        $(".logFilterInput").on("change", function() {
+            $("#logForm").submit();
+        });
+
+        $(".logFilterInputText").on("input", function() {
+            filterLogTable();
+        });
+
+        function filterLogTable() {
+            let subjectPattern = $("#subjectPattern").val();
+            // alert('change: ' + subjectPattern);
+
+            let table = $("#logTable");
+            let trs = $("tr", table);
+            // alert("trs.length: " + trs.length);
+
+            for (let i = 1; i < trs.length; i++) {
+                let tr = trs[i];
+                let tds = $("td", tr);
+                let subject = $(tds[3]).text().trim();
+                if (subject.indexOf(subjectPattern) >= 0) {
+                    tr.style.display = '';
+                }
+                else {
+                    tr.style.display = 'none';
+                }
+                // alert("SUBJECT: " + subject);
+
+            }
+        }
+
+        //$(".logFilterInputText").on("change", function() {
+        //   alert('change');
+        //   return false;
+        //);
 
         $(".viewMessageButton").on("click", function() {
             let logId = $(this).attr('value');

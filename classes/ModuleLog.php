@@ -26,7 +26,7 @@ class ModuleLog
      * Gets the specified log data from the external module logging tables.
      *
      */
-    public function getData($startDate = null, $endDate = null)
+    public function getData($startDate = null, $endDate = null, $subjectPattern = null)
     {
         $query = "select log_id, timestamp, ui_id, project_id, message, notificationId,"
             . " `from`, `to`, notification, userConditions, schedule, subject, testRun, cronTime";
@@ -57,6 +57,15 @@ class ModuleLog
             $query .= " timestamp < '" . Filter::escapeForMysql($endTime) . "'";
         }
 
+        #if (!empty($subjectPattern)) {
+        #    if (!empty($startDate) || !empty($endDate)) {
+        #        $query .= ' and';
+        #    } else {
+        #        $query .= ' where';
+        #    }
+        #    $query .= " subject like '%{$subjectPattern}%'";
+        #}
+
         $query .= ' order by timestamp desc';
 
         #print "<pre>\n";
@@ -64,6 +73,7 @@ class ModuleLog
         #print "</pre>\n";
 
         $logData = $this->module->queryLogs($query, $queryParameters);
+
         return $logData;
     }
 }

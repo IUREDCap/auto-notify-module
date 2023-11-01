@@ -9,41 +9,41 @@ namespace IU\AutoNotifyModule;
 
 use PHPUnit\Framework\TestCase;
 
-class LogFilterTest extends TestCase
+class ScheduleFilterTest extends TestCase
 {
     public function testCreate()
     {
-        $logFilter = new LogFilter();
-        $this->assertNotNull($logFilter, 'Object creation test');
+        $scheduleFilter = new ScheduleFilter();
+        $this->assertNotNull($scheduleFilter, 'Object creation test');
 
         $exceptionCaught = false;
         try {
-            $logFilter->validate();
+            $scheduleFilter->validate();
         } catch (\Exception $exception) {
             $exceptionCaught = true;
         }
         $this->assertFalse($exceptionCaught, 'Default log valid test');
     }
 
-    public function testInvalidLogFilter()
+    public function testInvalidScheduleFilter()
     {
-        $logFilter = new LogFilter();
+        $scheduleFilter = new ScheduleFilter();
 
         # Null start date
-        $logFilter->set([LogFilter::START_DATE => null, LogFilter::END_DATE => null]);
+        $scheduleFilter->set([ScheduleFilter::START_DATE => null, ScheduleFilter::END_DATE => null]);
         $exceptionCaught = false;
         try {
-            $logFilter->validate();
+            $scheduleFilter->validate();
         } catch (\Exception $exception) {
             $exceptionCaught = true;
         }
         $this->assertTrue($exceptionCaught, 'Null start date test');
 
         # Null end date
-        $logFilter->set([LogFilter::START_DATE => '01/02/2023', LogFilter::END_DATE => null]);
+        $scheduleFilter->set([ScheduleFilter::START_DATE => '01/02/2023', ScheduleFilter::END_DATE => null]);
         $exceptionCaught = false;
         try {
-            $logFilter->validate();
+            $scheduleFilter->validate();
         } catch (\Exception $exception) {
             $exceptionCaught = true;
         }
@@ -51,10 +51,10 @@ class LogFilterTest extends TestCase
         $this->assertStringContainsString('end date', $exception->getMessage(), 'End date message test');
 
         # End date before start date
-        $logFilter->set([LogFilter::START_DATE => '01/02/2023', LogFilter::END_DATE => '01/01/2023']);
+        $scheduleFilter->set([ScheduleFilter::START_DATE => '01/02/2023', ScheduleFilter::END_DATE => '01/01/2023']);
         $exceptionCaught = false;
         try {
-            $logFilter->validate();
+            $scheduleFilter->validate();
         } catch (\Exception $exception) {
             $exceptionCaught = true;
         }
