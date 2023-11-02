@@ -94,7 +94,7 @@ $module->renderAdminNotificationSubTabs($selfUrl);
             <input type="text" id="subjectPattern"
                 class="logFilterInputText"
                 name="<?php echo LogFilter::SUBJECT_PATTERN; ?>"
-                value="<?php echo $logFilter->getSubjectPattern(); ?>"/>
+                value="<?php echo Filter::escapeForHtml($logFilter->getSubjectPattern()); ?>"/>
         </div>
 
         Start date: 
