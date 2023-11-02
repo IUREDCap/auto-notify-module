@@ -94,7 +94,7 @@ custom queries for generating sets of users for notifications.
     <tr>
         <td><i class="fas fa-bars"></i> Queries</td>
         <td>
-        Page for creating queries of REDCap user information and project metadata. The queries
+        Page for creating queries of REDCap user data and project metadata. The queries
         can be used to specify the recipients of notifications.
         </td>
     </tr>
