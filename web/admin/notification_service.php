@@ -24,6 +24,7 @@ if (array_key_exists('notificationId', $_POST)) {
 
     $notification = $module->getNotification($notificationId);
 
+    $notificationData['subject']  = $notification->getSubject();
     $notificationData['schedule'] = $notification->getSchedule()->toString();
 
     $notificationData = json_encode($notificationData, JSON_PRETTY_PRINT);

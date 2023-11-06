@@ -326,6 +326,7 @@ if ($scheduleFilter->getDisplayMode() != ScheduleFilter::CALENDAR_DISPLAY_MODE) 
             jQuery.post("<?php echo $notificationServiceUrl?>", {notificationId: notificationId}, function(data) {
                 let dataObj = jQuery.parseJSON(data);
                 let schedule = dataObj['schedule'];
+                let subject  = dataObj['subject'];
 
                 let settings = '';
 
@@ -336,7 +337,7 @@ if ($scheduleFilter->getDisplayMode() != ScheduleFilter::CALENDAR_DISPLAY_MODE) 
 
                 //$( '<div id="showLogTo" style="background-color: #E9F1F8;">' + toDataString + '</div>' ).dialog({
                 $( '<div id="showSchedule"">' + settings + '</div>' ).dialog({
-                    title: 'Schedule for Notification wth ID ' + notificationId,
+                    title: 'Settings for Notification "' + subject + '" [ID = ' + notificationId + ']',
                     resizable: true,
                     height: "auto",
                     maxHeight: 600,
