@@ -25,8 +25,11 @@ class LogFilter
     public function __construct()
     {
         $this->subjectPattern = null;
-        $this->startDate = date('m/d/Y');
-        $this->endDate   = date('m/d/Y');
+
+        $now = time();
+        $oneMonthAgo = strtotime('-1 month', $now);
+        $this->startDate = date('m/d/Y', $oneMonthAgo);
+        $this->endDate   = date('m/d/Y', $now);
     }
 
     public function set($properties)
