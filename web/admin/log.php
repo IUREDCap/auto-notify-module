@@ -83,7 +83,7 @@ $module->renderAdminNotificationSubTabs($selfUrl);
 
 ?>
 
-<h5>Notification Log</h5>
+<h5>Log <span style="margin-left: 6px; font-size: 90%;">(past notifications)</span></h5>
 
 <form action="<?php echo $selfUrl;?>" id="logForm" method="post" style="margin-bottom: 17px;">
 

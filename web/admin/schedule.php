@@ -110,7 +110,7 @@ $module->renderAdminNotificationSubTabs($selfUrl);
 
 ?>
 
-<h5>Notification Schedule</h5>
+<h5>Schedule <span style="margin-left: 6px; font-size: 90%;">(future notifications)<span></h5>
 
 <form action="<?php echo $selfUrl;?>" id="scheduleForm" method="post" style="margin-bottom: 17px;">
 
