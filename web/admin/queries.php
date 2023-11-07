@@ -122,7 +122,7 @@ if (array_key_exists('submitValue', $_POST)) {
 
         echo "<tr>\n";
         echo '<td style="text-align: right;">' . $id . "</td>\n";
-        echo '<td>' . $query->getName() . "</td>\n";
+        echo '<td>' . '<a href="' . $editUrl . '">' . $query->getName() . '</a>' . "</td>\n";
         # echo '<td style="text-align: left;"><pre>' . $query->getConditions() . "</pre></td>\n";
         echo '<td style="text-align: center;">'
             . '<button class="conditionsButton" value="' . $id . '" style="border: 0; background-color: white;">'
