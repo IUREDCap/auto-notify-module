@@ -57,14 +57,11 @@ This module is similar to the E-mail Users functionality
 built in to REDCap, but has the following additional features:
 <ul>
 <li> Scheduling of notifications to be sent at a future time and recurringly.</li>
-<li> Selection of different sets of users as recipients (e.g., users of a specific external module).</li>
+<li> Selection of different sets of users as recipients (e.g., users of a specific external module).
+Users can be specified using forms or a query builder that allows complex conditions to be specified.
+</li>
 <li> Use of variables in notification messages, e.g., [last_name] for the user's last name.</li>
 </ul>
-</p>
-
-<p>
-This module provides a query builder that can be used to construct
-custom queries for generating sets of users for notifications.
 </p>
 
 <table class="data-table">
@@ -85,8 +82,8 @@ custom queries for generating sets of users for notifications.
             <ul>
                 <li>creating and editing notifications</li>
                 <li>listing saved notifications</li>
-                <li>listing past notification sends (log)</li>
-                <li>listing scheduled notification sends (schedule)</li>
+                <li>listing notifications that have been sent in the past (log)</li>
+                <li>listing notification that are scheduled to be sent in the future (schedule)</li>
             </ul>
         </td>
     </tr>
