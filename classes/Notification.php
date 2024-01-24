@@ -484,6 +484,24 @@ class Notification
         $notification->id = null;  // ID will get set the first time the notification is stored
         $notification->status = self::STATUS_DRAFT;
 
+        #--------------------------------------------------------------------------
+        # Reset the start date in the draft copy to today if it is before today
+        #--------------------------------------------------------------------------
+        $startDate = $notification->getSchedule()->getStartDate();
+        if (empty($startDate)) {
+            $startDate = date('m/d/Y');
+        } else {
+            $startTime = strtotime($startDate);
+            $todaysDate = date('m/d/Y');
+            $todaysTime = strtotime($todaysDate);
+
+            if ($startTime < $todaysTime) {
+                $startTime = $todaysTime;
+                $startDate = date('m/d/Y', $startTime);
+                $notification->getSchedule()->setStartDate($startDate);
+            }
+        }
+
         return $notification;
     }
 

@@ -567,6 +567,11 @@ class Schedule
         return $this->startDate;
     }
 
+    public function setStartDate($startDate)
+    {
+        return $this->startDate = $startDate;
+    }
+
     public function getStartTimestamp()
     {
         $startTimestamp = strtotime($this->startDate . ' 00:00');
