@@ -155,6 +155,7 @@ class Notification
                         $table .= '<td style="margin: 1px 4px 1px 4px;">';
                         $cppDestinationProjectIds = $userRights->getCppDestinationProjectIds();
                         sort($cppDestinationProjectIds, SORT_NUMERIC);
+
                         foreach ($cppDestinationProjectIds as $cppDestinationProjectId) {
                             $projectName = '';
                             if (array_key_exists($cppDestinationProjectId, $secondaryProjectInfoMap)) {
@@ -162,6 +163,19 @@ class Notification
                                 $projectName = $secondaryProjectInfo->getName();
                             }
                             $table .= "{$projectName} [Project ID = {$cppDestinationProjectId}]<br/>";
+                        }
+                    } elseif ($column === 'cdos_source_project_id') {
+                        $table .= '<td style="margin: 1px 4px 1px 4px;">';
+                        $cdosSourceProjectIds = $userRights->getCdosSourceProjectIds();
+                        sort($cdosSourceProjectIds, SORT_NUMERIC);
+
+                        foreach ($cdosSourceProjectIds as $cdosSourceProjectId) {
+                            $projectName = '';
+                            if (array_key_exists($cdosSourceProjectId, $secondaryProjectInfoMap)) {
+                                $secondaryProjectInfo = $secondaryProjectInfoMap[$cdosSourceProjectId];
+                                $projectName = $secondaryProjectInfo->getName();
+                            }
+                            $table .= "{$projectName} [Project ID = {$cdosSourceProjectId}]<br/>";
                         }
                     } elseif ($column === 'directory_prefix') {
                         $emIds = $userRights->getExternalModuleIds();

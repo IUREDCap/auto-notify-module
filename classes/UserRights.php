@@ -21,11 +21,13 @@ class UserRights
 
     private $externalModuleIds;
     private $cppDestinationProjectIds;  // cross-project piping destination projects IDs
+    private $cdosSourceProjectIds;  // Copy Data on Save external module source projects IDs
 
     public function __construct()
     {
         $this->externalModuleIds = array();
         $this->cppDestinationProjectIds = array();
+        $this->cdosSourceProjectIds = array();
     }
 
     public function addExternalModuleId($id)
@@ -39,6 +41,13 @@ class UserRights
     {
         if (!in_array($id, $this->cppDestinationProjectIds)) {
             $this->cppDestinationProjectIds[] = $id;
+        }
+    }
+
+    public function addCdosSourceProjectId($id)
+    {
+        if (!in_array($id, $this->cdosSourceProjectIds)) {
+            $this->cdosSourceProjectIds[] = $id;
         }
     }
 
@@ -133,5 +142,15 @@ class UserRights
     public function setCppDestinationProjectIds($cppDestinationProjectIds)
     {
         $this->cppDestinationProjectIds = $cppDestinationProjectIds;
+    }
+
+    public function getCdosSourceProjectIds()
+    {
+        return $this->cdosSourceProjectIds;
+    }
+
+    public function setCdosSourceProjectIds($cdosSourceProjectIds)
+    {
+        $this->cdosSourceProjectIds = $cdosSourceProjectIds;
     }
 }

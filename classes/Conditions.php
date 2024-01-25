@@ -418,6 +418,13 @@ class Conditions
             $query .= "\n";
         }
 
+        if ($this->hasVariable('cdos_source_project_id')) {
+            $query .= ",\n" . '        cdos.cdos_source_project_id';
+            $query .= ",\n" . '        cdos.cdos_source_project_name' . "\n";
+        } else {
+            $query .= "\n";
+        }
+
         $query .=
             '    FROM redcap_user_information info' . "\n"
             . '        LEFT JOIN redcap_user_rights rights ON info.username = rights.username' . "\n"
@@ -445,6 +452,27 @@ class Conditions
                 . "                    AND em_settings.`key`= 'project-id'\n"
                 . "                    AND (em_settings2.key = 'enabled' and em_settings2.value = 'true')) AS cpp\n"
                 . "            ON instr(cpp.cpp_source_project_ids, CONCAT('\"', projects.project_id, '\"'))\n"
+                ;
+        }
+
+        if ($this->hasVariable('cdos_source_project_id')) {
+            $query .=
+                "        LEFT JOIN (\n"
+                . "            SELECT em_settings.project_id as cdos_source_project_id,\n"
+                . "                    em_settings.value as cdos_dest_project_ids,\n"
+                . "                    cdos_source_projects.app_title as cdos_source_project_name\n"
+                . "                FROM redcap_external_modules ems,\n"
+                . "                        redcap_external_module_settings em_settings,\n"
+                . "                        redcap_external_module_settings em_settings2,\n"
+                . "                        redcap_projects cdos_source_projects\n"
+                . "                WHERE ems.directory_prefix = 'copy_data_on_save'\n"
+                . "                    AND em_settings.project_id = cdos_source_projects.project_id\n"
+                . "                    AND ems.external_module_id = em_settings.external_module_id\n"
+                . "                    AND em_settings.external_module_id = em_settings2.external_module_id\n"
+                . "                    AND em_settings.`key`= 'dest-project'\n"
+                . "                    AND (em_settings2.key = 'enabled' and em_settings2.value = 'true')\n"
+                . "      ) AS cdos\n"
+                . "      ON instr(cdos_dest_project_ids, CONCAT('\"', projects.project_id, '\"'))\n"
                 ;
         }
 

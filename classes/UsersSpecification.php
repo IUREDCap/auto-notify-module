@@ -29,10 +29,14 @@ class UsersSpecification
     public const EXT_MOD_OPT_ANY        = "extModOptAny";
     public const EXT_MOD_OPT_ANY_OF     = "extModOptAnyOf";
     public const EXT_MOD_OPT_CPP_SOURCE = "extModOptCrossProjectPipingSource";
+
+    public const EXT_MOD_OPT_CDOS_DESTINATION = "extModOptCopyDataOnSaveDestination";
+
     public const EXT_MOD_OPTIONS        = [
         self::EXT_MOD_OPT_ANY,
         self::EXT_MOD_OPT_ANY_OF,
-        self::EXT_MOD_OPT_CPP_SOURCE
+        self::EXT_MOD_OPT_CPP_SOURCE,
+        self::EXT_MOD_OPT_CDOS_DESTINATION
     ];
 
     public const EXTERNAL_MODULES       = 'externalModules';
@@ -188,6 +192,8 @@ class UsersSpecification
             } elseif ($this->externalModuleOptions === self::EXT_MOD_OPT_ANY_OF) {
             } elseif ($this->externalModuleOptions === self::EXT_MOD_OPT_CPP_SOURCE) {
                 $value .= 'Users with a source project of the Cross-Project Piping external module';
+            } elseif ($this->externalModuleOptions === self::EXT_MOD_OPT_CDOS_DESTINATION) {
+                $value .= 'Users with a destination project of the Copy Data on Save external module';
             }
         }
     }
@@ -242,9 +248,12 @@ class UsersSpecification
             $extModOptConditions = new Conditions();
 
             if ($externalModuleOption === UsersSpecification::EXT_MOD_OPT_CPP_SOURCE) {
-                # Cross-project piping
+                # Cross-Project Piping
                 $query->setProjectTableColumns(['project_id', 'app_title', 'cpp_destination_project_id']);
                 $extModOptConditions->set('cpp_destination_project_id', 'is not', 'null');
+            } elseif ($externalModuleOption === UsersSpecification::EXT_MOD_OPT_CDOS_DESTINATION) {
+                # Copy Data on Save
+                // FINISH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             } elseif ($externalModuleOption === UsersSpecification::EXT_MOD_OPT_ANY) {
                 # Users of any external module
                 $query->setProjectTableColumns(['project_id', 'app_title', 'directory_prefix']);
