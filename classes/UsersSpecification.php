@@ -253,7 +253,8 @@ class UsersSpecification
                 $extModOptConditions->set('cpp_destination_project_id', 'is not', 'null');
             } elseif ($externalModuleOption === UsersSpecification::EXT_MOD_OPT_CDOS_DESTINATION) {
                 # Copy Data on Save
-                // FINISH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                $query->setProjectTableColumns(['project_id', 'app_title', 'cdos_source_project_id']);
+                $extModOptConditions->set('cdos_source_project_id', 'is not', 'null');
             } elseif ($externalModuleOption === UsersSpecification::EXT_MOD_OPT_ANY) {
                 # Users of any external module
                 $query->setProjectTableColumns(['project_id', 'app_title', 'directory_prefix']);

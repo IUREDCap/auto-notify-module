@@ -285,6 +285,23 @@ if ($id == null) {
                     </tbody>
                 </table>
 
+                <!-- Copy Data on Save Destination Projects -->
+                <hr/>
+                <p>
+                <?php
+                $checked = '';
+                if ($selectedOption === UsersSpecification::EXT_MOD_OPT_CDOS_DESTINATION) {
+                    $checked = ' checked';
+                }
+                ?>
+                <input type="radio"
+                       name="<?php echo UsersSpecification::EXTERNAL_MODULE_OPTION; ?>"
+                       value="<?php echo UsersSpecification::EXT_MOD_OPT_CDOS_DESTINATION; ?>"
+                       <?php echo $checked; ?>
+                />
+                Copy Data on Save external module destination projects
+                </p>
+
                 <!-- Cross-Project Piping Source Projects -->
                 <hr/>
                 <p>
@@ -301,6 +318,7 @@ if ($id == null) {
                 />
                 Cross-Project Piping external module source projects
                 </p>
+
             </fieldset>
 
             <p>

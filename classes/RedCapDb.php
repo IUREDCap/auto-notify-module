@@ -185,6 +185,21 @@ class RedCapDb
                     }
                 }
 
+                # Copy Data on Save
+                if (array_key_exists('cdos_source_project_id', $row)) {
+                    $cdosSourceProjectId = $row['cdos_source_project_id'];
+                    if (!empty($cdosSourceProjectId)) {
+                        $userRights->addCdosSourceProjectId($cdosSourceProjectId);
+
+                        $projectName = $row['cdos_source_project_name'];
+                        $secondaryProjectInfo = new ProjectInfo();
+                        $secondaryProjectInfo->setId($cdosSourceProjectId);
+                        $secondaryProjectInfo->setName($projectName);
+                        $queryResults->addOrUpdateSecondaryProjectInfo($secondaryProjectInfo);
+                    }
+                }
+
+                # Cross-Project Piping
                 if (array_key_exists('cpp_destination_project_id', $row)) {
                     $cppDestinationProjectId = $row['cpp_destination_project_id'];
                     if (!empty($cppDestinationProjectId)) {
