@@ -36,7 +36,9 @@ class Conditions
         'redcap_external_module_settings' => 'em_settings',
         'redcap_external_modules'         => 'ems',
 
-        'cpp' => 'cpp' // Cross-project piping pseudo table (generated from query)
+        'cdos' => 'cdos', // Copy Data on Save external module pseudo table (generated from query)
+
+        'cpp' => 'cpp' // Cross-Project Piping external module pseudo table (generated from query)
     ];
 
     /**
@@ -516,7 +518,9 @@ class Conditions
             'redcap_external_module_settings' => 'em_settings',
             'redcap_external_modules'         => 'ems',
 
-            'cpp' => 'cpp' // Cross-project piping pseudo table (generated from query)
+            'cdos' => 'cdos', // Copy Data on Save eternal module pseudo table (generated from query)
+
+            'cpp' => 'cpp' // Cross-Project Piping external module pseudo table (generated from query)
         ];
 
         $string = '';
