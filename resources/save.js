@@ -15,24 +15,3 @@ AutoNotifyModule.initializeMessageEditor = function () {
     alert('TEST");
 }
 
-        /*
-    tinymce.init({
-        selector: '#message',
-        branding: false,
-        statusbar: true
-        menu: {
-            custom: { title: 'Insert Variable', items: 'User' }
-        },
-        setup: function(editor) {
-            editor.ui.registry.addMenuItem('basicitem', {
-                text: 'first name',
-                onAction: function() {
-                    alert('Menu item clicked');
-                }
-            });
-        }
-    });
-}
-        */
-
-
