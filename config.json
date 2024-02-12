@@ -1,7 +1,7 @@
 {
    "name": "Auto-Notify Module",
    "namespace": "IU\\AutoNotifyModule", 
-   "description": "The Auto-Notify Module is a REDCap external module that enables admins to send e-mail notifications to users. Auto-Notify supports features that are not provided by REDCap's \"Email Users\" page, including: automated sending of e-mails (e-mails can be scheduled to be sent recurringly), message variables (e.g., [last_name] for the recipient's last name), and custom recipient lists that can be specified with built-in forms or an included query builder. The query builder can also be used as a graphical user interface for querying user data and project metadata in the REDCap database.",
+   "description": "The Auto-Notify Module is a REDCap external module that enables admins to send e-mail notifications to users. Auto-Notify supports features that are (or were) not provided by REDCap's \"Email Users\" page, including: automated sending of e-mails (e-mails can be scheduled to be sent recurringly), message variables (e.g., [last_name] for the recipient's last name), and custom recipient lists that can be specified with built-in forms or an included query builder. The query builder can also be used as a graphical user interface for querying user data and project metadata in the REDCap database.",
    "framework-version": 12,
    "authors": [
        {

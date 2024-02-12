@@ -8,15 +8,18 @@ Auto-Notify Module
 
 The Auto-Notify Module is a REDCap external module that enables admins to send e-mail notifications to users.
 
-This module is similar to the E-mail Users functionality
-built in to REDCap but has the following additional features:
+Auto-Notify is similar to the E-mail Users functionality
+built into REDCap, but it was developed to provide the following additional features:
 
 * **Scheduling.** Notifications can be scheduled to be sent at a future time or recurringly.
 * **Flexible Specification of Recipients.** Notification recipients can be specified using built-in forms or custom queries
     created using a query builder.
 * **Message Variables.** Notification messages can contain variables, e.g., [last_name] for the recipient's last name.
 
-The interface for this external module is accessed through the Control Center in
+Since Auto-Notify was originally developed, message variables (called "dynamic variables") have been added
+to REDCap's Email Users page, and it is possible that more of the above features will be added in the future.
+
+The interface for the Auto-Notify external module is accessed through the Control Center in
 REDCap. After the module has been installed, there should be a link to
 it on the left-hand side of the page in the External Modules section in the Control Center.
 There is no project-based interface for this external module.
