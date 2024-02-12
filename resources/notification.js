@@ -13,6 +13,7 @@ AutoNotifyModule.initializeMessageEditor = function() {
     tinymce.init({
         selector: '#message',
         branding: false,
+        promotion: false,
         statusbar: true,
         table_default_attributes: {
             border: '1'
