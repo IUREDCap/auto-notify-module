@@ -65,6 +65,11 @@ class Notification
         $this->userCountMap = array();
     }
 
+    public function __clone()
+    {
+        $this->usersSpecification = clone $this->usersSpecification;
+        $this->schedule           = clone $this->schedule;
+    }
 
     public function migrate()
     {
@@ -497,6 +502,7 @@ class Notification
         $notification = clone($this);
         $notification->id = null;  // ID will get set the first time the notification is stored
         $notification->status = self::STATUS_DRAFT;
+        $notification->userCountMap = array();   // reset user-count map
 
         #--------------------------------------------------------------------------
         # Reset the start date in the draft copy to today if it is before today
