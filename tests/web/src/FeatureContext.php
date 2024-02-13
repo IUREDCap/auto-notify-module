@@ -29,6 +29,8 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
 
     private $previousWindowName;
 
+    private $session;
+
     /**
      * Initializes context.
      *
@@ -50,11 +52,6 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
         $filePath = $feature->getFile();
         $fileName = pathinfo($filePath, PATHINFO_FILENAME);
         self::$featureFileName = $fileName;
-
-        $session = Util::getSession();
-        // Util::logInAsAdminAndAccessAutoNotify($session);
-
-        // Util::logout($session);
     }
 
     /** @AfterFeature */
@@ -90,10 +87,12 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
     public function afterScenario($event)
     {
         $session = $this->getSession();
-        $session->reset();
+        $session->restart();
 
-        $scenario = $event->getScenario();
-        $tags = $scenario->getTags();
+        // $session->reset();  # Tests run much slower using reset (contrary to the documentation)
+
+        // $scenario = $event->getScenario();
+        // $tags = $scenario->getTags();
     }
 
 
