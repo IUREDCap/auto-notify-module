@@ -8,15 +8,17 @@ if (typeof AutoNotifyModule === 'undefined') {
 }
 
 AutoNotifyModule.copyNotification = function (event) {
-    var notification = event.data.notification;
-    $("#notification-to-copy").text('"'+notification+'"');
-    $('#copy-from-notification-name').val(notification);
-    $("#copy-form").data('notification', notification).dialog("open");
+    var notificationId = event.data.notificationId;
+    var notificationSubject = event.data.notificationSubject;
+    $("#notification-to-copy").text(notificationId);
+    $("#copy-subject").val(notificationSubject);
+    $('#copy-notification-id').val(notificationId);
+    $("#copy-form").data('notificationId', notificationId).dialog("open");
 }
     
 AutoNotifyModule.deleteNotification = function (event) {
     var notificationId = event.data.notificationId;
-    $("#notification-to-delete").text('"' + notificationId + '"');
+    $("#notification-to-delete").text(notificationId);
     $('#delete-notification-id').val(notificationId);
     $("#delete-form").data('notificationId', notificationId).dialog("open");
 }

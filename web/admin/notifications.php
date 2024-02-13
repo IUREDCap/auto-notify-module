@@ -34,7 +34,13 @@ if (array_key_exists('deleteNotificationId', $_POST)) {
 
 if (array_key_exists('copyNotificationId', $_POST)) {
     $copyNotificationId = Filter::sanitizeInt($_POST['copyNotificationId']);
-    $module->copyNotificationById($copyNotificationId);
+
+    $copyNotificationSubject = null;
+    if (array_key_exists('copyNotificationSubject', $_POST)) {
+        $copyNotificationSubject = Filter::sanitizeString($_POST['copyNotificationSubject']);
+    }
+
+    $module->copyNotificationById($copyNotificationId, $copyNotificationSubject);
     $success = 'Notification with ID ' . $copyNotificationId . ' copied.';
 }
 
@@ -69,7 +75,6 @@ Auto-Notify
 
 $module->renderAdminPageContentHeader($notificationUrl, $error, $warning, $success);
 $module->renderAdminNotificationSubTabs($selfUrl);
-
 
 $users = null;
 
@@ -164,13 +169,13 @@ if (array_key_exists('submitValue', $_POST)) {
 
         # Copy
         echo '<td style="text-align:center;">'
-            . "<form action=\"{$selfUrl}\" method=\"post\">\n"
-            . '<input type="hidden" name="copyNotificationId" value="' . $id . '"/>'
+            //. "<form action=\"{$selfUrl}\" method=\"post\">\n"
+            //. '<input type="hidden" name="copyNotificationId" value="' . $id . '"/>'
             . '<input type="image" src="' . APP_PATH_IMAGES . 'page_copy.png" alt="COPY" '
             . ' id="copyNotification' . $id . '"'
             . ' style="cursor: pointer;"/>'
-            . '<input type="hidden" name="redcap_csrf_token" value="' . $module->getCsrfToken() . '"/>'
-            . "</form>\n"
+            //. '<input type="hidden" name="redcap_csrf_token" value="' . $module->getCsrfToken() . '"/>'
+            //. "</form>\n"
             . "</td>\n";
 
         # Delete
@@ -187,6 +192,25 @@ if (array_key_exists('submitValue', $_POST)) {
 
 <?php
 #--------------------------------------
+# Copy notification dialog
+#--------------------------------------
+?>
+<div id="copy-dialog"
+    title="Notification Copy"
+    style="display: none;"
+    >
+    <form id="copy-form" action="<?php echo $selfUrl;?>" method="post">
+    To copy the notification with ID <span id="notification-to-copy" style="font-weight: bold;"></span>,
+    click on the <span style="font-weight: bold;">Copy notification</span> button.
+    <br/>
+    Subject: <input type="text" size="32" name="copyNotificationSubject" id="copy-subject" value="">
+    <input type="hidden" name="copyNotificationId" id="copy-notification-id" value="">
+    <?php # Csrf::generateFormToken(); ?>
+    </form>
+</div>
+
+<?php
+#--------------------------------------
 # Delete notification dialog
 #--------------------------------------
 ?>
@@ -195,7 +219,7 @@ if (array_key_exists('submitValue', $_POST)) {
     style="display: none;"
     >
     <form id="delete-form" action="<?php echo $selfUrl;?>" method="post">
-    To delete the notification <span id="notification-to-delete" style="font-weight: bold;"></span>,
+    To delete the notification with ID <span id="notification-to-delete" style="font-weight: bold;"></span>,
     click on the <span style="font-weight: bold;">Delete notification</span> button.
     <input type="hidden" name="deleteNotificationId" id="delete-notification-id" value="">
     <?php # Csrf::generateFormToken(); ?>
@@ -213,10 +237,15 @@ echo "    // Event handler script\n";
 
 foreach ($notifications->getNotifications() as $notification) {
     $id = $notification->getId();
+    $subject = $notification->getSubject();
 
     echo '$("#deleteNotification' . $id . '").click({notificationId: "'
         . $id
         . '"}, AutoNotifyModule.deleteNotification);' . "\n";
+
+    echo '$("#copyNotification' . $id . '").click({notificationId: "'
+        . $id . '"' . ', notificationSubject: "' . $subject . '"'
+        . '}, AutoNotifyModule.copyNotification);' . "\n";
 }
 
 echo "</script>\n";

@@ -462,6 +462,11 @@ class Notification
         return $this->subject;
     }
 
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+    }
+
 
     /**
      * Sets the notification to the values in the specified properties array.

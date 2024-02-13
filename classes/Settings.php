@@ -251,7 +251,7 @@ class Settings
     }
 
 
-    public function copyNotificationById($notificationId)
+    public function copyNotificationById($notificationId, $newSubject = null)
     {
         $commit = true;
         $notifications = new Notifications();
@@ -265,6 +265,9 @@ class Settings
 
             if ($notification != null) {
                 $copy = $notification->getDraftCopy();
+                if (isset($newSubject)) {
+                    $copy->setSubject($newSubject);
+                }
                 $notifications->addOrUpdate($copy);
             }
 

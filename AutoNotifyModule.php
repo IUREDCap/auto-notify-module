@@ -455,9 +455,9 @@ class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
         $this->getSettings()->addOrUpdateNotification($notification);
     }
 
-    public function copyNotificationById($notificationId)
+    public function copyNotificationById($notificationId, $newSubject = null)
     {
-        $this->getSettings()->copyNotificationById($notificationId);
+        $this->getSettings()->copyNotificationById($notificationId, $newSubject);
     }
 
     public function deleteNotificationById($notificationId)
