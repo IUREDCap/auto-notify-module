@@ -33,6 +33,8 @@ class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
     public const USERS_PAGE         = 'web/admin/users.php';
     public const USER_PROJECTS_PAGE = 'web/admin/user_projects.php';
     public const PROJECTS_PAGE      = 'web/admin/projects.php';
+    public const SEND_COUNTS_PAGE   = 'web/admin/send_counts.php';
+
     public const TEST_PAGE          = 'web/admin/test.php';
     public const CALENDAR_PAGE      = 'web/admin/calendar.php';
     public const LOG_PAGE           = 'web/admin/log.php';

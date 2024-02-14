@@ -288,12 +288,16 @@ class Notification
             # [, string $cc [, string $bcc [, string $fromName [, array $attachments ]]]] )
             if (!$this->schedule->getTimesPerUserCheck() || $userCount < $timesPerUser) {
                 if (!isset($testRun) || $testRun->getSendEmails()) {
+                    # Send e-mail
                     $sendStatus = \REDCap::email($to, $from, $subject, $message);
                 }
 
+                # Update the user (send) count map
                 if (!isset($testRun) || $testRun->getUpdateUserNotificationCounts()) {
-                    $this->userCountMap[$username]++;
+                    // $this->userCountMap[$username]++;
                     $userCount = $this->userCountMap[$username];
+                    $userCount++;
+                    $this->userCountMap[$username] = $userCount;
                 }
 
                 if ($toCount > 1) {
@@ -538,5 +542,10 @@ class Notification
     public function getUsersSpecification()
     {
         return $this->usersSpecification;
+    }
+
+    public function getUserCountMap()
+    {
+        return $this->userCountMap;
     }
 }

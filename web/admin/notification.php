@@ -36,18 +36,24 @@ try {
     $usersUrl     = $module->getUrl(AutoNotifyModule::USERS_PAGE);
     $projectsUrl  = $module->getUrl(AutoNotifyModule::PROJECTS_PAGE);
 
+    $sendCountsUrl = $module->getUrl(AutoNotifyModule::SEND_COUNTS_PAGE);
+
 
     $username = USERID;
 
-    $notification = new Notification();
-
     $notificationId = null;
+    $notification = null;
+
     if (array_key_exists('notificationId', $_GET)) {
         $notificationId = Filter::sanitizeInt($_GET['notificationId']);
         $notification = $module->getNotification($notificationId);
-        if ($notification == null) {
-            $notification = new Notification();
-        }
+    } elseif (array_key_exists(Notification::NOTIFICATION_ID, $_POST)) {
+        $notificationId = Filter::sanitizeInt($_POST[Notification::NOTIFICATION_ID]);
+        $notification = $module->getNotification($notificationId);
+    }
+
+    if ($notification == null) {
+        $notification = new Notification();
     }
 
     $adminConfig = $module->getAdminConfig();
@@ -303,7 +309,6 @@ if ($id == null) {
                 </p>
 
                 <!-- Cross-Project Piping Source Projects -->
-                <hr/>
                 <p>
                 <?php
                 $checked = '';
@@ -441,6 +446,12 @@ if ($id == null) {
 
             <button id="viewProjectsButton" name="viewProjectsButton"><i class="fa fa-list-alt">
                 </i> View Projects
+            </button>
+
+            &nbsp;&nbsp;
+
+            <button id="viewSendCountsButton" name="viewSendCountsButton"><i class="fa fa-envelopes-bulk">
+                </i> View Send Counts
             </button>
         </div>
 
@@ -888,75 +899,99 @@ if ($id == null) {
             event.preventDefault();
         });
 
-    });
 
-    //------------------------------------------------------------
-    // View Users
-    //------------------------------------------------------------
-    $("#viewUsersButton").click(function(event) {
+        //------------------------------------------------------------
+        // View Users
+        //------------------------------------------------------------
+        $("#viewUsersButton").click(function(event) {
 
-        let jsonConditions = '';
+            let jsonConditions = '';
 
-        // Get the JSON conditions for the users query
-        // from the "to users" form values
-        $.ajax({
-            type: 'POST',
-            url: "<?php echo $toJsonConditionsServiceUrl; ?>",
-            data: $("#mailForm").serialize(),
-            success: function(data) {
-                jsonConditions = data;
-            },
-            async:false
+            // Get the JSON conditions for the users query
+            // from the "to users" form values
+            $.ajax({
+                type: 'POST',
+                url: "<?php echo $toJsonConditionsServiceUrl; ?>",
+                data: $("#mailForm").serialize(),
+                success: function(data) {
+                    jsonConditions = data;
+                },
+                async:false
+            });
+
+            let usersWindow = window.open('about:blank', '_blank');
+
+            // Need to post tableJsonConditions,
+            // and tableQueryName if possible
+            jQuery.post(
+                "<?php echo $usersUrl?>",
+                {tableJsonConditions: jsonConditions},
+                function(data) {
+                    usersWindow.document.write(data);
+                    usersWindow.document.close();
+                }
+            );
+
+            event.preventDefault();
         });
 
-        let usersWindow = window.open('about:blank', '_blank');
+        //------------------------------------------------------------
+        // View Projects
+        //------------------------------------------------------------
+        $("#viewProjectsButton").click(function(event) {
 
-        // Need to post tableJsonConditions,
-        // and tableQueryName if possible
-        jQuery.post(
-            "<?php echo $usersUrl?>",
-            {tableJsonConditions: jsonConditions},
-            function(data) {
-                usersWindow.document.write(data);
-                usersWindow.document.close();
-            }
-        );
+            let jsonConditions = '';
 
-        event.preventDefault();
-    });
+            // Get the JSON conditions for the users query
+            // from the "to users" form values
+            $.ajax({
+                type: 'POST',
+                url: "<?php echo $toJsonConditionsServiceUrl; ?>",
+                data: $("#mailForm").serialize(),
+                success: function(data) {
+                    jsonConditions = data;
+                },
+                async:false
+            });
 
-    //------------------------------------------------------------
-    // View Projects
-    //------------------------------------------------------------
-    $("#viewProjectsButton").click(function(event) {
+            let projectsWindow = window.open('about:blank', '_blank');
 
-        let jsonConditions = '';
+            jQuery.post(
+                "<?php echo $projectsUrl?>",
+                {viewProjectsJsonConditions: jsonConditions},
+                function(data) {
+                    projectsWindow.document.write(data);
+                    projectsWindow.document.close();
+                }
+            );
 
-        // Get the JSON conditions for the users query
-        // from the "to users" form values
-        $.ajax({
-            type: 'POST',
-            url: "<?php echo $toJsonConditionsServiceUrl; ?>",
-            data: $("#mailForm").serialize(),
-            success: function(data) {
-                jsonConditions = data;
-            },
-            async:false
+            event.preventDefault();
         });
 
-        let projectsWindow = window.open('about:blank', '_blank');
+        //------------------------------------------------------------
+        // View Send Counts
+        //------------------------------------------------------------
+        $("#viewSendCountsButton").click(function(event) {
 
-        jQuery.post(
-            "<?php echo $projectsUrl?>",
-            {viewProjectsJsonConditions: jsonConditions},
-            function(data) {
-                projectsWindow.document.write(data);
-                projectsWindow.document.close();
-            }
-        );
+            let sendCountsWindow = window.open('about:blank', '_blank');
+            let notificationId = <?php echo "'{$notificationId}'"; ?>;
 
-        event.preventDefault();
+            // Need to post tableJsonConditions,
+            // and tableQueryName if possible
+            jQuery.post(
+                "<?php echo $sendCountsUrl?>",
+                {notificationId: notificationId},
+                function(data) {
+                    sendCountsWindow.document.write(data);
+                    sendCountsWindow.document.close();
+                }
+            );
+
+            event.preventDefault();
+        });
+
     });
+
 </script>
 
 <!-- NOTIFICATION HELP DIALOG -->
