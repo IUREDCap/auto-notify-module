@@ -54,7 +54,7 @@ The Auto-Notify external module allows admins to send e-mail notifications to us
 </p>
 <p>
 This module is similar to the E-mail Users functionality
-built in to REDCap, but has the following additional features:
+built into REDCap, but has the following additional features that are (or were) not provided by E-mail Users:
 <ul>
 <li> Scheduling of notifications to be sent at a future time and recurringly.</li>
 <li> Selection of different sets of users as recipients (e.g., users of a specific external module).
