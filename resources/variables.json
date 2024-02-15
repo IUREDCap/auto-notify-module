@@ -188,13 +188,6 @@
         ]
     },
     {
-        "name": "cdos_source_project_id",
-        "table": "cdos",
-        "label": "Copy Data on Save Source Project",
-        "operators": ["is not", "is"],
-        "valueType": "null"
-    },
-    {
         "name": "cpp_destination_project_id",
         "table": "cpp",
         "label": "Cross-Project Piping Destination Project",

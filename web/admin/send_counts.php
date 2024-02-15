@@ -117,7 +117,9 @@ $module->renderAdminMessageHeader($error, $warning, $success);
 <div style="font-weight: bold; font-size: 120%; text-align: center;">
 <?php if (empty($error) && !empty($notification)) { ?>
     <?php
-    echo 'Send Counts for Notification "' . $notification->getSubject() . '" (ID = ' . $notification->getId() . ")\n";
+    echo '<h4>Send Counts for Notification "'
+        . $notification->getSubject() . '" (ID = ' . $notification->getId()
+        . ")</h4>\n";
     ?>
     </div>
     <div id="resultsDisplay" style="margin-top: 17px; padding: 5px; border: 1px solid #777777;">
@@ -199,7 +201,13 @@ $module->renderAdminMessageHeader($error, $warning, $success);
             });
             </script>
     </div>
-<?php } ?>
+<?php
+} else {
+    echo "<h4>Send Counts for Notification</h4>\n";
+    echo "<p>This notification has not been sent.</p>\n";
+}
+?>
+
 
 
 <!-- START OF FOOTER -->
