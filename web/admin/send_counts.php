@@ -201,7 +201,8 @@ $module->renderAdminMessageHeader($error, $warning, $success);
             });
             </script>
     </div>
-<?php
+
+    <?php
 } else {
     echo "<h4>Send Counts for Notification</h4>\n";
     echo "<p>This notification has not been sent.</p>\n";
