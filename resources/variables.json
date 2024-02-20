@@ -5,7 +5,7 @@
         "label": "Username",
         "operators": ["=", "<>", "like", "not like"],
         "valueType": "inputText",
-        "help": "Selects users with the specified username. The '%' character can be used as a wildcard character with the 'like' operator."
+        "help": "Selects users with the specified username. The '%' character can be used as a wildcard character with the 'like' operator. For example, 'Username like %test%' will select all users that have 'test' somewhere in their username."
     },
     {
         "name": "user_email",
@@ -13,7 +13,7 @@
         "label": "User E-mail",
         "operators": ["=", "<>", "like", "not like"],
         "valueType": "inputText",
-        "help": "Selects users with the specified e-mail. The '%' character can be used as a wildcard character with the 'like' operator, for example, 'User E-mail like %.edu'"
+        "help": "Selects users with the specified e-mail address. The '%' character can be used as a wildcard character with the 'like' operator. For example, 'User E-mail like %.edu' will select users whose primary e-mail address ends with '.edu'."
     },
     {
         "name": "user_lastlogin",
@@ -61,7 +61,7 @@
             [1, "true"],
             [0, "false"]
         ],
-        "help": "Selects users who have a project where the user has 'Users Rights' privilege."
+        "help": "Used for selecting users who have a project where the user has 'Users Rights' privilege."
     },
     {
         "name": "design",
@@ -213,7 +213,7 @@
         "label": "Copy Data on Save Source Project",
         "operators": ["is not", "is"],
         "valueType": "null",
-        "help": "Selects users who have a project that has a 'Copy Data on Save' source project, i.e., with a project that may have data copied to it by a project that has the 'Copy Data on Save' external module enabled."
+        "help": "When set to 'is not NULL', selects users who have a project that has a 'Copy Data on Save' source project, i.e., users with a project that may have data copied to it by another project that has the 'Copy Data on Save' external module enabled."
     },
     {
         "name": "cpp_destination_project_id",
@@ -221,6 +221,6 @@
         "label": "Cross-Project Piping Destination Project",
         "operators": ["is not", "is"],
         "valueType": "null",
-        "help": ""
+        "help": "When set to 'is not NULL', selects users who have a project that has a 'Cross-Project Piping' external module destination project, i.e., users with a project that may have its data piped to another project that has the 'Cross-Project Piping' external module enabled."
     }
 ]

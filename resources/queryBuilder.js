@@ -289,7 +289,7 @@ AutoNotifyModule.getCondition = function(variable = null, operator = null, value
 
     html += 
         '<button style="float: right;" class="anmDeleteOp"><i class="fa fa-remove" style="color: red;"></i></button>'
-        + '<button style="float: right; margin-right: 12px;" class="anmVariableHelp">'
+        + '<button style="float: right; margin-right: 17px;" class="anmVariableHelp">'
         + '<i class="fa fa-question-circle" style="color: blue;"></i>'
         + '</button>'
         + '<span style="clear; both;"></span>'
