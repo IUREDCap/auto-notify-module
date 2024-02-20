@@ -102,6 +102,12 @@ class Variable implements \JsonSerializable
                 $variable->selectValues = $object->selectValues;
             }
 
+            if (property_exists($object, "help")) {
+                $variable->help = $object->help;
+            } else {
+                $variable->help = '';
+            }
+
             $variables[$variable->name] = $variable;
         }
 

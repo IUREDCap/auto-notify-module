@@ -4,14 +4,16 @@
         "table": "redcap_user_information",
         "label": "Username",
         "operators": ["=", "<>", "like", "not like"],
-        "valueType": "inputText"
+        "valueType": "inputText",
+        "help": "Selects users with the specified username. The '%' character can be used as a wildcard character with the 'like' operator."
     },
     {
         "name": "user_email",
         "table": "redcap_user_information",
         "label": "User E-mail",
         "operators": ["=", "<>", "like", "not like"],
-        "valueType": "inputText"
+        "valueType": "inputText",
+        "help": "Selects users with the specified e-mail. The '%' character can be used as a wildcard character with the 'like' operator, for example, 'User E-mail like %.edu'"
     },
     {
         "name": "user_lastlogin",
@@ -19,7 +21,8 @@
         "label": "User Last Login",
         "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
         "operatorClass": "anmTimeOpsSelect",
-        "valueType": "dateTimeNull"
+        "valueType": "dateTimeNull",
+        "help": "Selects users with last logins that meet the specified date condition, for example, 'User Last Login age <= 6 months' will select all users who have logged in within the last 6 months."
     },
     {
         "name": "user_suspended_time",
@@ -27,7 +30,8 @@
         "label": "User Suspended Time",
         "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
         "operatorClass": "anmTimeOpsSelect",
-        "valueType": "dateTimeNull"
+        "valueType": "dateTimeNull",
+        "help": "Selects users with user suspended times that meet the specified date condition. For example, 'User Suspended Time is not NULL' will select all users who have not been suspended, and 'User Suspended Time is NULL' will select all users who have been suspended. 'User Suspended Time age > 1 year' selects all users who were suspended over a year ago."
     },
     {
         "name": "user_expiration",
@@ -35,7 +39,8 @@
         "label": "User Expiration",
         "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
         "operatorClass": "anmTimeOpsSelect",
-        "valueType": "dateTimeNull"
+        "valueType": "dateTimeNull",
+        "help": "Selects users who have 'User Expiration' times that meet the specified condition."
     },
     {
         "name": "expiration",
@@ -43,7 +48,8 @@
         "label": "Project User Expiration Date",
         "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
         "operatorClass": "anmTimeOpsSelect",
-        "valueType": "dateTimeNull"
+        "valueType": "dateTimeNull",
+        "help": "Selects users who have a project that meets the specified 'Project User Expiration Data' condition."
     },
     {
         "name": "user_rights",
@@ -54,7 +60,8 @@
         "selectValues":  [
             [1, "true"],
             [0, "false"]
-        ]
+        ],
+        "help": "Selects users who have a project where the user has 'Users Rights' privilege."
     },
     {
         "name": "design",
@@ -65,14 +72,16 @@
         "selectValues":  [
             [1, "true"],
             [0, "false"]
-        ]
+        ],
+        "help": "Used for selecting users who have a project where the user has 'Project Design and Setup' privilege."
     },
     {
         "name": "api_token",
         "table": "redcap_user_rights",
         "label": "User Project API Token",
         "operators": ["is", "is not"],
-        "valueType": "null"
+        "valueType": "null",
+        "help": "When set to 'is not NULL', selects users who have a project where the user has an API token."
     },
     {
         "name": "api_export",
@@ -83,7 +92,8 @@
         "selectValues":  [
             [1, "true"],
             [0, "false"]
-        ]
+        ],
+        "help": "When set to 'true', selects users who have a project where the user has 'API Export' privilege."
     },
     {
         "name": "api_import",
@@ -94,7 +104,8 @@
         "selectValues":  [
             [1, "true"],
             [0, "false"]
-        ]
+        ],
+        "help": "When set to 'true', selects users who have a project where the user has 'API Import' privilege."
     },
     {
         "name": "mobile_app",
@@ -105,21 +116,24 @@
         "selectValues":  [
             [1, "true"],
             [0, "false"]
-        ]
+        ],
+        "help": "When set to 'true', selects users who have a project where the user has 'Mobile App' privilege."
     },
     {
         "name": "project_id",
         "table": "redcap_projects",
         "label": "Project ID",
         "operators": ["=", "<", "<=", ">", ">=", "<>"],
-        "valueType": "inputText"
+        "valueType": "inputText",
+        "help": "Selects users who have a project where the ID of the project meets the specified value. For example, 'Project ID > 1000' would select all users who have a project with an ID that is greater than 1000."
     },
     {
         "name": "app_title",
         "table": "redcap_projects",
         "label": "Project Title",
         "operators": ["=", "<>", "like", "not like"],
-        "valueType": "inputText"
+        "valueType": "inputText",
+        "help": "Selects all users who have a project with a title that matches the specified value. The '%' character can be used as a wildcard character with the like operator. For example, 'Project Title like '%Test%' would select all users with a project that has 'Test' somewhere in the project's title."
     },
     {
         "name": "status",
@@ -131,7 +145,8 @@
             [0, "Development"],
             [1, "Production"],
             [2, "Analysis/Cleanup or Complete"]
-        ]
+        ],
+        "help": "Selects users who have a project with the specified status. To differentiate between projects that are 'Analysis/Cleanup' vs. 'Complete', use 'Project Completed Time' (which will be NULL for 'Analysis/Cleanup' projects)."
     },
     {
         "name": "purpose",
@@ -146,7 +161,8 @@
             [3, "Quality Improvement"],
             [1, "Other"],
             ["null", "NULL"]
-        ]
+        ],
+        "help": "Selects users who have a project with the specified purpose."
     },
     {
         "name": "repeatforms",
@@ -157,7 +173,8 @@
         "selectValues":  [
             [1, "true"],
             [0, "false"]
-        ]
+        ],
+        "help": "When set to true, selects users who have a longitudinal project."
     },
     {
         "name": "surveys_enabled",
@@ -168,7 +185,8 @@
         "selectValues":  [
             [1, "true"],
             [0, "false"]
-        ]
+        ],
+        "help": "When set to true, selects users who have a project where surveys have been enabled."
     },
     {
         "name": "completed_time",
@@ -176,7 +194,8 @@
         "label": "Project Completed Time",
         "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
         "operatorClass": "anmTimeOpsSelect",
-        "valueType": "dateTimeNull"
+        "valueType": "dateTimeNull",
+        "help": "Selects users with a 'Project Completed Time' that matches the specified condition. Projects that do have not a completed status, will have a NULL 'Project Completed Time'."
     },
     {
         "name": "directory_prefix",
@@ -185,13 +204,23 @@
         "operators": ["=", "<>"],
         "valueType": "select",
         "selectValues":  [
-        ]
+        ],
+        "help": "Selects users who have a project with the specified external module. Specifying this to be not equal to blank will select users that have a project with any external module."
+    },
+    {
+        "name": "cdos_source_project_id",
+        "table": "cdos",
+        "label": "Copy Data on Save Source Project",
+        "operators": ["is not", "is"],
+        "valueType": "null",
+        "help": "Selects users who have a project that has a 'Copy Data on Save' source project, i.e., with a project that may have data copied to it by a project that has the 'Copy Data on Save' external module enabled."
     },
     {
         "name": "cpp_destination_project_id",
         "table": "cpp",
         "label": "Cross-Project Piping Destination Project",
         "operators": ["is not", "is"],
-        "valueType": "null"
+        "valueType": "null",
+        "help": ""
     }
 ]

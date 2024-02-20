@@ -56,18 +56,15 @@ $link = '<link href="' . $cssFile . '" rel="stylesheet" type="text/css" media="a
     . "\n"
     . '<link href="' . $buttonsCssFile . '" rel="stylesheet" type="text/css" media="all">'
     ;
-#$jsInclude = '<script type="text/javascript" src="' . ($module->getUrl('resources/builder.js')) . '"></script>';
 $jsInclude =
     '<script type="text/javascript" src="' . ($module->getUrl('resources/dataTables.buttons.min.js')) . '"></script>'
     . "\n"
     . '<script type="text/javascript" src="' . ($module->getUrl('resources/buttons.html5.min.js')) . '"></script>'
+    . "\n"
     . '<script type="text/javascript" src="' . ($module->getUrl('resources/buttons.colVis.min.js')) . '"></script>'
-#    . "\n"
-#    . '<script type="text/javascript" src="' . ($module->getUrl('resources/queryBuilder.js')) . '"></script>'
-#    . "\n"
-#    . '<script type="text/javascript" src="' . ($module->getUrl('resources/projectTableColumns.js')) . '"></script>'
+    . "\n"
 ;
-$buffer = str_replace('</head>', "    {$link}\n{$jsInclude}\n</head>", $buffer);
+$buffer = str_replace('</head>', "    {$link}\n{$jsInclude}\n</head>\n", $buffer);
 
 echo $buffer;
 

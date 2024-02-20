@@ -101,7 +101,6 @@ $link = '<link href="' . $cssFile . '" rel="stylesheet" type="text/css" media="a
     . "\n"
     . '<link href="' . $buttonsCssFile . '" rel="stylesheet" type="text/css" media="all">'
     ;
-#$jsInclude = '<script type="text/javascript" src="' . ($module->getUrl('resources/builder.js')) . '"></script>';
 $jsInclude =
     '<script type="text/javascript" src="' . ($module->getUrl('resources/dataTables.buttons.min.js')) . '"></script>'
     . "\n"
@@ -161,7 +160,7 @@ $module->renderAdminQuerySubTabs($selfUrl);
     </p>
 
     <p>Query Conditions:</p>
-    <div id="queryBuilder" style="border: 1px solid black; border-radius: 10px; padding: 10px;">
+    <div id="queryBuilder" style="border: 1px solid black; border-radius: 10px; padding: 10px; font-size: 90%;">
     </div>
 
     <!--

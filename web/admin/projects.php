@@ -56,7 +56,6 @@ $link = '<link href="' . $cssFile . '" rel="stylesheet" type="text/css" media="a
     . "\n"
     . '<link href="' . $buttonsCssFile . '" rel="stylesheet" type="text/css" media="all">'
     ;
-#$jsInclude = '<script type="text/javascript" src="' . ($module->getUrl('resources/builder.js')) . '"></script>';
 $jsInclude =
     '<script type="text/javascript" src="' . ($module->getUrl('resources/dataTables.buttons.min.js')) . '"></script>'
     . "\n"

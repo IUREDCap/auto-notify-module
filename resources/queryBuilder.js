@@ -7,6 +7,7 @@ if (typeof AutoNotifyModule === 'undefined') {
     var AutoNotifyModule = {};
 }
 
+// Data for variables used in query conditions, e.g., username.
 AutoNotifyModule.variableData = [];
 
 AutoNotifyModule.createQueryBuilder = function(containerDiv, variablesJson, queryJson = null) {
@@ -179,6 +180,22 @@ AutoNotifyModule.getLogicalOp = function(operator = 'ALL', addDelete = true) {
     return html;
 }
 
+
+AutoNotifyModule.getVariableData = function(variableName) {
+    let varData = null;
+
+    for (var i = 0; i < this.variableData.length; i++) {
+        var data = this.variableData[i];
+        if (variableName === data.name) {
+            varData = data;
+            break;
+        }
+    }
+
+    return varData;
+}
+
+
 AutoNotifyModule.getCondition = function(variable = null, operator = null, value = null) {
     var variableIndex = 0;  // index of specified variable (0 by default)
 
@@ -270,7 +287,11 @@ AutoNotifyModule.getCondition = function(variable = null, operator = null, value
         }
     }
 
-    html += '<button style="float: right;" class="anmDeleteOp"><i class="fa fa-remove" style="color: red;"></i></button>'
+    html += 
+        '<button style="float: right;" class="anmDeleteOp"><i class="fa fa-remove" style="color: red;"></i></button>'
+        + '<button style="float: right; margin-right: 12px;" class="anmVariableHelp">'
+        + '<i class="fa fa-question-circle" style="color: blue;"></i>'
+        + '</button>'
         + '<span style="clear; both;"></span>'
 
     return html;
@@ -377,6 +398,34 @@ $(document).ready(function(){
     $("*").on("click", "button.anmDeleteOp", function() {
         var li = $(this).closest("li");
         li.remove();
+        return false;
+    });
+
+    // VARIABLE HELP
+    $("*").on("click", "button.anmVariableHelp", function() {
+        var li = $(this).parent();  // Get the containing li element
+        var varSelect = li.find('select:first');
+        var variableName = varSelect.val();
+        var variableLabel = varSelect.find('option:selected').text();
+
+        var varData = AutoNotifyModule.getVariableData(variableName);
+
+        let helpDialog = $(document.createElement('div'));
+        helpDialog.html(varData.help);
+        helpDialog.dialog({
+            width: 620,
+            modal: false,
+            buttons: {
+                Close: function() {$(this).dialog("close");},
+            },
+            title: 'Help for "' + variableLabel + '" condition variable'
+        });
+
+        //let queryId = '';
+        //$("#variable-help-form").data('queryId', queryId).dialog("open");
+        // variableHelpForm.dialog();
+        // var li = $(this).closest("li");
+        // li.remove();
         return false;
     });
 
