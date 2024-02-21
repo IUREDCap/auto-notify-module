@@ -418,8 +418,14 @@ $(document).ready(function(){
             buttons: {
                 Close: function() {$(this).dialog("close");},
             },
-            title: 'Help for "' + variableLabel + '" condition variable'
-        });
+            title: 'Help for "' + variableLabel + '" condition variable',
+            position: {
+                my: "left top",
+                at: "left bottom+7",
+                of: li
+            }
+        })
+        ;
 
         //let queryId = '';
         //$("#variable-help-form").data('queryId', queryId).dialog("open");

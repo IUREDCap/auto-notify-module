@@ -40,7 +40,7 @@
         "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
         "operatorClass": "anmTimeOpsSelect",
         "valueType": "dateTimeNull",
-        "help": "Selects users who have 'User Expiration' times that meet the specified condition."
+        "help": "Selects users who have 'User Expiration' times that meet the specified condition. The 'User Expiration' is an optional value that indicates when a REDCap user account should expire. When the user account expires, 'User Suspended Time' will be set to the time the account was suspended (which may be slightly after the expiration time) and 'User Expiration' will be set to NULL."
     },
     {
         "name": "expiration",
@@ -49,7 +49,7 @@
         "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
         "operatorClass": "anmTimeOpsSelect",
         "valueType": "dateTimeNull",
-        "help": "Selects users who have a project that meets the specified 'Project User Expiration Data' condition."
+        "help": "Selects users who have at least one project that meets the specified 'Project User Expiration Date' condition. To eliminate projects where the user's access has expired, you need to group the following 2 conditions with an 'ANY' operator: 'Project User Expiration Date is not NULL', 'Project Expiration Date age < 0 seconds'."
     },
     {
         "name": "user_rights",
@@ -61,7 +61,7 @@
             [1, "true"],
             [0, "false"]
         ],
-        "help": "Used for selecting users who have a project where the user has 'Users Rights' privilege."
+        "help": "Selects users who have at least one project that meets the specified 'User Rights Privilege' condition."
     },
     {
         "name": "design",
@@ -73,7 +73,7 @@
             [1, "true"],
             [0, "false"]
         ],
-        "help": "Used for selecting users who have a project where the user has 'Project Design and Setup' privilege."
+        "help": "Used users who have at least one project that meets the specified 'Project Design and Setup Privilege' condition."
     },
     {
         "name": "api_token",
@@ -125,7 +125,7 @@
         "label": "Project ID",
         "operators": ["=", "<", "<=", ">", ">=", "<>"],
         "valueType": "inputText",
-        "help": "Selects users who have a project where the ID of the project meets the specified value. For example, 'Project ID > 1000' would select all users who have a project with an ID that is greater than 1000."
+        "help": "Selects users who have a project where the ID of the project meets the specified condition. For example, 'Project ID > 1000' would select all users who have a project with an ID that is greater than 1000."
     },
     {
         "name": "app_title",
@@ -133,7 +133,7 @@
         "label": "Project Title",
         "operators": ["=", "<>", "like", "not like"],
         "valueType": "inputText",
-        "help": "Selects all users who have a project with a title that matches the specified value. The '%' character can be used as a wildcard character with the like operator. For example, 'Project Title like '%Test%' would select all users with a project that has 'Test' somewhere in the project's title."
+        "help": "Selects users who have a project with a title that matches the specified value. The '%' character can be used as a wildcard character with the like operator. For example, 'Project Title like '%Test%' would select all users with a project that has 'Test' somewhere in the project's title."
     },
     {
         "name": "status",
@@ -174,7 +174,7 @@
             [1, "true"],
             [0, "false"]
         ],
-        "help": "When set to true, selects users who have a longitudinal project."
+        "help": "When set to true, selects users who have a longitudinal project. When set to false, selects users who have a non-longitudinal (classic) project."
     },
     {
         "name": "surveys_enabled",
