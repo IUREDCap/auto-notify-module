@@ -301,9 +301,9 @@ if ($id == null) {
                 }
                 ?>
                 <input type="radio"
-                       name="<?php # echo UsersSpecification::EXTERNAL_MODULE_OPTION; ?>"
-                       value="<?php # echo UsersSpecification::EXT_MOD_OPT_CDOS_DESTINATION; ?>"
-                       <?php # echo $checked; ?>
+                       name="<?php echo UsersSpecification::EXTERNAL_MODULE_OPTION; ?>"
+                       value="<?php echo UsersSpecification::EXT_MOD_OPT_CDOS_DESTINATION; ?>"
+                       <?php echo $checked; ?>
                 />
                 Copy Data on Save external module destination projects
                 </p>
