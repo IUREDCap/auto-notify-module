@@ -11,7 +11,7 @@ Directory Structure
 
 * __classes/__ - PHP classes other than the main module class
 * config.json - module configuration file
-* __dev/__ - development dependencies (if these have been installed)
+* __dev/__ - development dependencies (if these have been installed; not committed to Git)
 * __docs/__ - documents
 * README.md - module description and usage requirements
 * AutoNotifyModule.php - main module class
@@ -19,15 +19,26 @@ Directory Structure
 * __tests/__ - test files
     * __unit/__ - unit tests
     * __web/__ - web tests (that access a running instance of the module)
-* __vendor/__ - production dependencies
+* __vendor/__ - production dependencies (committed to Git)
 * __web/__ - user web pages
     * __admin/__ - admin web pages
 
 Updating Dependencies
 --------------------------
-To avoid requiring Composer to be run when the module is installed, the non-development dependencies
-are copied to the __dependencies/__ directory, and this directory is committed to Git.
-To update the contents of this directory, the following commands
+
+Dependencies are stored in the __dev/__ directory by Composer, and they are not committed to Git.
+To avoid requiring Composer to be run when the module is installed, the non-development dependencies:
+
+    * are copied to the __vendor/__ directory
+    * the __vendor/__ directory is committed to Git.
+    * the software uses the __vendor/__ directory as its source for dependencies
+
+The dependencies that are committed to Git need to be stored in the __vendor/__ directory
+so that they will be ignored by Vanderbilt's external module security scanner. If they
+are stored in a directory with a different name, then the Vanderbilt scanner will scan them
+and may generate errors for 3rd-party dependencies that cannot be modified.
+
+To update the contents of __vendor/__ directory, the following commands
 can be used from the top-level directory:
 
     composer update
@@ -40,6 +51,17 @@ can be used from the top-level directory:
 To check for out of date dependencies, use:
 
     composer outdated --direct
+
+__Automated Web Tests Dependencies__
+
+There are also separate dependencies (not committed to Git) that are used for the automated web tests.
+The configuration file for these dependencies is:
+
+    tests/web/composer.json
+
+And the dependencies are stored in the following directory:
+
+    tests/web/vendor
 
 
 Coding Standards Compliance
