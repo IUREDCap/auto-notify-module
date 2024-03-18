@@ -31,6 +31,7 @@ class Query
     private $name;
     private $description;
     private $conditions;
+    private $columns;
     private $projectTableColumns;
 
     public function __construct()

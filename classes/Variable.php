@@ -24,6 +24,7 @@ class Variable implements \JsonSerializable
     private $operatorClass;
     private $valueType;
     private $selectValues;
+    private $help;
 
     public function __construct()
     {
@@ -37,7 +38,7 @@ class Variable implements \JsonSerializable
         $this->selectValues  = array();
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return get_object_vars($this);
     }

@@ -70,8 +70,10 @@ class Filter
      */
     public static function sanitizeLabel($value)
     {
+        $filteredValue = strip_tags($value);
         $flags = FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_STRIP_BACKTICK;
-        return filter_var($value, FILTER_SANITIZE_STRING, $flags);
+        $filteredValue = filter_var($filteredValue, FILTER_UNSAFE_RAW, $flags);
+        return $filteredValue;
     }
 
     /**
@@ -79,7 +81,9 @@ class Filter
      */
     public static function sanitizeButtonLabel($value)
     {
-        $value = preg_replace('/([^a-zA-Z0-9_\- .])/', '', $value);
+        if ($value !== null) {
+            $value = preg_replace('/([^a-zA-Z0-9_\- .])/', '', $value);
+        }
         return $value;
     }
 
@@ -88,7 +92,9 @@ class Filter
      */
     public static function sanitizeDate($value)
     {
-        $value = preg_replace('/([^0-9\-\/])/', '', $value);
+        if ($value !== null) {
+            $value = preg_replace('/([^0-9\-\/])/', '', $value);
+        }
         return $value;
     }
 
@@ -97,7 +103,9 @@ class Filter
      */
     public static function sanitizeDateTime($value)
     {
-        $value = preg_replace('/([^0-9\-\/ :])/', '', $value);
+        if ($value !== null) {
+            $value = preg_replace('/([^0-9\-\/ :])/', '', $value);
+        }
         return $value;
     }
 
@@ -106,8 +114,10 @@ class Filter
      */
     public static function sanitizeString($value)
     {
+        $filteredValue = strip_tags($value);
         $flags = FILTER_FLAG_STRIP_LOW;
-        return filter_var($value, FILTER_SANITIZE_STRING, $flags);
+        $filteredValue = filter_var($filteredValue, FILTER_UNSAFE_RAW, $flags);
+        return $filteredValue;
     }
 
     public static function sanitizeEmail($value)
