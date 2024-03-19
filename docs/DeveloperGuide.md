@@ -86,16 +86,12 @@ The "-n" option eliminated warnings. The configuration for phpcs is in file __ph
 Static Code Analyzer
 --------------------------
 
-This external module includes the Vimeo Psalm scanner.
-This scanner is a static code analyzer, so it
-does not require a running instance of the external module to work.
-This scanner has been adopted by Vanderbilt
-as a security scanner for REDCap external module submissions. To scan this external module, use the following
-command in the top-level directory of the project:
+This external module previously included the Vimeo Psalm scanner,
+but it was removed because its dependencies conflicted with the dependencies of phpunit,
+and because Vanderbilt added their security scan to REDCap, which runs Psalm.
 
-    ./vendor/bin/psalm
-
-A configuration file (psalm.xml) has been created that will cause Psalm to run in security analysis mode.
+A configuration file (psalm.xml) still exists, and it could be used if Psalm has been installed
+on your system.
 
 Automated Tests
 --------------------------
