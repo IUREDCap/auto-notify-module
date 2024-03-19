@@ -107,6 +107,9 @@ Running the tests
 The web tests use Behat (https://docs.behat.org/en/latest/). You can use the following commands in the top-level
 web tests directory (tests/web) to run the behat web tests:
 
+    XDEBUG_MODE=coverage
+    export XDEBUG_MODE
+
     ./vendor/bin/behat
     ./vendor/bin/behat -f progress      # just prints summary of results
     ./vendor/bin/behat <path-to-feature-file>    # for testing a single feature file
@@ -120,10 +123,15 @@ Combine the coverage data:
 
 Open the following file with a web browser:
 
-    tests/web/coverage/index.php
+    tests/web/coverage/index.html
+
+If the above doesn't work, you may need to recursively copy the coverage directory to your home directory, and
+open the index.html file from there.
 
 You can add the unit test coverage data by executing the following command in the top-level module directory:
 
+    XDEBUG_MODE=coverage
+    export XDEBUG_MODE
     ./dev/bin/phpunit --coverage-php tests/web/coverage-data/coverage.unit
 
 Then to update the coverage/index.php file, you need to re-run the combine_coverage.php script.

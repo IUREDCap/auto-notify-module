@@ -20,8 +20,9 @@ $filter = new Filter;
 
 # Included files and directories
 $filter->includeFile(__DIR__.'/../../AutoNotifyModule.php');
-$filter->includeDirectory(__DIR__.'/../../classes');
-$filter->includeDirectory(__DIR__.'/../../web');
+$filter->includeFiles(glob(__DIR__.'/../../classes/*.php'));
+$filter->includeFiles(glob(__DIR__.'/../../web/admin/*.php'));
+
 
 # Excluded files
 # $filter->excludeFile(__DIR__.'/../../web/test.php');
