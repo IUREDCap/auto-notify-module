@@ -228,6 +228,7 @@ class RedCapDb
                     $projectInfo->setSurveysEnabled($row['surveys_enabled']);
                     $projectInfo->setIsLongitudinal($row['repeatforms']);
                     $projectInfo->setCompletedTime($row['completed_time']);
+                    $projectInfo->setDeletedTime($row['date_deleted']);
                     $projectInfo->addUsername($username);
                 }
                 $queryResults->addOrUpdateProjectInfo($projectInfo);

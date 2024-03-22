@@ -176,6 +176,7 @@ if (!empty($queryName)) {
                         <th>Surveys Enabled</th>
                         <th>Is Longitudinal</th>
                         <th>Completed Time</th>
+                        <th>Deleted Time</th>
                         <th>Number of Users</th>
                     </tr>
                 </thead>
@@ -202,6 +203,7 @@ if (!empty($queryName)) {
                         $projectIsLongitudinalLabel = ProjectInfo::convertTrueFalseToYesNo($projectIsLongitudinalLabel);
 
                         $projectCompletedTime = $projectInfo->getCompletedTime();
+                        $projectDeletedTime   = $projectInfo->getDeletedTime();
 
                         echo "<tr>";
                         echo "<td style=\"text-align: right;\">{$projectId}</td>";
@@ -211,6 +213,7 @@ if (!empty($queryName)) {
                         echo "<td>{$projectSurveysEnabledLabel}</td>";
                         echo "<td>{$projectIsLongitudinalLabel}</td>";
                         echo "<td>{$projectCompletedTime}</td>";
+                        echo "<td>{$projectDeletedTime}</td>";
                         echo '<td style="text-align: right;">';
                         echo '<a href="' . $userRightsUrl . '" target="_blank">'
                             . $projectInfo->getNumberOfUsers() . '</a></td>';

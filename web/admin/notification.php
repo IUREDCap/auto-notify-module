@@ -390,6 +390,18 @@ if ($id == null) {
                 <!--
                 <i id="project-owners-help" class="fa fa-question-circle" style="color: blue; margin-left: 7px;"></i>
                 -->
+
+                <br/>
+
+                <?php
+                $excludeDeletedProjects = $notification->getUsersSpecification()->getExcludeDeletedProjects();
+                $checked = '';
+                if ($excludeDeletedProjects) {
+                    $checked = ' checked';
+                }
+                ?>
+                <input name="<?php echo UsersSpecification::EXCLUDE_DELETED_PROJECTS; ?>"
+                       type="checkbox" <?php echo $checked; ?>/> Exclude deleted projects
             </p>
         </div>
 

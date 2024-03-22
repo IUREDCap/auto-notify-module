@@ -405,6 +405,7 @@ class Conditions
             $query .= ",\n" . '        projects.surveys_enabled';
             $query .= ",\n" . '        projects.repeatforms';
             $query .= ",\n" . '        projects.completed_time';
+            $query .= ",\n" . '        projects.date_deleted';
             $query .= ",\n" . "        rights.user_rights";
             $query .= ",\n" . "        rights.design";
             $query .= ",\n" . "        if(rights.api_token is null, 'no', 'yes') as has_api_token";

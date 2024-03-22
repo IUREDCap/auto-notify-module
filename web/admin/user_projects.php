@@ -161,7 +161,7 @@ if (!empty($queryName)) {
             <table id="userProjectsTable" style="white-space: nowrap;">
                 <thead>
                     <tr> 
-                        <th colspan="7">Project Information</th>
+                        <th colspan="8">Project Information</th>
                         <th colspan="6">User Project Rights</th>
                     </tr>
                     <tr> 
@@ -172,6 +172,7 @@ if (!empty($queryName)) {
                         <th>Surveys Enabled</th>
                         <th>Is Longitudinal</th>
                         <th>Completed Time</th>
+                        <th>Deleted Time</th>
 
                         <th>Design Rights</th>
                         <th>User Rights</th>
@@ -205,6 +206,8 @@ if (!empty($queryName)) {
                         $projectIsLongitudinalLabel = ProjectInfo::convertTrueFalseToYesNo($projectIsLongitudinalLabel);
 
                         $projectCompletedTime = $projectInfo->getCompletedTime();
+
+                        $projectDeletedTime = $projectInfo->getDeletedTime();
 
                         $design = $userProject->getDesign();
                         $variable = $variables['design'];
@@ -241,6 +244,7 @@ if (!empty($queryName)) {
                         echo "<td>{$projectSurveysEnabledLabel}</td>";
                         echo "<td>{$projectIsLongitudinalLabel}</td>";
                         echo "<td>{$projectCompletedTime}</td>";
+                        echo "<td>{$projectDeletedTime}</td>";
                         echo "<td>{$designLabel}</td>";
                         echo "<td>{$hasUserRightsLabel}</td>";
                         echo "<td>{$hasApiToken}</td>";

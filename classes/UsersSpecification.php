@@ -48,6 +48,7 @@ class UsersSpecification
 
     public const EXCLUDE_SUSPENDED_USERS = 'excludeSuspendedUsers';
     public const EXCLUDE_USERS_WITH_EXPIRED_RIGHTS = 'excludeUsersWithExpiredRights';
+    public const EXCLUDE_DELETED_PROJECTS = 'excludeDeletedProjects';
 
     public const PROJECT_OWNERS = 'projectOwners';
 
@@ -61,6 +62,7 @@ class UsersSpecification
 
     private $excludeSuspendedUsers;
     private $excludeUsersWithExpiredRights;
+    private $excludeDeletedProjects;
 
     private $projectOwners;
 
@@ -82,6 +84,7 @@ class UsersSpecification
 
         $this->excludeSuspendedUsers = true;
         $this->excludeUsersWithExpiredRights = true;
+        $this->excludeDeletedProjects = true;
 
         $this->projectOwners = true;
     }
@@ -170,6 +173,12 @@ class UsersSpecification
             $this->excludeUsersWithExpiredRights = false;
         }
 
+        if (array_key_exists(self::EXCLUDE_DELETED_PROJECTS, $properties)) {
+            $this->excludeDeletedProjects = true;
+        } else {
+            $this->excludeDeletedProjects = false;
+        }
+
         if (array_key_exists(self::PROJECT_OWNERS, $properties)) {
             $this->projectOwners = true;
         } else {
@@ -230,6 +239,13 @@ class UsersSpecification
                 $orConditions->set(null, Conditions::ANY_OP, null, [$exclude1, $exclude2]);
                 $subConditions[] = $orConditions;
             }
+
+            if ($this->getExcludeDeletedProjects()) {
+                $excludeDeletedProjectsCondition = new Conditions();
+                $excludeDeletedProjectsCondition->set('date_deleted', 'is', 'null');
+                $subConditions[] = $excludeDeletedProjectsCondition;
+            }
+
 
             $conditions = new Conditions();
             $conditions->set(null, Conditions::ALL_OP, null, $subConditions);
@@ -304,6 +320,12 @@ class UsersSpecification
                 $subConditions[] = $orConditions;
             }
 
+            if ($this->getExcludeDeletedProjects()) {
+                $excludeDeletedProjectsCondition = new Conditions();
+                $excludeDeletedProjectsCondition->set('date_deleted', 'is', 'null');
+                $subConditions[] = $excludeDeletedProjectsCondition;
+            }
+
             $conditions = new Conditions();
             $conditions->set(null, Conditions::ALL_OP, null, $subConditions);
             $query->setConditions($conditions);
@@ -361,6 +383,11 @@ class UsersSpecification
     public function getExcludeUsersWithExpiredRights()
     {
         return $this->excludeUsersWithExpiredRights;
+    }
+
+    public function getExcludeDeletedProjects()
+    {
+        return $this->excludeDeletedProjects;
     }
 
     public function getProjectOwners()

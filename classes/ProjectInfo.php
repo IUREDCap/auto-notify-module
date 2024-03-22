@@ -19,6 +19,7 @@ class ProjectInfo
     private $surveysEnabled;
     private $isLongitudinal;
     private $completedTime;
+    private $deletedTime;
     private $usernames; // array with usernames as key (set of usernames)
 
     public function __construct()
@@ -151,5 +152,15 @@ class ProjectInfo
     public function setCompletedTime($completedTime)
     {
         $this->completedTime = $completedTime;
+    }
+
+    public function getDeletedTime()
+    {
+        return $this->deletedTime;
+    }
+
+    public function setDeletedTime($deletedTime)
+    {
+        $this->deletedTime = $deletedTime;
     }
 }

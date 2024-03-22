@@ -198,6 +198,15 @@
         "help": "Selects users with a 'Project Completed Time' that matches the specified condition. Projects that do have not a completed status, will have a NULL 'Project Completed Time'."
     },
     {
+        "name": "date_deleted",
+        "table": "redcap_projects",
+        "label": "Project Deleted Time",
+        "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
+        "operatorClass": "anmTimeOpsSelect",
+        "valueType": "dateTimeNull",
+        "help": "Selects users with a 'Project Deleted Time' that matches the specified condition. Projects that have not been deleted will have a null 'Project Deleted Time'."
+    },
+    {
         "name": "directory_prefix",
         "table": "redcap_external_modules",
         "label": "Project External Module",
