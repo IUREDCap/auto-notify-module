@@ -415,6 +415,39 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
 
 
     #---------------------------------
+    # NOTIFICATION
+    #---------------------------------
+
+    /**
+     * @When /^I enter message "([^"]*)"$/
+     */
+    public function iEnterMessage($message)
+    {
+        $session = $this->getSession();
+        NotificationPage::enterMessage($session, $message);
+    }
+
+
+    /**
+     * @When /^I insert variable "([^"]*)" "([^"]*)" in message$/
+     */
+    public function iInsertVariableInMessage($group, $variable)
+    {
+        $session = $this->getSession();
+        NotificationPage::insertVariable($session, $group, $variable);
+    }
+
+    /**
+     * @When /^I insert horizontal rule in message$/
+     */
+    public function iInsertHorizontalRuleInMessage()
+    {
+        $session = $this->getSession();
+        NotificationPage::insertHorizontalRule($session);
+    }
+
+
+    #---------------------------------
     # NOTIFICATIONS
     #---------------------------------
 

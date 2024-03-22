@@ -753,7 +753,7 @@ if ($id == null) {
     </fieldset>
 
     <input type="submit" name="submitValue" value="Save as Draft" class="submit-button" style="margin-right: 2em;"/>
-    <input type="submit" name="submitValue" value="Send/Schedule"class="submit-button" />
+    <input type="submit" name="submitValue" value="Send/Schedule" class="submit-button" />
 </form>
 
 
