@@ -167,6 +167,37 @@ class Conditions
         return $has;
     }
 
+    /**
+     * Indicates if the Condition (including all sub-conditions) has
+     * a variable that is related to project, sush as 'Project ID'.
+     */
+    public function hasProjectVariable($variables)
+    {
+        $has = false;
+        if ($this->variable != null) {
+            $variableObj = $variables[$this->variable];
+
+            if ($variableObj === null) {
+                throw new \Exception('Condition variable "' . $this->variable . '" not found.');
+            }
+
+            if ($variableObj->isProjectVariable()) {
+                $has = true;
+            }
+        } else {
+            if (!empty($this->conditions)) {
+                foreach ($this->conditions as $condition) {
+                    $has = $condition->hasProjectVariable($variables);
+                    if ($has === true) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return $has;
+    }
+
 
     /**
      * Recursively gets all variables.
@@ -389,7 +420,9 @@ class Conditions
     }
 
     /**
-     * @param string $conditions a JSON string of query conditions.
+     * Generates the SQL corresponding to this Conditions object.
+     *
+     * @param array $variables map from variable name to Variable object for the condition variables.
      */
     public function toSql($variables, $getProjectInfo = false, $nowDateTime = null)
     {
@@ -428,11 +461,22 @@ class Conditions
             $query .= "\n";
         }
 
+        $query .= '    FROM redcap_user_information info' . "\n";
+
+        if ($this->hasProjectVariable($variables)) {
+            $query .=
+                '        JOIN redcap_user_rights rights ON info.username = rights.username' . "\n"
+                . '        JOIN redcap_projects projects ON rights.project_id = projects.project_id' . "\n"
+                ;
+        } else {
+            $query .=
+                '        LEFT JOIN redcap_user_rights rights ON info.username = rights.username' . "\n"
+                . '        LEFT JOIN redcap_projects projects ON rights.project_id = projects.project_id' . "\n"
+                ;
+        }
+
         $query .=
-            '    FROM redcap_user_information info' . "\n"
-            . '        LEFT JOIN redcap_user_rights rights ON info.username = rights.username' . "\n"
-            . '        LEFT JOIN redcap_projects projects ON rights.project_id = projects.project_id' . "\n"
-            . '        LEFT JOIN redcap_external_module_settings em_settings' . "\n"
+            '        LEFT JOIN redcap_external_module_settings em_settings' . "\n"
             . '            ON projects.project_id = em_settings.project_id' . "\n"
             . "            AND (em_settings.key = 'enabled' AND em_settings.value = 'true')\n"
             . '        LEFT JOIN redcap_external_modules ems ' . "\n"

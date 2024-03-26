@@ -115,6 +115,22 @@ class Variable implements \JsonSerializable
         return $variables;
     }
 
+    /**
+     * Indicates if the variable is related to projects, e.g., 'Project ID' and 'User Project API Token'
+     * (as opposed to being only related to users, e.g., 'username').
+     */
+    public function isProjectVariable()
+    {
+        $isProjectVariable = false;
+        if ($this->table === 'redcap_user_information') {
+            $isProjectVariable = false;
+        } else {
+            $isProjectVariable = true;
+        }
+
+        return $isProjectVariable;
+    }
+
     public function getName()
     {
         return $this->name;
