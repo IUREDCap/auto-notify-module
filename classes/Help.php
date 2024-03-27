@@ -150,7 +150,7 @@ class Help
             "<p>"
             . "The test page allows you to simulate sending all notifications, or a single notification,"
             . " between two specified dates."
-            . " You can specify an e-mail to which all notifications should be sent, which will override"
+            . " You can specify an e-mail address to which all notifications should be sent, which will override"
             . " the recipient's e-mail address. You can add the [email] and/or [username] variables"
             . "  to the message of the"
             . " notification to see who the intended recipient was."
@@ -163,7 +163,7 @@ class Help
             . "<p>"
             . "By default, test notification e-mails will be sent, but not be logged,"
             . " and user counts for notifications will"
-            . " not be updated. This modules keeps track of how many times each user has been"
+            . " not be updated. This module keeps track of how many times each user has been"
             . " sent a notification, and this can be used to limit the number of times a user sees a notification."
             . "</p>"
     ];
