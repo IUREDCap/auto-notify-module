@@ -38,7 +38,7 @@ class Variable implements \JsonSerializable
         $this->selectValues  = array();
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         return get_object_vars($this);
     }
