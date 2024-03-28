@@ -38,6 +38,8 @@ try {
 
     $sendCountsUrl = $module->getUrl(AutoNotifyModule::SEND_COUNTS_PAGE);
 
+    $queryUrl = $module->getUrl(AutoNotifyModule::QUERY_PAGE);
+
 
     $username = USERID;
 
@@ -403,6 +405,13 @@ if ($id == null) {
                 <input name="<?php echo UsersSpecification::EXCLUDE_DELETED_PROJECTS; ?>"
                        type="checkbox" <?php echo $checked; ?>/> Exclude deleted projects
             </p>
+
+            <p>
+                <button id="viewQueryButton" name="viewQueryButton"><i class="fa fa-cog">
+                    </i> View in Query Builder
+                </button>
+            </p>
+
         </div>
 
 
@@ -996,6 +1005,40 @@ if ($id == null) {
                 function(data) {
                     sendCountsWindow.document.write(data);
                     sendCountsWindow.document.close();
+                }
+            );
+
+            event.preventDefault();
+        });
+
+        //------------------------------------------------------------
+        // View Query
+        //------------------------------------------------------------
+        $("#viewQueryButton").click(function(event) {
+            let jsonConditions = '';
+
+            // Get the JSON conditions for the users query
+            // from the "to users" form values
+            $.ajax({
+                type: 'POST',
+                url: "<?php echo $toJsonConditionsServiceUrl; ?>",
+                data: $("#mailForm").serialize(),
+                success: function(data) {
+                    jsonConditions = data;
+                },
+                async:false
+            });
+
+            // alert(jsonConditions);
+
+            let queryWindow = window.open('about:blank', '_blank');
+
+            jQuery.post(
+                "<?php echo $queryUrl?>",
+                {jsonConditions},
+                function(data) {
+                    queryWindow.document.write(data);
+                    queryWindow.document.close();
                 }
             );
 
