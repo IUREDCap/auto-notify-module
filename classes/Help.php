@@ -146,6 +146,31 @@ class Help
             . '</ul>'
             . '</p>'
         ,
+        'to-buttons' =>
+            "<p>"
+            . "<ul>"
+            . "<li>"
+            . "<b>Show Conditions.</b> Displays the conditions for selecting the \"to users\" as a logical expression."
+            . "</li>"
+            . "<li>"
+            . "<b>Show SQL Query.</b> Displays the SQL query used by Auto-Notify to retrieve the set of"
+            . " users the notification will be sent to."
+            . "</li>"
+            . "<li>"
+            . "<b>View Users.</b> View the users who the notification will be sent to currently. Auto-notify"
+            . " calculates the set of users to send a notification to just before the notification is sent."
+            . "</li>"
+            . "<li>"
+            . "<b>View Projects.</b> View the projects based on the \"to users\" specification. For example, if"
+            . " the users are specified as \"API token users\", the projects displayed will be all the projects"
+            . " where a user has an API token."
+            . "</li>"
+            . "<li>"
+            . "<b>View Send Counts.</b> View the number of times the notification has been sent to each user."
+            . "</li>"
+            . "</ul>"
+            . "</p>"
+        ,
         'test' =>
             "<p>"
             . "The test page allows you to simulate sending all notifications, or a single notification,"

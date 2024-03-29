@@ -56,7 +56,7 @@ Feature: Notification
     Then I should see "Notification Help"
     And I should see "Use this page to create a new notification"
     And I should see "View text on separate page"
-    When I follow "View text on separate page" to new window
+    When I follow "notification-help-page" to new window
     And I wait for 2 seconds
     Then I should see "Use this page to create a new notification"
     But I should not see "View text on separate page"

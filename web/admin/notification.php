@@ -474,6 +474,13 @@ if ($id == null) {
             <button id="viewSendCountsButton" name="viewSendCountsButton"><i class="fa fa-envelopes-bulk">
                 </i> View Send Counts
             </button>
+
+            <div id="to-buttons-help" style="font-size: 120%; float: right;">
+                <i id="toButtonsHelp" class="fa fa-question-circle" style="color: blue;"></i>
+            </div>
+
+            <div style="clear: both;"></div>
+
         </div>
 
         <!--
@@ -873,6 +880,13 @@ if ($id == null) {
             return false;
         });
 
+        $("#to-buttons-help").on("click", function () {
+            $('#to-buttons-help-dialog').dialog({dialogClass: 'auto-notify-help', width: 640, maxHeight: 440})
+                .dialog('widget').position({my: 'left top', at: 'right+50 top+40', of: $(this)})
+            ;
+            return false;
+        });
+
         //----------------------------------------------------------
         // Show Conditions
         //----------------------------------------------------------
@@ -1057,6 +1071,11 @@ if ($id == null) {
 <!-- PROJECT OWNERS HELP DIALOG -->
 <div id="project-owners-help-dialog" title="Project Owners Help" style="display: none;">
     <?php echo Help::getHelp('project-owners', $module); ?>
+</div>
+
+<!-- TO BUTTONS HELP DIALOG -->
+<div id="to-buttons-help-dialog" title="Notification To Buttons Help" style="display: none;">
+    <?php echo Help::getHelpWithPageLink('to-buttons', $module); ?>
 </div>
 
 
