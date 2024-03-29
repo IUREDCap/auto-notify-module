@@ -143,6 +143,7 @@ if (!empty($queryName)) {
                     <tr> 
                         <th>username</th> <th>user first name</th> <th>user last name</th> <th>user e-mail</th>
                         <th>last login</th>
+                        <th>creation time</th>
                         <th># of projects</th>
                         <th>suspended time</th>
                         <th>expiration</th>
@@ -161,6 +162,7 @@ if (!empty($queryName)) {
                         echo "<td>{$user->getLastName()}</td>";
                         echo "<td>{$user->getEmail()}</td>";
                         echo "<td>{$user->getLastLogin()}</td>";
+                        echo "<td>{$user->getCreationTime()}</td>";
                         echo '<td style="text-align: right;">'
                             . '<button value="' . $user->getUsername() . '" class="userProjectsButton">'
                             . $user->getNumberOfProjects()

@@ -22,7 +22,16 @@
         "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
         "operatorClass": "anmTimeOpsSelect",
         "valueType": "dateTimeNull",
-        "help": "Selects users with last logins that meet the specified date condition, for example, 'User Last Login age <= 6 months' will select all users who have logged in within the last 6 months."
+        "help": "Selects users with last logins that meet the specified date condition, for example, 'User Last Login age < 6 months' will select all users who have logged in within the last 6 months."
+    },
+    {
+        "name": "user_creation",
+        "table": "redcap_user_information",
+        "label": "User Creation Time",
+        "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
+        "operatorClass": "anmTimeOpsSelect",
+        "valueType": "dateTimeNull",
+        "help": "Selects users whose account creation times meet the specified date condition. For example, 'User Creation Time age >= 1 year' selects all users whose account was created at least a year ago."
     },
     {
         "name": "user_suspended_time",
@@ -31,7 +40,7 @@
         "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
         "operatorClass": "anmTimeOpsSelect",
         "valueType": "dateTimeNull",
-        "help": "Selects users with user suspended times that meet the specified date condition. For example, 'User Suspended Time is not NULL' will select all users who have not been suspended, and 'User Suspended Time is NULL' will select all users who have been suspended. 'User Suspended Time age > 1 year' selects all users who were suspended over a year ago."
+        "help": "Selects users with user suspended times that meet the specified date condition. For example, 'User Suspended Time is not NULL' will select all users who have not been suspended, and 'User Suspended Time is NULL' will select all users who have been suspended. 'User Suspended Time age >= 1 year' selects all users who were suspended a year ago or more."
     },
     {
         "name": "user_expiration",

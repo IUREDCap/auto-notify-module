@@ -154,6 +154,7 @@ class RedCapDb
                 $user->setFirstName($row['user_firstname']);
                 $user->setLastName($row['user_lastname']);
                 $user->setLastLogin($row['user_lastlogin']);
+                $user->setCreationTime($row['user_creation']);
                 $user->setSuspendedTime($row['user_suspended_time']);
                 $user->setExpiration($row['user_expiration']);
             }

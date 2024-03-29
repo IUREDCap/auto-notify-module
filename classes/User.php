@@ -15,6 +15,7 @@ class User
     private $firstName;
     private $lastName;
     private $lastLogin;
+    private $creationTime;
     private $suspendedTime;
     private $expiration;
 
@@ -102,6 +103,16 @@ class User
     public function setLastLogin($lastLogin)
     {
         $this->lastLogin = $lastLogin;
+    }
+
+    public function getCreationTime()
+    {
+        return $this->creationTime;
+    }
+
+    public function setCreationTime($creationTime)
+    {
+        $this->creationTime = $creationTime;
     }
 
     public function getSuspendedTime()
