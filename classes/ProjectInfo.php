@@ -18,6 +18,7 @@ class ProjectInfo
     private $purpose;
     private $surveysEnabled;
     private $isLongitudinal;
+    private $creationTime;
     private $completedTime;
     private $deletedTime;
     private $usernames; // array with usernames as key (set of usernames)
@@ -142,6 +143,16 @@ class ProjectInfo
     public function setIsLongitudinal($isLongitudinal)
     {
         $this->isLongitudinal = $isLongitudinal;
+    }
+
+    public function getCreationTime()
+    {
+        return $this->creationTime;
+    }
+
+    public function setCreationTime($creationTime)
+    {
+        $this->creationTime = $creationTime;
     }
 
     public function getCompletedTime()

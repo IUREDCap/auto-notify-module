@@ -198,6 +198,15 @@
         "help": "When set to true, selects users who have a project where surveys have been enabled."
     },
     {
+        "name": "creation_time",
+        "table": "redcap_projects",
+        "label": "Project Creation Time",
+        "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
+        "operatorClass": "anmTimeOpsSelect",
+        "valueType": "dateTimeNull",
+        "help": "Selects users with a 'Project Creation Time' that matches the specified condition."
+    },
+    {
         "name": "completed_time",
         "table": "redcap_projects",
         "label": "Project Completed Time",

@@ -171,6 +171,7 @@ if (!empty($queryName)) {
                         <th>Purpose</th>
                         <th>Surveys Enabled</th>
                         <th>Is Longitudinal</th>
+                        <th>Creation Time</th>
                         <th>Completed Time</th>
                         <th>Deleted Time</th>
 
@@ -204,6 +205,8 @@ if (!empty($queryName)) {
                         $variable = $variables['repeatforms'];
                         $projectIsLongitudinalLabel = $variable->getSelectValueLabel($projectIsLongitudinal);
                         $projectIsLongitudinalLabel = ProjectInfo::convertTrueFalseToYesNo($projectIsLongitudinalLabel);
+
+                        $projectCreationTime = $projectInfo->getCreationTime();
 
                         $projectCompletedTime = $projectInfo->getCompletedTime();
 
@@ -243,6 +246,7 @@ if (!empty($queryName)) {
                         echo "<td>{$projectPurpose}</td>";
                         echo "<td>{$projectSurveysEnabledLabel}</td>";
                         echo "<td>{$projectIsLongitudinalLabel}</td>";
+                        echo "<td>{$projectCreationTime}</td>";
                         echo "<td>{$projectCompletedTime}</td>";
                         echo "<td>{$projectDeletedTime}</td>";
                         echo "<td>{$designLabel}</td>";

@@ -437,6 +437,7 @@ class Conditions
             $query .= ",\n" . '        projects.purpose';
             $query .= ",\n" . '        projects.surveys_enabled';
             $query .= ",\n" . '        projects.repeatforms';
+            $query .= ",\n" . '        projects.creation_time';
             $query .= ",\n" . '        projects.completed_time';
             $query .= ",\n" . '        projects.date_deleted';
             $query .= ",\n" . "        rights.user_rights";
