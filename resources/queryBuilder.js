@@ -255,7 +255,7 @@ AutoNotifyModule.getCondition = function(variable = null, operator = null, value
         }
     }
     else if (data.valueType === "null") {
-        html += '<input type="text" size="4" value="NULL" readonly></input>';
+        html += '<input type="text" size="4" value="null" readonly></input>';
     }
     else if (data.valueType === "select") {
         html += '<select>' + "\n";
