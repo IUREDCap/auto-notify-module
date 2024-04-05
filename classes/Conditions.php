@@ -525,7 +525,7 @@ class Conditions
         }
 
         $query .= "    WHERE \n"
-            . "        (info.username is not null) \n"
+            . "        (info.username IS NOT NULL) \n"
             ;
 
         //info.user_suspended_time is null
@@ -571,6 +571,7 @@ class Conditions
 
         $string = '';
         $operator = $this->operator;
+
         if (in_array($operator, [self::ALL_OP, self::ANY_OP, self::NOT_ALL_OP, self::NOT_ANY_OP])) {
             if (
                 $this->conditions != null
@@ -617,8 +618,9 @@ class Conditions
                     $value = str_replace("'", "''", $value); // escape internal single-quotes
                     $value = "'" . $value . "'";   // add beginning and end quotes
                 } elseif ($valueType === Variable::DATE_TIME_NULL_VALUE_TYPE) {
-                    if ($this->operator === 'is' || $this->operator === 'is not') {
-                        $value = 'null';
+                    if ($operator === 'is' || $operator === 'is not') {
+                        $operator = strtoupper($operator);
+                        $value = 'NULL';
                     } elseif (preg_match('/^age/', $this->operator) === 1) {
                         $matches = array();
                         $result = preg_match(self::AGE_VALUE_PATTERN, $value, $matches);

@@ -93,7 +93,7 @@ class ConditionsTest extends TestCase
         $sql = $conditions->toSql($variables);
 
         $this->assertNotNull($sql, 'SQL not null test');
-        $this->assertStringContainsString('user_suspended_time is null', $sql, 'Suspended condition in SQL check');
+        $this->assertStringContainsString('user_suspended_time IS NULL', $sql, 'Suspended condition in SQL check');
     }
 
     public function testToString()

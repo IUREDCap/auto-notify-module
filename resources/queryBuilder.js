@@ -255,7 +255,7 @@ AutoNotifyModule.getCondition = function(variable = null, operator = null, value
         }
     }
     else if (data.valueType === "null") {
-        html += '<input type="text" size="4" value="null" readonly></input>';
+        html += '<input type="text" size="4" value="NULL" readonly></input>';
     }
     else if (data.valueType === "select") {
         html += '<select>' + "\n";
@@ -369,7 +369,7 @@ $(document).ready(function(){
                 value.attr("class", "");
                 value.off('focus');
                 value.attr("readonly", true);
-                value.val('null');
+                value.val('NULL');
             }
         }
         else if (selectVal.startsWith("age")) {
