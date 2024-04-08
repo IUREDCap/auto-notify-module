@@ -23,6 +23,7 @@ class Variable implements \JsonSerializable
     private $operators;
     private $operatorClass;
     private $valueType;
+    private $optgroup;
     private $selectValues;
     private $help;
 
@@ -36,6 +37,8 @@ class Variable implements \JsonSerializable
 
         $this->valueType     = null;
         $this->selectValues  = array();
+
+        $this->optgroup = '';
     }
 
     public function jsonSerialize()
@@ -90,6 +93,8 @@ class Variable implements \JsonSerializable
             }
 
             $variable->valueType    = $object->valueType;
+
+            $variable->optgroup     = $object->optgroup;
 
             #-------------------------------------------------
             # Set select values (if any)
@@ -169,6 +174,11 @@ class Variable implements \JsonSerializable
     public function getValueType()
     {
         return $this->valueType;
+    }
+
+    public function getOptgroup()
+    {
+        return $this->optgroup;
     }
 
     public function getSelectValues()

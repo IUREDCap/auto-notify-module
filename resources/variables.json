@@ -5,6 +5,7 @@
         "label": "Username",
         "operators": ["=", "<>", "like", "not like"],
         "valueType": "inputText",
+        "optgroup": "User",
         "help": "Selects users with the specified username. The '%' character can be used as a wildcard character with the 'like' operator. For example, 'Username like %test%' will select all users that have 'test' somewhere in their username."
     },
     {
@@ -13,6 +14,7 @@
         "label": "User E-mail",
         "operators": ["=", "<>", "like", "not like"],
         "valueType": "inputText",
+        "optgroup": "User",
         "help": "Selects users with the specified e-mail address. The '%' character can be used as a wildcard character with the 'like' operator. For example, 'User E-mail like %.edu' will select users whose primary e-mail address ends with '.edu'."
     },
     {
@@ -22,6 +24,7 @@
         "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
         "operatorClass": "anmTimeOpsSelect",
         "valueType": "dateTimeNull",
+        "optgroup": "User",
         "help": "Selects users with last logins that meet the specified date condition, for example, 'User Last Login age < 6 months' will select all users who have logged in within the last 6 months."
     },
     {
@@ -31,6 +34,7 @@
         "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
         "operatorClass": "anmTimeOpsSelect",
         "valueType": "dateTimeNull",
+        "optgroup": "User",
         "help": "Selects users whose account creation times meet the specified date condition. For example, 'User Creation Time age >= 1 year' selects all users whose account was created at least a year ago."
     },
     {
@@ -40,6 +44,7 @@
         "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
         "operatorClass": "anmTimeOpsSelect",
         "valueType": "dateTimeNull",
+        "optgroup": "User",
         "help": "Selects users with user suspended times that meet the specified date condition. For example, 'User Suspended Time is not NULL' will select all users who have not been suspended, and 'User Suspended Time is NULL' will select all users who have been suspended. 'User Suspended Time age >= 1 year' selects all users who were suspended a year ago or more."
     },
     {
@@ -49,6 +54,7 @@
         "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
         "operatorClass": "anmTimeOpsSelect",
         "valueType": "dateTimeNull",
+        "optgroup": "User",
         "help": "Selects users who have 'User Expiration' times that meet the specified condition. The 'User Expiration' is an optional value that indicates when a REDCap user account should expire. When the user account expires, 'User Suspended Time' will be set to the time the account was suspended (which may be slightly after the expiration time) and 'User Expiration' will be set to NULL."
     },
     {
@@ -58,6 +64,7 @@
         "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
         "operatorClass": "anmTimeOpsSelect",
         "valueType": "dateTimeNull",
+        "optgroup": "User/Project",
         "help": "Selects users who have at least one project that meets the specified 'Project User Expiration Date' condition. To eliminate projects where the user's access has expired, you need to group the following 2 conditions with an 'ANY' operator: 'Project User Expiration Date is not NULL', 'Project Expiration Date age < 0 seconds'."
     },
     {
@@ -66,6 +73,7 @@
         "label": "Project User Rights Privilege",
         "operators": ["=", "<>"],
         "valueType": "select",
+        "optgroup": "User/Project",
         "selectValues":  [
             [1, "true"],
             [0, "false"]
@@ -78,6 +86,7 @@
         "label": "Project Design and Setup Privilege",
         "operators": ["=", "<>"],
         "valueType": "select",
+        "optgroup": "User/Project",
         "selectValues":  [
             [1, "true"],
             [0, "false"]
@@ -90,6 +99,7 @@
         "label": "User Project API Token",
         "operators": ["is", "is not"],
         "valueType": "null",
+        "optgroup": "User/Project",
         "help": "When set to 'is not NULL', selects users who have a project where the user has an API token."
     },
     {
@@ -98,6 +108,7 @@
         "label": "User Project API Export",
         "operators": ["=", "<>"],
         "valueType": "select",
+        "optgroup": "User/Project",
         "selectValues":  [
             [1, "true"],
             [0, "false"]
@@ -110,6 +121,7 @@
         "label": "User Project API Import/Update",
         "operators": ["=", "<>"],
         "valueType": "select",
+        "optgroup": "User/Project",
         "selectValues":  [
             [1, "true"],
             [0, "false"]
@@ -122,6 +134,7 @@
         "label": "User Project Mobile App",
         "operators": ["=", "<>"],
         "valueType": "select",
+        "optgroup": "User/Project",
         "selectValues":  [
             [1, "true"],
             [0, "false"]
@@ -134,6 +147,7 @@
         "label": "Project ID",
         "operators": ["=", "<", "<=", ">", ">=", "<>"],
         "valueType": "inputText",
+        "optgroup": "Project",
         "help": "Selects users who have a project where the ID of the project meets the specified condition. For example, 'Project ID > 1000' would select all users who have a project with an ID that is greater than 1000."
     },
     {
@@ -142,6 +156,7 @@
         "label": "Project Title",
         "operators": ["=", "<>", "like", "not like"],
         "valueType": "inputText",
+        "optgroup": "Project",
         "help": "Selects users who have a project with a title that matches the specified value. The '%' character can be used as a wildcard character with the like operator. For example, 'Project Title like '%Test%' would select all users with a project that has 'Test' somewhere in the project's title."
     },
     {
@@ -150,6 +165,7 @@
         "label": "Project Status",
         "operators": ["=", "<>"],
         "valueType": "select",
+        "optgroup": "Project",
         "selectValues":  [
             [0, "Development"],
             [1, "Production"],
@@ -163,6 +179,7 @@
         "label": "Project Purpose",
         "operators": ["=", "<>"],
         "valueType": "select",
+        "optgroup": "Project",
         "selectValues":  [
             [0, "Practice / Just for fun"],
             [4, "Operational Support"],
@@ -179,6 +196,7 @@
         "label": "Project is Longitudinal",
         "operators": ["=", "<>"],
         "valueType": "select",
+        "optgroup": "Project",
         "selectValues":  [
             [1, "true"],
             [0, "false"]
@@ -191,6 +209,7 @@
         "label": "Project Surveys Enabled",
         "operators": ["=", "<>"],
         "valueType": "select",
+        "optgroup": "Project",
         "selectValues":  [
             [1, "true"],
             [0, "false"]
@@ -204,6 +223,7 @@
         "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
         "operatorClass": "anmTimeOpsSelect",
         "valueType": "dateTimeNull",
+        "optgroup": "Project",
         "help": "Selects users with a 'Project Creation Time' that matches the specified condition."
     },
     {
@@ -213,6 +233,7 @@
         "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
         "operatorClass": "anmTimeOpsSelect",
         "valueType": "dateTimeNull",
+        "optgroup": "Project",
         "help": "Selects users with a 'Project Completed Time' that matches the specified condition. Projects that do have not a completed status, will have a NULL 'Project Completed Time'."
     },
     {
@@ -222,6 +243,7 @@
         "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age =", "age <", "age <=", "age >", "age >=", "age <>"],
         "operatorClass": "anmTimeOpsSelect",
         "valueType": "dateTimeNull",
+        "optgroup": "Project",
         "help": "Selects users with a 'Project Deleted Time' that matches the specified condition. Projects that have not been deleted will have a null 'Project Deleted Time'."
     },
     {
@@ -230,6 +252,7 @@
         "label": "Project External Module",
         "operators": ["=", "<>"],
         "valueType": "select",
+        "optgroup": "Project",
         "selectValues":  [
         ],
         "help": "Selects users who have a project with the specified external module. Specifying this to be not equal to blank will select users that have a project with any external module."
@@ -240,6 +263,7 @@
         "label": "Copy Data on Save Source Project",
         "operators": ["is not", "is"],
         "valueType": "null",
+        "optgroup": "Special",
         "help": "When set to 'is not NULL', selects users who have a project that has a 'Copy Data on Save' source project, i.e., users with a project that may have data copied to it by another project that has the 'Copy Data on Save' external module enabled."
     },
     {
@@ -248,6 +272,7 @@
         "label": "Cross-Project Piping Destination Project",
         "operators": ["is not", "is"],
         "valueType": "null",
+        "optgroup": "Special",
         "help": "When set to 'is not NULL', selects users who have a project that has a 'Cross-Project Piping' external module destination project, i.e., users with a project that may have its data piped to another project that has the 'Cross-Project Piping' external module enabled."
     }
 ]

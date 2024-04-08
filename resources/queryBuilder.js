@@ -197,14 +197,25 @@ AutoNotifyModule.getVariableData = function(variableName) {
 
 
 AutoNotifyModule.getCondition = function(variable = null, operator = null, value = null) {
-    var variableIndex = 0;  // index of specified variable (0 by default)
+    let variableIndex = 0;  // index of specified variable (0 by default)
 
     //----------------------------------
     // Create variable select
     //----------------------------------
-    var html = '<select class="anmVariableSelect" style="margin-right: 1em;">' + "\n";
-    for (var i = 0; i < this.variableData.length; i++) {
-        var data = this.variableData[i];
+    let html = '<select class="anmVariableSelect" style="margin-right: 1em;">' + "\n";
+    let previousOptgroup = null;
+
+    for (let i = 0; i < this.variableData.length; i++) {
+        let data = this.variableData[i];
+
+        if (previousOptgroup == null) {
+            html += '<optgroup label="' + data.optgroup + '">';
+        } 
+        else if (data.optgroup != previousOptgroup) {
+            html += '</optgroup>';
+            html += '<optgroup label="' + data.optgroup + '">';
+        } 
+
         if (variable === data.name) {
             variableIndex = i;
             html += '<option value="' + data.name + '" selected>' + data.label + '</option>' + "\n";
@@ -212,15 +223,22 @@ AutoNotifyModule.getCondition = function(variable = null, operator = null, value
         else {
             html += '<option value="' + data.name + '">' + data.label + '</option>' + "\n";
         }
+
+        previousOptgroup = data.optgroup;
     }
+
+    if (this.variableData.length >= 1) {
+        html += '</optgroup>';
+    }
+
     html += '</select>' + "\n";
 
-    var data = this.variableData[variableIndex];
+    let data = this.variableData[variableIndex];
 
     //-------------------------------------
     // Create operator select
     //-------------------------------------
-    var operatorClass = data.operatorClass;
+    let operatorClass = data.operatorClass;
     if (operatorClass == null || typeof operatorClass === "undefined") {
         html += '<select class="anmOperatorSelect" style="margin-right: 1em;">' + "\n";
     }
@@ -228,9 +246,9 @@ AutoNotifyModule.getCondition = function(variable = null, operator = null, value
         html += '<select class="anmOperatorSelect ' + operatorClass + '" style="margin-right: 1em;">' + "\n";
     }
 
-    for (var i = 0; i < data.operators.length; i++) {
-        var operatorValue = data.operators[i];
-        var operatorLabel = data.operators[i].replace("<", "&lt;").replace(">", "&gt;");
+    for (let i = 0; i < data.operators.length; i++) {
+        let operatorValue = data.operators[i];
+        let operatorLabel = data.operators[i].replace("<", "&lt;").replace(">", "&gt;");
         // alert("Operator: " + operator + ", Operator value:" + operatorValue);
         if (operatorValue == operator) {
             html += '<option value="' + operatorLabel + '" selected>' + operatorLabel + '</option>' + "\n";
