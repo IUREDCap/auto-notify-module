@@ -622,6 +622,9 @@ class Conditions
                         $operator = strtoupper($operator);
                         $value = 'NULL';
                     } elseif (preg_match('/^age/', $this->operator) === 1) {
+                        #----------------------------
+                        # Process age operator
+                        #----------------------------
                         $matches = array();
                         $result = preg_match(self::AGE_VALUE_PATTERN, $value, $matches);
                         if ($result !== 1 || count($matches) != 3) {
@@ -632,14 +635,33 @@ class Conditions
                         $units  = $matches[2];
                         $units = strtoupper(preg_replace('/s$/', '', $units));
 
-                        if (empty($nowDateTime)) {
-                            $field = "TIMESTAMPDIFF({$units}, {$variable->getName()}, NOW())";
-                        } else {
-                            $field = "TIMESTAMPDIFF({$units}, {$variable->getName()}, '{$nowDateTime}')";
+                        # OLD (based on TIMESTAMPDIFF):
+                        # if (empty($nowDateTime)) {
+                        #     $field = "TIMESTAMPDIFF({$units}, {$variable->getName()}, NOW())";
+                        # } else {
+                        #     $field = "TIMESTAMPDIFF({$units}, {$variable->getName()}, '{$nowDateTime}')";
+                        # }
+                        #
+                        # $value = $number;
+                        # $operator = preg_replace('/^age/', '', $operator);
+
+                        # adjust operator
+                        $operator = preg_replace('/^age\s*/', '', $operator);
+                        if ($operator === '<') {
+                            $operator = '>';
+                        } elseif ($operator === '<=') {
+                            $operator = '>=';
+                        } elseif ($operator === '>') {
+                            $operator = '<';
+                        } elseif ($operator === '>=') {
+                            $operator = '<=';
                         }
 
-                        $value = $number;
-                        $operator = preg_replace('/^age/', '', $operator);
+                        if (empty($nowDateTime)) {
+                            $value = "DATE_SUB(NOW(), INTERVAL {$number} {$units})";
+                        } else {
+                            $value = "DATE_SUB({$nowDateTime}, INTERVAL {$number} {$units})";
+                        }
                     } else {
                         $value = DateInfo::convertMdyTimestampToYmdTimestamp($value);
                         $value = "'" . $value . "'";   // add beginning and end quotes
