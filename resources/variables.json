@@ -35,7 +35,7 @@
         "operatorClass": "anmTimeOpsSelect",
         "valueType": "dateTimeNull",
         "optgroup": "User",
-        "help": "Selects users whose account creation times meet the specified date condition. For example, 'User Creation Time age >= 1 year' selects all users whose account was created at least a year ago."
+        "help": "Selects users whose account creation times meet the specified date condition. For example, 'User Creation Time age > 1 year' selects all users whose accounts were created more than a year ago."
     },
     {
         "name": "user_suspended_time",
@@ -224,7 +224,7 @@
         "operatorClass": "anmTimeOpsSelect",
         "valueType": "dateTimeNull",
         "optgroup": "Project",
-        "help": "Selects users with a 'Project Creation Time' that matches the specified condition."
+        "help": "Selects users with a project that has a 'Project Creation Time' that matches the specified condition. For the age operators, the allowed values are an integer or negative integer followed by one of: years, months, weeks, days, hours, minutes, seconds. For example: \"2 weeks\", \"1 year\", \"6 months\"."
     },
     {
         "name": "completed_time",
@@ -234,7 +234,7 @@
         "operatorClass": "anmTimeOpsSelect",
         "valueType": "dateTimeNull",
         "optgroup": "Project",
-        "help": "Selects users with a 'Project Completed Time' that matches the specified condition. Projects that do have not a completed status, will have a NULL 'Project Completed Time'."
+        "help": "Selects users with a project that has a 'Project Completed Time' that matches the specified condition. Projects that do have not a completed status will have a NULL 'Project Completed Time'. For the age operators, the allowed values are an integer or negative integer followed by one of: years, months, weeks, days, hours, minutes, seconds. For example: \"2 weeks\", \"1 year\", \"6 months\"."
     },
     {
         "name": "date_deleted",
@@ -244,7 +244,7 @@
         "operatorClass": "anmTimeOpsSelect",
         "valueType": "dateTimeNull",
         "optgroup": "Project",
-        "help": "Selects users with a 'Project Deleted Time' that matches the specified condition. Projects that have not been deleted will have a null 'Project Deleted Time'."
+        "help": "Selects users with a project that has a 'Project Deleted Time' that matches the specified condition. Projects that have not been deleted will have a null 'Project Deleted Time'. For the age operators, the allowed values are an integer or negative integer followed by one of: years, months, weeks, days, hours, minutes, seconds. For example: \"2 weeks\", \"1 year\", \"6 months\"."
     },
     {
         "name": "directory_prefix",
