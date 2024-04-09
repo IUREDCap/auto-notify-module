@@ -660,7 +660,7 @@ class Conditions
                         if (empty($nowDateTime)) {
                             $value = "DATE_SUB(NOW(), INTERVAL {$number} {$units})";
                         } else {
-                            $value = "DATE_SUB({$nowDateTime}, INTERVAL {$number} {$units})";
+                            $value = "DATE_SUB('{$nowDateTime}', INTERVAL {$number} {$units})";
                         }
                     } else {
                         $value = DateInfo::convertMdyTimestampToYmdTimestamp($value);
