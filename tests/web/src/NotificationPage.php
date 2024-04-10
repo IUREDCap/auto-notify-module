@@ -73,12 +73,15 @@ class NotificationPage
         #-------------------------------------------------------------
         $element = $page->find('css', '.tox-mbtn__select-label');
         $element->click();
-        #sleep(1);
+        sleep(2);
         
         #-------------------------------------------------------------
         # Select the variable group
         #-------------------------------------------------------------
         $element = $page->find('xpath', "//div[@class='tox-collection__item-label' and text()='" . $group ."']");
+        if ($element == null) {
+            throw new \Exception('Could not find variable group: "' . $group . '".');
+        }
         #<div class="tox-collection__item-label">user</div>
         # $element = $page->find('css', 'div.tox-menu:nth-child(1) > div:nth-child(1) > div:nth-child(2)');
         $element->mouseOver();
@@ -101,5 +104,6 @@ class NotificationPage
 
         $element = $page->find('xpath', "//button[@class='tox-tbtn' and @aria-label='Horizontal line']");
         $element->click();
+        sleep(1);
     }
 }
