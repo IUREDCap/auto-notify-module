@@ -15,6 +15,7 @@ class EmailMessage
     private $from;
     private $to;
     private $subject;
+    private $date;
     private $message;
 
 
@@ -23,7 +24,16 @@ class EmailMessage
         $this->from    = '';
         $this->to      = array();
         $this->subject = '';
+        $this->date    = '';
         $this->message = '';
+    }
+
+    public function getMessageHtml()
+    {
+        $htmlMessage = $this->message;
+        $htmlMessage = preg_replace('/^.*<html>/s', '<html>', $htmlMessage);
+        $htmlMessage = preg_replace('/<\/html>.*$/s', "</html>\n", $htmlMessage);
+        return $htmlMessage;
     }
 
     public function getFrom()
@@ -54,6 +64,16 @@ class EmailMessage
     public function setSubject($subject)
     {
         $this->subject = $subject;
+    }
+
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    public function setDate($date)
+    {
+        $this->date = $date;
     }
 
     public function getMessage()

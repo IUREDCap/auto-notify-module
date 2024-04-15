@@ -21,7 +21,7 @@ class MailHogApi
         // $apiConnection = curl_init(self::MAIL_HOG_API_URL);
     }
 
-    public function getMessages()
+    public function getMessages($toEmailAddress = null, $messageSubject = null)
     {
         $messages = array();
 
@@ -44,7 +44,10 @@ class MailHogApi
         if (count($results->items) > 0) {
             foreach ($results->items as $item) {
                 $message = new EmailMessage();
+
                 $message->setSubject($item->Content->Headers->Subject[0]);
+
+                $message->setDate($item->Content->Headers->Date[0]);
 
                 $from = $item->From->Mailbox . '@' . $item->From->Domain;
                 $message->setFrom($from);
@@ -58,9 +61,16 @@ class MailHogApi
 
                 $message->setMessage($item->Content->Body);
 
-                print "\n-------------------------------------------------------------------\n";
-                // print_r($item->Content->Body);
-                print_r($message);
+                # print "\n-------------------------------------------------------------------\n";
+                # print_r($item);
+
+                if ($toEmailAddress !== null && !in_array($toEmailAddress, $toEmails)) {
+                    ; // don't store message
+                } elseif ($messageSubject !== null && $messageSubject !== $message->getSubject()) {
+                    ; // don't store message
+                } else {
+                    $messages[] = $message;
+                }
             }
         }
 
