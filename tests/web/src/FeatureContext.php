@@ -338,14 +338,6 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
         sleep($seconds);
     }
 
-    /**
-     * @When /^I log in as user$/
-     */
-    public function iLogInAsUser()
-    {
-        $session = $this->getSession();
-        Util::loginAsUser($session);
-    }
 
     /**
      * @When /^I log in as admin$/
@@ -413,6 +405,37 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
         Util::selectUserFromSelect($session, $select);
     }
 
+
+    #---------------------------------
+    # REDCAP USER
+    #---------------------------------
+
+    /**
+     * @When /^I create user "([^"]*)" "([^"]*)" "([^"]*)" "([^"]*)" "([^"]*)"$/
+     */
+    public function iCreateUser($username, $password, $firstName, $lastName, $email)
+    {
+        $session = $this->getSession();
+        Util::createUser($session, $username, $password, $firstName, $lastName, $email);
+    }
+
+    /**
+     * @When /^I delete user "([^"]*)"$/
+     */
+    public function iDeleteUser($username)
+    {
+        $session = $this->getSession();
+        Util::deleteUserIfExists($session, $username);
+    }
+
+    /**
+     * @When /^I log in as user "([^"]*)" "([^"]*)"$/
+     */
+    public function iLogInAsUser($username, $password)
+    {
+        $session = $this->getSession();
+        Util::logInAsUser($session, $username, $password);
+    }
 
     #---------------------------------
     # NOTIFICATION

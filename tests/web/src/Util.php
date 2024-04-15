@@ -22,6 +22,8 @@ use WebDriver\Exception\NoAlertOpenError;
  */
 class Util
 {
+    public const TEST_PASSWORD = 'TestPassword#123';
+
     /**
      * Gets a web browser sessions. This can be useful for interacting with
      * a web browser outside of the context of a scenario.
@@ -297,5 +299,107 @@ class Util
         $session->switchToWindow($newWindowName);
 
         return $newWindowName;
+    }
+
+    /**
+     * Created the specified user in REDCap, including setting the user's password.
+     * This method assumes that the admin account has already been logged into.
+     */
+    public static function createUser($session, $username, $password, $firstName, $lastName, $email)
+    {
+        $page = $session->getPage();
+        $page->clickLink('Control Center');
+        sleep(1);
+
+        $page->clickLink('Add Users (Table-based Only)');
+        sleep(1);
+        $page->fillField('username', $username);
+        $page->fillField('user_firstname', $firstName);
+        $page->fillField('user_lastname', $lastName);
+        $page->fillField('user_email', $email);
+        sleep(1);
+        $page->pressButton('Save');
+        sleep(1);
+
+        self::logOut($session);
+
+        $mailHogApi = new MailHogApi();
+        $messages = $mailHogApi->getMessages($email, 'REDCap access granted');
+
+        if (count($messages) <= 0) {
+            throw new \Exception('No password reset e-mail found for creation of user "' . $username . '".');
+        }
+
+        # Get the HTML for the first message
+        $message = $messages[0];
+        $htmlMessage = $message->getMessageHtml();
+
+        # Get the password reset url
+        $matches = array();
+        preg_match_all('/<a(.*)href="([^"]+)"(.*)>(.*)<\/a>/', $htmlMessage, $matches);
+        if ($matches === null || count($matches) < 3 || $matches[2] === null) {
+            throw new \Exception("Password reset URL not found in password reset e-mail for user \"{$username}\".");
+        }
+        $url = $matches[2][0];
+
+        sleep(2);
+
+        $session->visit($url);
+        $page = $session->getPage();
+
+        $page->fillField('password', $password);
+        $page->fillField('password2', $password);
+        sleep(2);
+        $page->pressButton('Submit');
+        sleep(2);
+
+        self::logOut($session);
+
+        sleep(2);
+        self::logInAsAdmin($session);
+    }
+
+    /**
+     * Deletes the specified user from REDCap if they exist. This method assumes that the admin account has already been logged into.
+     */
+    public static function deleteUserIfExists($session, $username)
+    {
+        $page = $session->getPage();
+        $page->clickLink('Control Center');
+        sleep(1);
+
+        $page->clickLink('Browse Users');
+        sleep(1);
+        $page->fillField('user_search', $username);
+        $page->pressButton('Search');
+
+        $pageText = $page->getText();
+
+        if (str_contains($pageText, "User information for")) {
+            sleep(1);
+            $session->getDriver()->executeScript('window.confirm = function(){return true;}');
+            $page->pressButton('Delete user from system');
+            sleep(2);
+
+        }
+
+        sleep(1);
+    }
+
+    /**
+     * Logs in to REDCap as the specified user.
+     */
+    public static function logInAsUser($session, $username, $password)
+    {
+        $testConfig = new TestConfig(FeatureContext::CONFIG_FILE);
+        $baseUrl  = $testConfig->getRedCap()['base_url'];
+
+        $session->visit($baseUrl);
+
+        $page = $session->getPage();
+
+        $page->fillField('username', $username);
+        $page->fillField('password', $password);
+        $page->pressButton('login_btn');
     }
 }
