@@ -43,11 +43,16 @@ class MailHogApi
 
         if (count($results->items) > 0) {
             foreach ($results->items as $item) {
+                # print "\n==================================================\n";
+                # print_r($item->Content->Headers);
+
                 $message = new EmailMessage();
 
                 $message->setSubject($item->Content->Headers->Subject[0]);
 
-                $message->setDate($item->Content->Headers->Date[0]);
+                if (array_key_exists('Date', $item->Content->Headers)) {
+                    $message->setDate($item->Content->Headers->Date[0]);
+                }
 
                 $from = $item->From->Mailbox . '@' . $item->From->Domain;
                 $message->setFrom($from);
