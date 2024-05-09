@@ -175,6 +175,7 @@ if (!empty($queryName)) {
                         <th>Completed Time</th>
                         <th>Deleted Time</th>
 
+                        <th>Role Name</th>
                         <th>Design Rights</th>
                         <th>User Rights</th>
                         <th>API Token</th>
@@ -211,6 +212,8 @@ if (!empty($queryName)) {
                         $projectCompletedTime = $projectInfo->getCompletedTime();
 
                         $projectDeletedTime = $projectInfo->getDeletedTime();
+
+                        $roleName = $userProject->getRoleName();
 
                         $design = $userProject->getDesign();
                         $variable = $variables['design'];
@@ -249,6 +252,7 @@ if (!empty($queryName)) {
                         echo "<td>{$projectCreationTime}</td>";
                         echo "<td>{$projectCompletedTime}</td>";
                         echo "<td>{$projectDeletedTime}</td>";
+                        echo "<td>{$roleName}</td>";
                         echo "<td>{$designLabel}</td>";
                         echo "<td>{$hasUserRightsLabel}</td>";
                         echo "<td>{$hasApiToken}</td>";

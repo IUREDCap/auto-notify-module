@@ -31,6 +31,7 @@ class Conditions
     public const TABLE_MAP = [
         'redcap_user_information' => 'info',
         'redcap_user_rights'      => 'rights',
+        'redcap_user_roles'       => 'roles',
         'redcap_projects'         => 'projects',
 
         'redcap_external_module_settings' => 'em_settings',
@@ -440,12 +441,25 @@ class Conditions
             $query .= ",\n" . '        projects.creation_time';
             $query .= ",\n" . '        projects.completed_time';
             $query .= ",\n" . '        projects.date_deleted';
-            $query .= ",\n" . "        rights.user_rights";
-            $query .= ",\n" . "        rights.design";
+
+            $query .= ",\n" . "        "
+                . "IF(rights.role_id is NULL, rights.user_rights, roles.user_rights) as user_rights";
+
+            $query .= ",\n" . "        "
+                . "IF(rights.role_id is NULL, rights.design, roles.design) as design";
+
             $query .= ",\n" . "        if(rights.api_token is null, 'no', 'yes') as has_api_token";
-            $query .= ",\n" . "        rights.api_export";
-            $query .= ",\n" . "        rights.api_import";
-            $query .= ",\n" . "        rights.mobile_app";
+
+            $query .= ",\n" . "        "
+                . "IF(rights.role_id is NULL, rights.api_export, roles.api_export) as api_export";
+
+            $query .= ",\n" . "        "
+                . "IF(rights.role_id is NULL, rights.api_import, roles.api_import) as api_import";
+
+            $query .= ",\n" . "        "
+                . "IF(rights.role_id is NULL, rights.mobile_app, roles.mobile_app) as mobile_app";
+
+            $query .= ",\n" . "        roles.role_name";
         }
 
         if ($this->hasVariable('cpp_destination_project_id')) {
@@ -468,11 +482,15 @@ class Conditions
             $query .=
                 '        JOIN redcap_user_rights rights ON info.username = rights.username' . "\n"
                 . '        JOIN redcap_projects projects ON rights.project_id = projects.project_id' . "\n"
+                . '        LEFT JOIN redcap_user_roles roles ON (rights.project_id = roles.project_id'
+                . ' AND rights.role_id = roles.role_id)' . "\n"
                 ;
         } else {
             $query .=
                 '        LEFT JOIN redcap_user_rights rights ON info.username = rights.username' . "\n"
                 . '        LEFT JOIN redcap_projects projects ON rights.project_id = projects.project_id' . "\n"
+                . '        LEFT JOIN redcap_user_roles roles ON (rights.project_id = roles.project_id'
+                . ' AND rights.role_id = roles.role_id)' . "\n"
                 ;
         }
 
@@ -559,6 +577,7 @@ class Conditions
         $tableMap = [
             'redcap_user_information' => 'info',
             'redcap_user_rights'      => 'rights',
+            'redcap_user_roles'       => 'roles',
             'redcap_projects'         => 'projects',
 
             'redcap_external_module_settings' => 'em_settings',
@@ -573,6 +592,9 @@ class Conditions
         $operator = $this->operator;
 
         if (in_array($operator, [self::ALL_OP, self::ANY_OP, self::NOT_ALL_OP, self::NOT_ANY_OP])) {
+            #-------------------------------------------------------
+            # LOGICAL OPERATOR
+            #-------------------------------------------------------
             if (
                 $this->conditions != null
                 && is_array($this->conditions)
@@ -601,16 +623,30 @@ class Conditions
                 $string .= $indent . ")\n";
             }
         } elseif (array_key_exists($this->variable, $variables)) {
+            #------------------------------------------------
+            # RELATIONAL OPERATOR FOR VARIABLE THAT EXISTS
+            #------------------------------------------------
             $variable = $variables[$this->variable];
 
             if ($variable->getName() === 'cross_project_piping_source') {
                 ;
             } else {
-                $table     = $variable->getTable();
-                $valueType = $variable->getValueType();
-
+                $table      = $variable->getTable();
                 $tableAlias = $tableMap[$table];
-                $field = $tableAlias . '.' . $variable->getName();
+                $valueType  = $variable->getValueType();
+
+                if ($variable->getName() === 'role_name') {
+                    $field = $tableAlias . '.' . $variable->getName();
+                    $field = "IFNULL({$field}, '')";
+                } elseif ($variable->isUserRightsVariable()) {
+                    # User rights variable: if the user does not have a role, get the value from
+                    # the redcap_user_rights table, if the user has a role, get the value from
+                    # the redcap_user_roles table
+                    $vname = $variable->getName();
+                    $field = "IF(rights.role_id IS NULL, rights.{$vname}, roles.{$vname})";
+                } else {
+                    $field = $tableAlias . '.' . $variable->getName();
+                }
 
                 $value = $this->value;
 

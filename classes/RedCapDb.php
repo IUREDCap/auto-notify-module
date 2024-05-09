@@ -168,6 +168,7 @@ class RedCapDb
                     $userRights = new UserRights();
                     $userRights->setProjectId($projectId);
                     if ($getProjectInfo) {
+                        $userRights->setRoleName($row['role_name']);
                         $userRights->setHasUserRights($row['user_rights']);
                         $userRights->setDesign($row['design']);
                         $userRights->setHasApiToken($row['has_api_token']);

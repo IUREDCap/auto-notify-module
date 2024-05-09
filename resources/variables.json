@@ -68,6 +68,15 @@
         "help": "Selects users who have at least one project that meets the specified 'Project User Expiration Date' condition. To eliminate projects where the user's access has expired, you need to group the following 2 conditions with an 'ANY' operator: 'Project User Expiration Date is not NULL', 'Project Expiration Date age < 0 seconds'."
     },
     {
+        "name": "role_name",
+        "table": "redcap_user_roles",
+        "label": "Project User Role",
+        "operators": ["=", "<>", "like", "not like"],
+        "valueType": "inputText",
+        "optgroup": "User/Project",
+        "help": "Selects users who have (or don't have) the specified role in a project. For conditions checking for a user not having a role, users with no role should be returned in addition to users who have a role not matching the specified condition."
+    },
+    {
         "name": "user_rights",
         "table": "redcap_user_rights",
         "label": "Project User Rights Privilege",

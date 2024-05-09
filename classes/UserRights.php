@@ -11,6 +11,9 @@ namespace IU\AutoNotifyModule;
 class UserRights
 {
     private $projectId;
+
+    private $roleName;
+
     private $hasUserRights;
     private $design;    // design rights for the specified project
 
@@ -19,12 +22,15 @@ class UserRights
     private $apiImport;
     private $mobileApp;
 
+
     private $externalModuleIds;
     private $cppDestinationProjectIds;  // cross-project piping destination projects IDs
     private $cdosSourceProjectIds;  // Copy Data on Save external module source projects IDs
 
     public function __construct()
     {
+        $this->roleName = '';
+
         $this->externalModuleIds = array();
         $this->cppDestinationProjectIds = array();
         $this->cdosSourceProjectIds = array();
@@ -62,6 +68,16 @@ class UserRights
     public function setProjectId($projectId)
     {
         $this->projectId = $projectId;
+    }
+
+    public function getRoleName()
+    {
+        return $this->roleName;
+    }
+
+    public function setRoleName($roleName)
+    {
+        $this->roleName = $roleName;
     }
 
     public function getHasUserRights()

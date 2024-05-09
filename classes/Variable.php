@@ -127,6 +127,7 @@ class Variable implements \JsonSerializable
     public function isProjectVariable()
     {
         $isProjectVariable = false;
+
         if ($this->table === 'redcap_user_information') {
             $isProjectVariable = false;
         } else {
@@ -134,6 +135,24 @@ class Variable implements \JsonSerializable
         }
 
         return $isProjectVariable;
+    }
+
+    /**
+     * Indicates if the variable describes a user right that will be in the redcap_user_rights
+     * table, if the user does NOT have a role, and in the redcap_user_roles table, if the
+     * user does have a role.
+     */
+    public function isUserRightsVariable(): bool
+    {
+        $isUserRightsVariable = false;
+
+        if ($this->table === 'redcap_user_rights' && !in_array($this->name, ['role_id', 'expiration', 'api_token'])) {
+            $isUserRightsVariable = true;
+        } else {
+            $isUserRightsVariable = false;
+        }
+
+        return $isUserRightsVariable;
     }
 
     public function getName()

@@ -15,7 +15,7 @@ Feature: Notification
   Scenario: Create new Notification
     When I follow "Notifications"
     And I follow "Saved Notifications"
-    And I wait for 2 seconds
+    And I wait for 4 seconds
     And I delete notifications with subject "Notification creation web test"
     And I follow "Notification"
     And I fill in "subject" with "Notification creation web test"
