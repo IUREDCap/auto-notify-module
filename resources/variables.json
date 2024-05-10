@@ -74,7 +74,7 @@
         "operators": ["=", "<>", "like", "not like"],
         "valueType": "inputText",
         "optgroup": "User/Project",
-        "help": "Selects users who have (or don't have) the specified role in a project. For conditions checking for a user not having a role, users with no role should be returned in addition to users who have a role not matching the specified condition."
+        "help": "Selects users who have (or don't have) the specified role in a project. Users with no role will have a blank role name. For conditions checking for a user not having a role, users with no role will be returned in addition to users who have a role not matching the specified condition. The '%' character can be used as a wildcard character with the like operator. For example, 'Project User Role like %manager%' would select all users with a project where they have a role that contains 'manager' in the name of the role." 
     },
     {
         "name": "user_rights",
@@ -166,7 +166,7 @@
         "operators": ["=", "<>", "like", "not like"],
         "valueType": "inputText",
         "optgroup": "Project",
-        "help": "Selects users who have a project with a title that matches the specified value. The '%' character can be used as a wildcard character with the like operator. For example, 'Project Title like '%Test%' would select all users with a project that has 'Test' somewhere in the project's title."
+        "help": "Selects users who have a project with a title that matches the specified value. The '%' character can be used as a wildcard character with the like operator. For example, 'Project Title like %Test%' would select all users with a project that has 'Test' somewhere in the project's title."
     },
     {
         "name": "status",
