@@ -17,6 +17,8 @@ class Query
     public const DEFAULT_COLUMNS = [
         'username',
         'user_email',
+        'user_email2',
+        'user_email3',
         'user_firstname',
         'user_lastname',
         'project_id',

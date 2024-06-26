@@ -141,7 +141,11 @@ if (!empty($queryName)) {
             <table id="userTable" style="white-space: nowrap;">
                 <thead>
                     <tr> 
-                        <th>username</th> <th>user first name</th> <th>user last name</th> <th>user e-mail</th>
+                        <th>username</th>
+                        <th>user first name</th> <th>user last name</th>
+                        <th>user e-mail</th>
+                        <th>user e-mail 2</th>
+                        <th>user e-mail 3</th>
                         <th>last login</th>
                         <th>creation time</th>
                         <th># of projects</th>
@@ -161,6 +165,8 @@ if (!empty($queryName)) {
                         echo "<td>{$user->getFirstName()}</td>";
                         echo "<td>{$user->getLastName()}</td>";
                         echo "<td>{$user->getEmail()}</td>";
+                        echo "<td>{$user->getEmail2()}</td>";
+                        echo "<td>{$user->getEmail3()}</td>";
                         echo "<td>{$user->getLastLogin()}</td>";
                         echo "<td>{$user->getCreationTime()}</td>";
                         echo '<td style="text-align: right;">'

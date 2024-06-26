@@ -25,7 +25,7 @@ class UsersPage
         $windowNames = $session->getWindowNames();
 
         $page = $session->getPage();
-        $elements = $page->findAll("xpath", "//tr/td[7]/button");
+        $elements = $page->findAll("xpath", "//tr/td[9]/button");
         if ($elements == null || count($elements) < 1) {
             throw new \Exception("No number of projects buttons found in users table.");
         }

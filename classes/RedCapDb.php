@@ -151,6 +151,8 @@ class RedCapDb
                 $user = new User();
                 $user->setUsername($username);
                 $user->setEmail($row['user_email']);
+                $user->setEmail2($row['user_email2']);
+                $user->setEmail3($row['user_email3']);
                 $user->setFirstName($row['user_firstname']);
                 $user->setLastName($row['user_lastname']);
                 $user->setLastLogin($row['user_lastlogin']);

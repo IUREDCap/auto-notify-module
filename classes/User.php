@@ -12,6 +12,8 @@ class User
 {
     private $username;
     private $email;
+    private $email2;
+    private $email3;
     private $firstName;
     private $lastName;
     private $lastLogin;
@@ -73,6 +75,26 @@ class User
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+
+    public function getEmail2()
+    {
+        return $this->email2;
+    }
+
+    public function setEmail2($email2)
+    {
+        $this->email2 = $email2;
+    }
+
+    public function getEmail3()
+    {
+        return $this->email3;
+    }
+
+    public function setEmail3($email3)
+    {
+        $this->email3 = $email3;
     }
 
     public function getFirstName()

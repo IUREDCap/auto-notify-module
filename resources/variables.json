@@ -18,6 +18,24 @@
         "help": "Selects users with the specified e-mail address. The '%' character can be used as a wildcard character with the 'like' operator. For example, 'User E-mail like %.edu' will select users whose primary e-mail address ends with '.edu'."
     },
     {
+        "name": "user_email2",
+        "table": "redcap_user_information",
+        "label": "User E-mail 2",
+        "operators": ["=", "<>", "like", "not like"],
+        "valueType": "inputText",
+        "optgroup": "User",
+        "help": "Selects users with the specified secondary e-mail address. The '%' character can be used as a wildcard character with the 'like' operator. For example, 'User E-mail 2 like %.edu' will select users whose secondary e-mail address ends with '.edu'."
+    },
+    {
+        "name": "user_email3",
+        "table": "redcap_user_information",
+        "label": "User E-mail 3",
+        "operators": ["=", "<>", "like", "not like"],
+        "valueType": "inputText",
+        "optgroup": "User",
+        "help": "Selects users with the specified tertiary e-mail address. The '%' character can be used as a wildcard character with the 'like' operator. For example, 'User E-mail 3 like %.edu' will select users whose tertiary e-mail address ends with '.edu'."
+    },
+    {
         "name": "user_lastlogin",
         "table": "redcap_user_information",
         "label": "User Last Login",
