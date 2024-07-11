@@ -437,8 +437,9 @@ class Conditions
         if ($getProjectInfo) {
             $query .= ",\n" . '        projects.status';
             $query .= ",\n" . '        projects.purpose';
-            $query .= ",\n" . '        projects.surveys_enabled';
+            $query .= ",\n" . '        projects.online_offline';
             $query .= ",\n" . '        projects.repeatforms';
+            $query .= ",\n" . '        projects.surveys_enabled';
             $query .= ",\n" . '        projects.creation_time';
             $query .= ",\n" . '        projects.completed_time';
             $query .= ",\n" . '        projects.date_deleted';
@@ -652,8 +653,19 @@ class Conditions
                 $value = $this->value;
 
                 if ($valueType === Variable::INPUT_TEXT_VALUE_TYPE || $valueType === Variable::SELECT_VALUE_TYPE) {
-                    $value = str_replace("'", "''", $value); // escape internal single-quotes
-                    $value = "'" . $value . "'";   // add beginning and end quotes
+                    if ($valueType === Variable::SELECT_VALUE_TYPE && strcasecmp($value, 'null') === 0) {
+                        # For null value in a select, don't put the null in quotes, and change "=" operator to "IS"
+                        # and "<>" operator to "IS NOT"
+                        $value = 'NULL';
+                        if ($operator === '=') {
+                            $operator = 'IS';
+                        } elseif ($operator === '<>') {
+                            $operator = 'IS NOT';
+                        }
+                    } else {
+                        $value = str_replace("'", "''", $value); // escape internal single-quotes
+                        $value = "'" . $value . "'";   // add beginning and end quotes
+                    }
                 } elseif ($valueType === Variable::DATE_TIME_NULL_VALUE_TYPE) {
                     if ($operator === 'is' || $operator === 'is not') {
                         $operator = strtoupper($operator);

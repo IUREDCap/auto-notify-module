@@ -218,6 +218,19 @@
         "help": "Selects users who have a project with the specified purpose."
     },
     {
+        "name": "online_offline",
+        "table": "redcap_projects",
+        "label": "Project is Online",
+        "operators": ["=", "<>"],
+        "valueType": "select",
+        "optgroup": "Project",
+        "selectValues":  [
+            [1, "true"],
+            [0, "false"]
+        ],
+        "help": "When set to true, selects users who have a project that is online. When set to false, selects users who have a project that is offline."
+    },
+    {
         "name": "repeatforms",
         "table": "redcap_projects",
         "label": "Project is Longitudinal",

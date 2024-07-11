@@ -18,6 +18,7 @@ class ProjectInfo
     private $purpose;
     private $surveysEnabled;
     private $isLongitudinal;
+    private $isOnline;
     private $creationTime;
     private $completedTime;
     private $deletedTime;
@@ -125,16 +126,6 @@ class ProjectInfo
         $this->purpose = $purpose;
     }
 
-    public function getSurveysEnabled()
-    {
-        return $this->surveysEnabled;
-    }
-
-    public function setSurveysEnabled($surveysEnabled)
-    {
-        $this->surveysEnabled = $surveysEnabled;
-    }
-
     public function getIsLongitudinal()
     {
         return $this->isLongitudinal;
@@ -143,6 +134,26 @@ class ProjectInfo
     public function setIsLongitudinal($isLongitudinal)
     {
         $this->isLongitudinal = $isLongitudinal;
+    }
+
+    public function getIsOnline()
+    {
+        return $this->isOnline;
+    }
+
+    public function setIsOnline($isOnline)
+    {
+        $this->isOnline = $isOnline;
+    }
+
+    public function getSurveysEnabled()
+    {
+        return $this->surveysEnabled;
+    }
+
+    public function setSurveysEnabled($surveysEnabled)
+    {
+        $this->surveysEnabled = $surveysEnabled;
     }
 
     public function getCreationTime()

@@ -229,8 +229,9 @@ class RedCapDb
                 if ($getProjectInfo) {
                     $projectInfo->setStatus($row['status']);
                     $projectInfo->setPurpose($row['purpose']);
-                    $projectInfo->setSurveysEnabled($row['surveys_enabled']);
                     $projectInfo->setIsLongitudinal($row['repeatforms']);
+                    $projectInfo->setIsOnline($row['online_offline']);
+                    $projectInfo->setSurveysEnabled($row['surveys_enabled']);
                     $projectInfo->setCreationTime($row['creation_time']);
                     $projectInfo->setCompletedTime($row['completed_time']);
                     $projectInfo->setDeletedTime($row['date_deleted']);

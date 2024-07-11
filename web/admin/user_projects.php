@@ -169,6 +169,7 @@ if (!empty($queryName)) {
                         <th>Title</th>
                         <th>Status</th>
                         <th>Purpose</th>
+                        <th>Is Online</th>
                         <th>Surveys Enabled</th>
                         <th>Is Longitudinal</th>
                         <th>Creation Time</th>
@@ -196,6 +197,11 @@ if (!empty($queryName)) {
 
                         $projectStatus  = $projectInfo->getStatusLabel($variables);
                         $projectPurpose = $projectInfo->getPurposeLabel($variables);
+
+                        $projectIsOnline = $projectInfo->getIsOnLine();
+                        $variable = $variables['online_offline'];
+                        $projectIsOnlineLabel = $variable->getSelectValueLabel($projectIsOnline);
+                        $projectIsOnlineLabel = ProjectInfo::convertTrueFalseToYesNo($projectIsOnlineLabel);
 
                         $projectSurveysEnabled = $projectInfo->getSurveysEnabled();
                         $variable = $variables['surveys_enabled'];
@@ -247,6 +253,7 @@ if (!empty($queryName)) {
                         echo '<td><a href="' . $projectUrl . '" target="_blank">' . $projectName . '</a></td>';
                         echo "<td>{$projectStatus}</td>";
                         echo "<td>{$projectPurpose}</td>";
+                        echo "<td>{$projectIsOnlineLabel}</td>";
                         echo "<td>{$projectSurveysEnabledLabel}</td>";
                         echo "<td>{$projectIsLongitudinalLabel}</td>";
                         echo "<td>{$projectCreationTime}</td>";
