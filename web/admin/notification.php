@@ -404,6 +404,18 @@ if ($id == null) {
                 ?>
                 <input name="<?php echo UsersSpecification::EXCLUDE_DELETED_PROJECTS; ?>"
                        type="checkbox" <?php echo $checked; ?>/> Exclude deleted projects
+
+                <br/>
+
+                <?php
+                $excludeCompletedProjects = $notification->getUsersSpecification()->getExcludeCompletedProjects();
+                $checked = '';
+                if ($excludeCompletedProjects) {
+                    $checked = ' checked';
+                }
+                ?>
+                <input name="<?php echo UsersSpecification::EXCLUDE_COMPLETED_PROJECTS; ?>"
+                       type="checkbox" <?php echo $checked; ?>/> Exclude completed projects
             </p>
 
             <p>

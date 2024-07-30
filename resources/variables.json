@@ -196,9 +196,9 @@
         "selectValues":  [
             [0, "Development"],
             [1, "Production"],
-            [2, "Analysis/Cleanup or Complete"]
+            [2, "Analysis/Cleanup"]
         ],
-        "help": "Selects users who have a project with the specified status. To differentiate between projects that are 'Analysis/Cleanup' vs. 'Complete', use 'Project Completed Time' (which will be NULL for 'Analysis/Cleanup' projects)."
+        "help": "Selects users who have a project with the specified status. To check for a project being completed, use the \"Project Completed Time\" variable."
     },
     {
         "name": "purpose",

@@ -49,6 +49,7 @@ class UsersSpecification
     public const EXCLUDE_SUSPENDED_USERS = 'excludeSuspendedUsers';
     public const EXCLUDE_USERS_WITH_EXPIRED_RIGHTS = 'excludeUsersWithExpiredRights';
     public const EXCLUDE_DELETED_PROJECTS = 'excludeDeletedProjects';
+    public const EXCLUDE_COMPLETED_PROJECTS = 'excludeCompletedProjects';
 
     public const PROJECT_OWNERS = 'projectOwners';
 
@@ -63,6 +64,7 @@ class UsersSpecification
     private $excludeSuspendedUsers;
     private $excludeUsersWithExpiredRights;
     private $excludeDeletedProjects;
+    private $excludeCompetedProjects;
 
     private $projectOwners;
 
@@ -85,6 +87,7 @@ class UsersSpecification
         $this->excludeSuspendedUsers = true;
         $this->excludeUsersWithExpiredRights = true;
         $this->excludeDeletedProjects = true;
+        $this->excludeCompletedProjects = true;
 
         $this->projectOwners = true;
     }
@@ -179,6 +182,12 @@ class UsersSpecification
             $this->excludeDeletedProjects = false;
         }
 
+        if (array_key_exists(self::EXCLUDE_COMPLETED_PROJECTS, $properties)) {
+            $this->excludeCompletedProjects = true;
+        } else {
+            $this->excludeCompletedProjects = false;
+        }
+
         if (array_key_exists(self::PROJECT_OWNERS, $properties)) {
             $this->projectOwners = true;
         } else {
@@ -246,6 +255,11 @@ class UsersSpecification
                 $subConditions[] = $excludeDeletedProjectsCondition;
             }
 
+            if ($this->getExcludeCompletedProjects()) {
+                $excludeCompletedProjectsCondition = new Conditions();
+                $excludeCompletedProjectsCondition->set('completed_time', 'is', 'null');
+                $subConditions[] = $excludeCompletedProjectsCondition;
+            }
 
             $conditions = new Conditions();
             $conditions->set(null, Conditions::ALL_OP, null, $subConditions);
@@ -326,6 +340,12 @@ class UsersSpecification
                 $subConditions[] = $excludeDeletedProjectsCondition;
             }
 
+            if ($this->getExcludeCompletedProjects()) {
+                $excludeCompletedProjectsCondition = new Conditions();
+                $excludeCompletedProjectsCondition->set('completed_time', 'is', 'null');
+                $subConditions[] = $excludeCompletedProjectsCondition;
+            }
+
             $conditions = new Conditions();
             $conditions->set(null, Conditions::ALL_OP, null, $subConditions);
             $query->setConditions($conditions);
@@ -388,6 +408,11 @@ class UsersSpecification
     public function getExcludeDeletedProjects()
     {
         return $this->excludeDeletedProjects;
+    }
+
+    public function getExcludeCompletedProjects()
+    {
+        return $this->excludeCompletedProjects;
     }
 
     public function getProjectOwners()
