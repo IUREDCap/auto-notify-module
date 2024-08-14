@@ -57,6 +57,50 @@ class NotificationPage
             throw new \Exception('Could not find notification message');
         }
     }
+    /**
+     * Inserts the specified variable into the message on the notitication page.
+     *
+     * @param string $group the group name for the variable (e.g., "REDCap", "user").
+     * @param string $variable the name of the variable to insert (e.g., "username", "e-mail").
+     */
+    public static function insertVariable($session, $group, $variable)
+    {
+        $page = $session->getPage();
+
+        #-------------------------------------------------------------
+        # Click on "Insert Variable" button
+        #-------------------------------------------------------------
+        $element = $page->findById('variable-menu');
+        $element->click();
+        
+        #-------------------------------------------------------------
+        # Select the variable group
+        #-------------------------------------------------------------
+        $groupId = 'category_' . $group;
+        $element = $page->findById($groupId);
+        if ($element === null) {
+            throw new \Exception('Could not find variable group: "' . $group . '".');
+        }
+        #<div class="tox-collection__item-label">user</div>
+        # $element = $page->find('css', 'div.tox-menu:nth-child(1) > div:nth-child(1) > div:nth-child(2)');
+        $element->mouseOver();
+        #sleep(1);
+
+        #-------------------------------------------------------------
+        # Select the variable
+        #-------------------------------------------------------------
+        # outer html: <div class="tox-collection__item-label">username</div>
+        # s.replace(u'\xa0', ' '))
+        $element = $page->find('xpath', '//div[normalize-space(text())="' . $variable .'"]');
+        if ($element === null) {
+            $element = $page->findById('var_applicable_project_info');
+            print "Element text: " . $element->getText() . "\n";
+            print "Element html: " . $element->getOuterHtml() . "\n";
+            throw new \Exception("Could not find variable \"{$variable}\".");
+        }
+        $element->click();
+    }
+
 
     /**
      * Inserts the specified variable into the message on the notitication page.
@@ -64,6 +108,7 @@ class NotificationPage
      * @param string $group the group name for the variable (e.g., "REDCap", "user").
      * @param string $variable the name of the variable to insert (e.g., "username", "e-mail").
      */
+    /*
     public static function insertVariable($session, $group, $variable)
     {
         $page = $session->getPage();
@@ -94,6 +139,8 @@ class NotificationPage
         $element = $page->find('xpath', "//div[@class='tox-collection__item-label' and text()='" . $variable . "']");
         $element->click();
     }
+    */
+
 
     /**
      * Inserts a horizontal rule in the message on the notification page.
