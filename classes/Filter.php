@@ -183,10 +183,7 @@ class Filter
 
     public static function sanitizeHtml($html)
     {
-        $config = \HTMLPurifier_Config::createDefault();
-        $purifier = new \HTMLPurifier($config);
-        $purifiedHtml = $purifier->purify($html);
-
-        return $purifiedHtml;
+        $filteredHtml = \REDCap::filterHtml($html);
+        return $filteredHtml;
     }
 }
