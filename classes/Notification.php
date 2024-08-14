@@ -491,7 +491,8 @@ class Notification
             }
 
             if (array_key_exists(self::MESSAGE, $properties)) {
-                $this->message = Filter::sanitizeMessage($properties[self::MESSAGE]);
+                # $this->message = Filter::sanitizeMessage($properties[self::MESSAGE]);
+                $this->message = Filter::sanitizeHtml($properties[self::MESSAGE]);
             }
 
             if (array_key_exists(self::SUBJECT, $properties)) {

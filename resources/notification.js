@@ -11,20 +11,27 @@ if (typeof AutoNotifyModule === 'undefined') {
 
 AutoNotifyModule.initializeMessageEditor = function() {
     tinymce.init({
+        promotion: false,
         selector: '#message',
         branding: false,
-        promotion: false,
         statusbar: true,
+        elementpath: false,
+        plugins: 'autolink lists link image searchreplace code fullscreen table directionality hr media',
+        contextmenu: "copy paste | link image inserttable | cell row column deletetable",
+
         table_default_attributes: {
             border: '1'
         },
         //plugins: ['lists link image searchreplace code fullscreen table hr'],
-        plugins: ['paste autolink lists link image searchreplace code fullscreen table directionality hr'],
 
         menubar: 'custom',
-        toolbar1: 'formatselect | hr | bold italic underline | undo redo',
-        //toolbar2: 'custom | bullist numlist | forecolor backcolor | table tableprops tablecellprops | code',
-        toolbar2: 'custom | bullist numlist | forecolor backcolor | table | code',
+        toolbar1: 'blocks bold italic underline forecolor backcolor | link image | fullscreen',
+        toolbar2: 'align table pre hr | bullist numlist outdent indent | searchreplace removeformat undo redo code',
+
+        // Embedded image uploading
+        file_picker_types: 'image',
+        images_upload_handler: rich_text_image_upload_handler,
+
         menu: {
             custom: { title: 'Insert Variable', items: 'redcap user' }
         },

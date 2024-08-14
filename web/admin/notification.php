@@ -67,7 +67,7 @@ try {
 
 <?php
 #--------------------------------------------
-# Include REDCap's project page header
+# Include REDCap's Control Center page header
 #--------------------------------------------
 ob_start();
 require_once APP_PATH_DOCROOT . 'ControlCenter/header.php';
@@ -75,8 +75,8 @@ $buffer = ob_get_clean();
 $cssFile = $module->getUrl('resources/notify.css');
 $link = '<link href="' . $cssFile . '" rel="stylesheet" type="text/css" media="all"/>';
 
-$jsFile  = $module->getUrl('resources/notification.js');
-$tinymce = '<script type="text/javascript" src="' . $jsFile . '"></script>';
+// $jsFile  = $module->getUrl('resources/notification.js');
+$tinymce = ''; // '<script type="text/javascript" src="' . $jsFile . '"></script>';
 
 $buffer = str_replace('</head>', "    " . $link . "\n" . $tinymce . "\n</head>", $buffer);
 echo $buffer;
@@ -494,7 +494,37 @@ if ($id == null) {
     <!-- MESSAGE ================================================================================== -->
     <fieldset class="config">
         <legend>Message</legend>
-        <textarea name="<?php echo Notification::MESSAGE; ?>"
+
+        <div style="width: 15em; margin-bottom: 4px;">
+        <ul id="variable-menu" style="background-color: #efefef; display: none;">
+            <li id="menu_insert_variable"><div>Insert Variable</div>
+                <ul>
+                    <li id="category_redcap"><div>REDCap</div>
+                        <ul>
+                            <li id="var_redcap_institution"><div>institution</div></li>
+                            <li id="var_redcap_url"><div>URL</div></li>
+                        </ul>
+                    </li>
+                    <li id="category_user"><div>user</div>
+                        <ul>
+                            <li id="var_first_name"><div>first&nbsp;name</div></li>
+                            <li id="var_last_name"><div>last&nbsp;name</div></li>
+                            <li id="var_username"><div>username</div></li>
+                            <li id="var_email"><div>e-mail</div></li>
+                            <li id="var_last_login"><div>last&nbsp;login</div></li>
+                            <li id="var_applicable_project_info"><div>applicable&nbsp;project&nbsp;info</div></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        </div>
+
+        <!-- use class="mceEditor" to get default REDCap initialization (but then you lose the custom
+             menu for variables. -->
+
+        <textarea class="mceEditor"
+                  name="<?php echo Notification::MESSAGE; ?>"
                   id="<?php echo Notification::MESSAGE; ?>"
                   rows="17" cols="84"><?php echo $notification->getMessage(); ?></textarea>
     </fieldset>
@@ -788,6 +818,24 @@ if ($id == null) {
 <script>
 
     $(document).ready(function() {
+
+        $("#variable-menu").menu({
+            select: function(event, ui) {
+                // Get the text, and replace &nbsp; with a space
+                let text = $(event.currentTarget).text().replace(/\u00a0/g, " ");
+
+                let id = $(event.currentTarget).attr('id');
+                // alert("ID = " + id);
+
+                if (id.startsWith('var_')) {
+                    let variable = '[' + id.replace(/^(var_)/,"") + ']';
+                    tinymce.activeEditor.execCommand('mceInsertContent', false, variable);
+                }
+            }
+        });
+        $("#variable-menu").show();
+
+
         //$( "#startDate" ).datepicker({ minDate: 0 }).datepicker("setDate", new Date());
         $( "#startDate" ).datepicker({ minDate: 0 }).datepicker();
 
@@ -826,7 +874,7 @@ if ($id == null) {
             active: false
         });
 
-        AutoNotifyModule.initializeMessageEditor();
+        // AutoNotifyModule.initializeMessageEditor();
 
         // Users speification option display
         $("select[name=<?php echo UsersSpecification::USERS_OPTION;?>]").change(function() {

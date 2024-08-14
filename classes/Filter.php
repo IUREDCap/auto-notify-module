@@ -180,4 +180,13 @@ class Filter
 
         return $text;
     }
+
+    public static function sanitizeHtml($html)
+    {
+        $config = \HTMLPurifier_Config::createDefault();
+        $purifier = new \HTMLPurifier($config);
+        $purifiedHtml = $purifier->purify($html);
+
+        return $purifiedHtml;
+    }
 }
