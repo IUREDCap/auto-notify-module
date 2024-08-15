@@ -93,10 +93,13 @@ class NotificationPage
         # s.replace(u'\xa0', ' '))
         $element = $page->find('xpath', '//div[normalize-space(text())="' . $variable .'"]');
         if ($element === null) {
-            $element = $page->findById('var_applicable_project_info');
-            print "Element text: " . $element->getText() . "\n";
-            print "Element html: " . $element->getOuterHtml() . "\n";
-            throw new \Exception("Could not find variable \"{$variable}\".");
+            # Couldn't find with label, so try to find by ID
+            # (some hackery here due to &nbsp; characters causing problems for the label match in some cases)
+            $id = 'var_' . str_replace(' ', '_', strtolower($variable));
+            $element = $page->findById($id);
+            if ($element === null) {
+                throw new \Exception("Could not find variable \"{$variable}\".");
+            }
         }
         $element->click();
     }
