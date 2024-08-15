@@ -64,7 +64,7 @@ class UsersSpecification
     private $excludeSuspendedUsers;
     private $excludeUsersWithExpiredRights;
     private $excludeDeletedProjects;
-    private $excludeCompetedProjects;
+    private $excludeCompletedProjects;
 
     private $projectOwners;
 
