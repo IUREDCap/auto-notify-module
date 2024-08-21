@@ -20,12 +20,14 @@ class User
     private $creationTime;
     private $suspendedTime;
     private $expiration;
+    private $comments;
 
     private $userRights;    // map from project ID to user rights for the project
 
     public function __construct()
     {
         $this->userRights = [];
+        $this->comments = '';
     }
 
     # CURRENTLY UNUSED:
@@ -53,6 +55,36 @@ class User
     #
     #     return $emailList;
     # }
+
+
+    public function getNumberOfProjects()
+    {
+        $numberOfProjects = 0;
+        if ($this->userRights != null && is_array($this->userRights)) {
+            $numberOfProjects = count($this->userRights);
+        }
+
+        return $numberOfProjects;
+    }
+
+    public function addOrUpdateUserRights($userRights)
+    {
+        $this->userRights[$userRights->getProjectId()] = $userRights;
+    }
+
+    public function userRightsProjectExists($projectId)
+    {
+        return array_key_exists($projectId, $this->userRights);
+    }
+
+    public function getUserRightsForProject($projectId)
+    {
+        $userRights = null;
+        if ($this->userRightsProjectExists($projectId)) {
+            $userRights = $this->userRights[$projectId];
+        }
+        return $userRights;
+    }
 
     #----------------------------------------------------------
     # Getters and Setters
@@ -157,33 +189,14 @@ class User
         $this->expiration = $expiration;
     }
 
-    public function getNumberOfProjects()
+    public function getComments()
     {
-        $numberOfProjects = 0;
-        if ($this->userRights != null && is_array($this->userRights)) {
-            $numberOfProjects = count($this->userRights);
-        }
-
-        return $numberOfProjects;
+        return $this->comments;
     }
 
-    public function addOrUpdateUserRights($userRights)
+    public function setComments($comments)
     {
-        $this->userRights[$userRights->getProjectId()] = $userRights;
-    }
-
-    public function userRightsProjectExists($projectId)
-    {
-        return array_key_exists($projectId, $this->userRights);
-    }
-
-    public function getUserRightsForProject($projectId)
-    {
-        $userRights = null;
-        if ($this->userRightsProjectExists($projectId)) {
-            $userRights = $this->userRights[$projectId];
-        }
-        return $userRights;
+        $this->comments = $comments;
     }
 
     public function getUserRights()

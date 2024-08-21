@@ -152,6 +152,7 @@ if (array_key_exists('submitValue', $_POST)) {
         # Subject
         echo "<td>" . $notification->getSubject() . "</td>\n";
 
+        # To
         echo "<td>" . $notification->getUsersSpecification()->getUsersOptionString() . "</td>\n";
 
         echo "<td>" . $schedule->getStartDate() . "</td>\n";

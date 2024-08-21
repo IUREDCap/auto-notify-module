@@ -56,8 +56,9 @@ fieldset.config legend {
     float: none;
 }
 
+
 /**********************************/
-/* Sbumit button                  */
+/* Submit button                  */
 /**********************************/
 input.submit-button {
     font-weight: bold;

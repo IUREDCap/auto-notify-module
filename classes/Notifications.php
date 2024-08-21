@@ -21,7 +21,7 @@ class Notifications
     private $objectVersion;
 
     private $nextId;
-    private $notifications;  // Array of notifications
+    private $notifications;  // Array of Notification objects
 
     public function __construct()
     {
@@ -55,6 +55,37 @@ class Notifications
         }
 
         return $activeNotifications;
+    }
+
+    /**
+     * WORK IN PROGRESS
+     *
+     */
+    public function queryNotifications($ascendingOrder = true, $subjectFilter = '')
+    {
+        $notifications = array();
+
+        $map = array();
+
+        foreach ($this->notification as $notification) {
+            $map[$notification->getId()] = $notification;
+        }
+
+        if ($ascendingOrder) {
+            ksort($map);
+        } else {
+            krsort($map);
+        }
+
+        foreach ($map as $notificationId => $notification) {
+            if (empty($subjectFilter)) {
+                $notifications[] = $notification;
+            } elseif (str_contains($notification->getSubject(), $subjectFilter)) {
+                $notifications[] = $notification;
+            }
+        }
+
+        return $notifications;
     }
 
     /**

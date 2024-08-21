@@ -60,6 +60,7 @@ $jsInclude =
     '<script type="text/javascript" src="' . ($module->getUrl('resources/dataTables.buttons.min.js')) . '"></script>'
     . "\n"
     . '<script type="text/javascript" src="' . ($module->getUrl('resources/buttons.html5.min.js')) . '"></script>'
+    . "\n"
     . '<script type="text/javascript" src="' . ($module->getUrl('resources/buttons.colVis.min.js')) . '"></script>'
     . "\n"
     . '<script type="text/javascript" src="' . ($module->getUrl('resources/queryBuilder.js')) . '"></script>'
@@ -151,6 +152,7 @@ if (!empty($queryName)) {
                         <th># of projects</th>
                         <th>suspended time</th>
                         <th>expiration</th>
+                        <th>comments</th>
                     </tr>
                 </thead>
 
@@ -176,6 +178,11 @@ if (!empty($queryName)) {
                             . '</td>';
                         echo "<td>{$user->getSuspendedTime()}</td>";
                         echo "<td>{$user->getExpiration()}</td>";
+                        echo '<td class="ellipsis"'
+                            . ' title="' . $user->getComments() . '"'
+                            . '>'
+                            . $user->getComments()
+                            . '</td>';
                         echo "</tr>\n";
                     }
                     ?>

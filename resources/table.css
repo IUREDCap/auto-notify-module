@@ -10,3 +10,14 @@ h4 {
     font-size: 18.2px;
     font-weight: 700;
 }
+
+/**********************************/
+/* Long table cell                */
+/**********************************/
+td.ellipsis {
+    max-width: 14em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+

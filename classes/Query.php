@@ -21,6 +21,7 @@ class Query
         'user_email3',
         'user_firstname',
         'user_lastname',
+        'user_comments',
         'project_id',
         'app_title',
         'external_module_id'
