@@ -160,6 +160,7 @@ class RedCapDb
                 $user->setSuspendedTime($row['user_suspended_time']);
                 $user->setExpiration($row['user_expiration']);
                 $user->setComments($row['user_comments']);
+                $user->setDisplayOnEmailUsers($row['display_on_email_users']);
             }
 
             $projectId = $row['project_id'];

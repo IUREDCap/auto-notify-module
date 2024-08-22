@@ -20,6 +20,7 @@ class User
     private $creationTime;
     private $suspendedTime;
     private $expiration;
+    private $displayOnEmailUsers;
     private $comments;
 
     private $userRights;    // map from project ID to user rights for the project
@@ -27,6 +28,7 @@ class User
     public function __construct()
     {
         $this->userRights = [];
+        $this->displayOnEmailUsers = true;
         $this->comments = '';
     }
 
@@ -187,6 +189,16 @@ class User
     public function setExpiration($expiration)
     {
         $this->expiration = $expiration;
+    }
+
+    public function getDisplayOnEmailUsers()
+    {
+        return $this->displayOnEmailUsers;
+    }
+
+    public function setDisplayOnEmailUsers($displayOnEmailUsers)
+    {
+        $this->displayOnEmailUsers = $displayOnEmailUsers;
     }
 
     public function getComments()

@@ -365,6 +365,7 @@ if ($id == null) {
         <div id="commonFormInputs" style="display: none;">
             <p>
                 <?php
+                # Exclude suspended users
                 $excludeSuspendedUsers = $notification->getUsersSpecification()->getExcludeSuspendedUsers();
                 $checked = '';
                 if ($excludeSuspendedUsers) {
@@ -380,6 +381,7 @@ if ($id == null) {
                 <br/>
 
                 <?php
+                # Exclude users with expired rights
                 $excludeUsersWithExpiredRights =
                     $notification->getUsersSpecification()->getExcludeUsersWithExpiredRights();
                 $checked = '';
@@ -394,6 +396,21 @@ if ($id == null) {
                 -->
 
                 <br/>
+
+                <?php
+                # Exclude users with option "Display in Email Users" unchecked
+                $excludeNoDisplayOnEmailUsers =
+                    $notification->getUsersSpecification()->getExcludeNoDisplayOnEmailUsers();
+                $checked = '';
+                if ($excludeNoDisplayOnEmailUsers) {
+                    $checked = ' checked';
+                }
+                ?>
+                <input name="<?php echo UsersSpecification::EXCLUDE_NO_DISPLAY_ON_EMAIL_USERS; ?>"
+                       type="checkbox" <?php echo $checked; ?>/>
+                Exclude users with option "Display user on 'Email Users' page?" unchecked
+            </p>
+            <p>
 
                 <?php
                 $excludeDeletedProjects = $notification->getUsersSpecification()->getExcludeDeletedProjects();

@@ -48,6 +48,8 @@ class UsersSpecification
 
     public const EXCLUDE_SUSPENDED_USERS = 'excludeSuspendedUsers';
     public const EXCLUDE_USERS_WITH_EXPIRED_RIGHTS = 'excludeUsersWithExpiredRights';
+    public const EXCLUDE_NO_DISPLAY_ON_EMAIL_USERS = 'exludeNoDisplayOnEmailUsers';
+
     public const EXCLUDE_DELETED_PROJECTS = 'excludeDeletedProjects';
     public const EXCLUDE_COMPLETED_PROJECTS = 'excludeCompletedProjects';
 
@@ -63,6 +65,8 @@ class UsersSpecification
 
     private $excludeSuspendedUsers;
     private $excludeUsersWithExpiredRights;
+    private $excludeNoDisplayOnEmailUsers;
+
     private $excludeDeletedProjects;
     private $excludeCompletedProjects;
 
@@ -86,6 +90,8 @@ class UsersSpecification
 
         $this->excludeSuspendedUsers = true;
         $this->excludeUsersWithExpiredRights = true;
+        $this->excludeNoDisplayOnEmailUsers = true;
+
         $this->excludeDeletedProjects = true;
         $this->excludeCompletedProjects = true;
 
@@ -164,6 +170,7 @@ class UsersSpecification
             $this->customQueryId = Filter::sanitizeInt($properties[self::CUSTOM_QUERY_ID]);
         }
 
+
         if (array_key_exists(self::EXCLUDE_SUSPENDED_USERS, $properties)) {
             $this->excludeSuspendedUsers = true;
         } else {
@@ -175,6 +182,13 @@ class UsersSpecification
         } else {
             $this->excludeUsersWithExpiredRights = false;
         }
+
+        if (array_key_exists(self::EXCLUDE_NO_DISPLAY_ON_EMAIL_USERS, $properties)) {
+            $this->excludeNoDisplayOnEmailUsers = true;
+        } else {
+            $this->excludeNoDisplayOnEmailUsers = false;
+        }
+
 
         if (array_key_exists(self::EXCLUDE_DELETED_PROJECTS, $properties)) {
             $this->excludeDeletedProjects = true;
@@ -233,33 +247,9 @@ class UsersSpecification
             $tokenCondition->set('api_token', 'is not', 'null');
             $subConditions[] = $tokenCondition;
 
-            if ($this->getExcludeSuspendedUsers()) {
-                $excludeSuspendedCondition = new Conditions();
-                $excludeSuspendedCondition->set('user_suspended_time', 'is', 'null');
-                $subConditions[] = $excludeSuspendedCondition;
-            }
+            $exclusionConditions = $this->getExclusionConditions();
 
-            if ($this->getExcludeUsersWithExpiredRights()) {
-                $exclude1 = new Conditions();
-                $exclude1->set('expiration', 'is', 'null');
-                $exclude2 = new Conditions();
-                $exclude2->set('expiration', 'age <', '0 seconds');
-                $orConditions = new Conditions();
-                $orConditions->set(null, Conditions::ANY_OP, null, [$exclude1, $exclude2]);
-                $subConditions[] = $orConditions;
-            }
-
-            if ($this->getExcludeDeletedProjects()) {
-                $excludeDeletedProjectsCondition = new Conditions();
-                $excludeDeletedProjectsCondition->set('date_deleted', 'is', 'null');
-                $subConditions[] = $excludeDeletedProjectsCondition;
-            }
-
-            if ($this->getExcludeCompletedProjects()) {
-                $excludeCompletedProjectsCondition = new Conditions();
-                $excludeCompletedProjectsCondition->set('completed_time', 'is', 'null');
-                $subConditions[] = $excludeCompletedProjectsCondition;
-            }
+            $subConditions = array_merge($subConditions, $exclusionConditions);
 
             $conditions = new Conditions();
             $conditions->set(null, Conditions::ALL_OP, null, $subConditions);
@@ -318,33 +308,9 @@ class UsersSpecification
                 $subConditions[] = $orConditions;
             }
 
-            if ($this->getExcludeSuspendedUsers()) {
-                $excludeSuspendedCondition = new Conditions();
-                $excludeSuspendedCondition->set('user_suspended_time', 'is', 'null');
-                $subConditions[] = $excludeSuspendedCondition;
-            }
+            $exclusionConditions = $this->getExclusionConditions();
 
-            if ($this->getExcludeUsersWithExpiredRights()) {
-                $exclude1 = new Conditions();
-                $exclude1->set('expiration', 'is', 'null');
-                $exclude2 = new Conditions();
-                $exclude2->set('expiration', 'age <', '0 seconds');
-                $orConditions = new Conditions();
-                $orConditions->set(null, Conditions::ANY_OP, null, [$exclude1, $exclude2]);
-                $subConditions[] = $orConditions;
-            }
-
-            if ($this->getExcludeDeletedProjects()) {
-                $excludeDeletedProjectsCondition = new Conditions();
-                $excludeDeletedProjectsCondition->set('date_deleted', 'is', 'null');
-                $subConditions[] = $excludeDeletedProjectsCondition;
-            }
-
-            if ($this->getExcludeCompletedProjects()) {
-                $excludeCompletedProjectsCondition = new Conditions();
-                $excludeCompletedProjectsCondition->set('completed_time', 'is', 'null');
-                $subConditions[] = $excludeCompletedProjectsCondition;
-            }
+            $subConditions = array_merge($subConditions, $exclusionConditions);
 
             $conditions = new Conditions();
             $conditions->set(null, Conditions::ALL_OP, null, $subConditions);
@@ -358,6 +324,46 @@ class UsersSpecification
         return $query;
     }
 
+    public function getExclusionConditions()
+    {
+        $exclusionConditions = [];
+
+        if ($this->getExcludeSuspendedUsers()) {
+            $excludeSuspendedCondition = new Conditions();
+            $excludeSuspendedCondition->set('user_suspended_time', 'is', 'null');
+            $exclusionConditions[] = $excludeSuspendedCondition;
+        }
+
+        if ($this->getExcludeUsersWithExpiredRights()) {
+            $exclude1 = new Conditions();
+            $exclude1->set('expiration', 'is', 'null');
+            $exclude2 = new Conditions();
+            $exclude2->set('expiration', 'age <', '0 seconds');
+            $orConditions = new Conditions();
+            $orConditions->set(null, Conditions::ANY_OP, null, [$exclude1, $exclude2]);
+            $exclusionConditions[] = $orConditions;
+        }
+
+        if ($this->getExcludeNoDisplayOnEmailUsers()) {
+            $excludeNoDisplayOnEmailUsersCondition = new Conditions();
+            $excludeNoDisplayOnEmailUsersCondition->set('display_on_email_users', '=', 1);
+            $exclusionConditions[] = $excludeNoDisplayOnEmailUsersCondition;
+        }
+
+        if ($this->getExcludeDeletedProjects()) {
+            $excludeDeletedProjectsCondition = new Conditions();
+            $excludeDeletedProjectsCondition->set('date_deleted', 'is', 'null');
+            $exclusionConditions[] = $excludeDeletedProjectsCondition;
+        }
+
+        if ($this->getExcludeCompletedProjects()) {
+            $excludeCompletedProjectsCondition = new Conditions();
+            $excludeCompletedProjectsCondition->set('completed_time', 'is', 'null');
+            $exclusionConditions[] = $excludeCompletedProjectsCondition;
+        }
+
+        return $exclusionConditions;
+    }
 
     public function getObjectVersion()
     {
@@ -403,6 +409,11 @@ class UsersSpecification
     public function getExcludeUsersWithExpiredRights()
     {
         return $this->excludeUsersWithExpiredRights;
+    }
+
+    public function getExcludeNoDisplayOnEmailUsers()
+    {
+        return $this->excludeNoDisplayOnEmailUsers;
     }
 
     public function getExcludeDeletedProjects()

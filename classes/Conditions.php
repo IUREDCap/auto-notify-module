@@ -430,6 +430,7 @@ class Conditions
         $query = 'SELECT DISTINCT info.username, info.user_email, info.user_email2, info.user_email3,' . "\n"
             . '        info.user_firstname, info.user_lastname,' . "\n"
             . '        info.user_lastlogin, info.user_creation, info.user_suspended_time, info.user_expiration,' . "\n"
+            . '        info.display_on_email_users,' . "\n"
             . '        info.user_comments,' . "\n"
             . '        rights.project_id, projects.app_title,' . "\n"
             . '        em_settings.external_module_id'

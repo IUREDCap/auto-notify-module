@@ -25,6 +25,7 @@ use IU\AutoNotifyModule\Conditions;
 use IU\AutoNotifyModule\Config;
 use IU\AutoNotifyModule\Filter;
 use IU\AutoNotifyModule\Help;
+use IU\AutoNotifyModule\ProjectInfo;
 use IU\AutoNotifyModule\RedCapDb;
 
 $selfUrl   = $module->getUrl(AutoNotifyModule::USERS_PAGE);
@@ -152,6 +153,7 @@ if (!empty($queryName)) {
                         <th># of projects</th>
                         <th>suspended time</th>
                         <th>expiration</th>
+                        <th>display on email users</th>
                         <th>comments</th>
                     </tr>
                 </thead>
@@ -160,6 +162,12 @@ if (!empty($queryName)) {
                     <?php
                     foreach ($users as $user) {
                         $username = $user->getUsername();
+
+                        # Display on Email users
+                        $displayOnEmailUsers = $user->getDisplayOnEmailUsers();
+                        $variable = $variables['display_on_email_users'];
+                        $displayOnEmailUsersLabel = $variable->getSelectValueLabel($displayOnEmailUsers);
+                        $displayOnEmailUsersLabel = ProjectInfo::convertTrueFalseToYesNo($displayOnEmailUsersLabel);
 
                         echo "<tr>";
                         echo '<td><a href="' . APP_PATH_WEBROOT . 'ControlCenter/view_users.php?username='
@@ -178,6 +186,7 @@ if (!empty($queryName)) {
                             . '</td>';
                         echo "<td>{$user->getSuspendedTime()}</td>";
                         echo "<td>{$user->getExpiration()}</td>";
+                        echo "<td>{$displayOnEmailUsersLabel}</td>";
                         echo '<td class="ellipsis"'
                             . ' title="' . $user->getComments() . '"'
                             . '>'

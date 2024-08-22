@@ -76,6 +76,19 @@
         "help": "Selects users who have 'User Expiration' times that meet the specified condition. The 'User Expiration' is an optional value that indicates when a REDCap user account should expire. When the user account expires, 'User Suspended Time' will be set to the time the account was suspended (which may be slightly after the expiration time) and 'User Expiration' will be set to NULL."
     },
     {
+        "name": "display_on_email_users",
+        "table": "redcap_user_information",
+        "label": "User Display on Email Users",
+        "operators": ["=", "<>"],
+        "valueType": "select",
+        "optgroup": "User",
+        "selectValues":  [
+            [1, "true"],
+            [0, "false"]
+        ],
+        "help": "When set to true, selects users who have the \"Display user on 'Email Users' page?\" option checked. This option is on the Control Center page for editing a user's information."
+    },
+    {
         "name": "user_comments",
         "table": "redcap_user_information",
         "label": "User Comments",
