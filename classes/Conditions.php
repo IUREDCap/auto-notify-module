@@ -431,7 +431,7 @@ class Conditions
             . '        info.user_firstname, info.user_lastname,' . "\n"
             . '        info.user_lastlogin, info.user_creation, info.user_suspended_time, info.user_expiration,' . "\n"
             . '        info.display_on_email_users,' . "\n"
-            . '        info.user_comments,' . "\n"
+            . "        info.user_comments," . "\n"
             . '        rights.project_id, projects.app_title,' . "\n"
             . '        em_settings.external_module_id'
             ;
@@ -639,7 +639,7 @@ class Conditions
                 $tableAlias = $tableMap[$table];
                 $valueType  = $variable->getValueType();
 
-                if ($variable->getName() === 'role_name') {
+                if ($variable->getName() === 'role_name' || $variable->getName() === 'user_comments') {
                     $field = $tableAlias . '.' . $variable->getName();
                     $field = "IFNULL({$field}, '')";
                 } elseif ($variable->isUserRightsVariable()) {
