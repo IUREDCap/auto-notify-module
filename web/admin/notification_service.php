@@ -5,9 +5,9 @@
 # SPDX-License-Identifier: BSD-3-Clause
 #-------------------------------------------------------
 
-#----------------------------------------------------------------
-# Web service for getting Users for query conditions
-#----------------------------------------------------------------
+#-----------------------------------------------------------------------------
+# Web service for getting notification data for the specified notification ID
+#-----------------------------------------------------------------------------
 
 /** @var \IU\AutoNotifyModule\AutoNotifyModule $module */
 
