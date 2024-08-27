@@ -126,54 +126,21 @@ if (array_key_exists('submitValue', $_POST)) {
     <form id="notifications-filter" action="<?php echo $selfUrl;?>" method="post">
         <span style="margin-right: 1em;">
             Order:
-            <?php
-            $selected = '';
-            if ($notificationsOrder === 'ascending') {
-                $selected = ' selected';
-            }
-            ?>
             <select id="notificationsOrder" name="notificationsOrder">
-                <option value="descending">descending</option>
-                <option value="ascending" <?php echo $selected; ?>>ascending</option>
+                <option value="ascending">ascending</option>
+                <option value="descending" selected>descending</option>
             </select>
         </span>
 
         <span style="margin-right: 1em;">
             Status: <select id="statusSelect" name="statusSelect" class="statusSelect">
-                <?php
-                $selected = '';
-                if (empty($statusSelect) || $statusSelect === 'all') {
-                    $selected = ' selected';
-                }
-                ?>
                 <option value="all" <?php echo $selected; ?>>all</option>
-
-                <?php
-                $selected = '';
-                if ($statusSelect === Notification::STATUS_ACTIVE) {
-                    $selected = ' selected';
-                }
-                ?>
                 <option value="<?php echo Notification::STATUS_ACTIVE;?>" <?php echo $selected; ?>>
                     <?php echo Notification::STATUS_ACTIVE;?>
                 </option>
-
-                <?php
-                $selected = '';
-                if ($statusSelect === Notification::STATUS_DRAFT) {
-                    $selected = ' selected';
-                }
-                ?>
                 <option value="<?php echo Notification::STATUS_DRAFT;?>" <?php echo $selected; ?>>
                     <?php echo Notification::STATUS_DRAFT;?>
                 </option>
-
-                <?php
-                $selected = '';
-                if ($statusSelect === Notification::STATUS_EXPIRED) {
-                    $selected = ' selected';
-                }
-                ?>
                 <option value="<?php echo Notification::STATUS_EXPIRED;?>" <?php echo $selected; ?>>
                     <?php echo Notification::STATUS_EXPIRED;?>
                 </option>
@@ -334,7 +301,6 @@ if (array_key_exists('submitValue', $_POST)) {
         //$("#notifications-table").show();
 
         $("#notificationsOrder").on("change", function() {
-            // $("#notifications-filter").submit();
             sortNotificationsTable();
         });
 
