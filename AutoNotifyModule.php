@@ -442,6 +442,19 @@ class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
         return $this->getSettings()->getNotifications();
     }
 
+    public function queryNotifications($order = 'descending', $status = 'all', $subjectFilter = '')
+    {
+        $query = [];
+
+        $notifications = $this->getSettings()->getNotifications();
+
+        if ($notifications !== null) {
+            $query = $notifications->queryNotifications($order, $status, $subjectFilter);
+        }
+
+        return $query;
+    }
+
     public function getActiveNotifications()
     {
         return $this->getSettings()->getActiveNotifications();

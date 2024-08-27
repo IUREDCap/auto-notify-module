@@ -61,27 +61,27 @@ class Notifications
      * WORK IN PROGRESS
      *
      */
-    public function queryNotifications($ascendingOrder = true, $subjectFilter = '')
+    public function queryNotifications($order = 'descending', $status = 'all', $subjectFilter = '')
     {
         $notifications = array();
 
         $map = array();
 
-        foreach ($this->notification as $notification) {
+        foreach ($this->notifications as $notification) {
             $map[$notification->getId()] = $notification;
         }
 
-        if ($ascendingOrder) {
+        if ($order === 'ascending') {
             ksort($map);
         } else {
             krsort($map);
         }
 
         foreach ($map as $notificationId => $notification) {
-            if (empty($subjectFilter)) {
-                $notifications[] = $notification;
-            } elseif (str_contains($notification->getSubject(), $subjectFilter)) {
-                $notifications[] = $notification;
+            if (empty($subjectFilter) || str_contains($notification->getSubject(), $subjectFilter)) {
+                if ($status === 'all' || $notification->getStatus() === $status) {
+                    $notifications[] = $notification;
+                }
             }
         }
 
