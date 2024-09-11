@@ -13,6 +13,11 @@ AutoNotifyModule.variableData = [];
 AutoNotifyModule.createQueryBuilder = function(containerDiv, variablesJson, queryJson = null) {
     this.variableData = jQuery.parseJSON( variablesJson );
 
+    this.variableAutocompleteData = [];
+    for (let i = 0; i < this.variableData.length; i++) {
+        let varData = this.variableData[i];
+    }
+
     queryJson = queryJson.trim();
 
     // alert('"' + queryJson + '"');
@@ -199,10 +204,21 @@ AutoNotifyModule.getVariableData = function(variableName) {
 AutoNotifyModule.getCondition = function(variable = null, operator = null, value = null) {
     let variableIndex = 0;  // index of specified variable (0 by default)
 
+    let html = '';
+
+    //----------------------------------------
+    // Create autocomplete field
+    //----------------------------------------
+    //var autocompleteData = [];
+    //for (let i = 0; i < this.variableData.length; i++) {
+    //    let data = this.variableData[i];
+    //}
+    //html += '<input class="anmVariableAutocomplete" size="7">' + "\n";
+
     //----------------------------------
     // Create variable select
     //----------------------------------
-    let html = '<select class="anmVariableSelect" style="margin-right: 1em;">' + "\n";
+    html += '<select class="anmVariableSelect">' + "\n";
     let previousOptgroup = null;
 
     for (let i = 0; i < this.variableData.length; i++) {
@@ -232,6 +248,11 @@ AutoNotifyModule.getCondition = function(variable = null, operator = null, value
     }
 
     html += '</select>' + "\n";
+
+    html += '<button class="anmVariableSearch" style="margin-right: 1em;">'
+        + '<i class="fa fa-magnifying-glass" style="color: gray;"></i>'
+        + '</button>'
+
 
     let data = this.variableData[variableIndex];
 
@@ -345,6 +366,7 @@ $(document).ready(function(){
             + AutoNotifyModule.getCondition()
             + "</li>"
         );
+        // $("select.anmVariableSelect").select2();
         return false;
     });
 
@@ -362,8 +384,11 @@ $(document).ready(function(){
         html = AutoNotifyModule.getCondition(selectValue);
         li.html(html);
         // AutoNotifyModule.processVariableSelect($(this));
+        // $("select.anmVariableSelect").select2();
         return false;
     });
+
+    //$("select.anmVariableSelect").select2();
 
     // SAVE TIME SELECT
     $("*").on("focusin", "select.anmTimeOpsSelect", function() {
@@ -416,6 +441,109 @@ $(document).ready(function(){
     $("*").on("click", "button.anmDeleteOp", function() {
         var li = $(this).closest("li");
         li.remove();
+        return false;
+    });
+
+    // VARIABLE SEARCH
+    $("*").on("click", "button.anmVariableSearch", function() {
+        var li = $(this).parent();  // Get the containing li element
+        var varSelect = li.find('select:first');
+
+        var variableName = varSelect.val();
+        var variableLabel = varSelect.find('option:selected').text();
+
+        let searchDialog = $(document.createElement('div'));
+
+        let thStyle = '"border: 1px solid black; border-collapse: collapse; padding: 4px; background-color: #EEEEEE;"';
+        let tdStyle = '"border: 1px solid black; border-collapse: collapse; padding: 4px;"';
+
+        let contentHtml = '<p>Search: <input type="text" id="variableSearchText"></p>';
+        contentHtml += '<table id="searchTable" style="border: 1px solid black; border-collapse: collapse;">'
+            + '<thead>'
+            + '<tr>'
+            + '<th style=' + thStyle + '>Variable</th>'
+            + '<th style=' + thStyle + '>Group</th>'
+            + '<th style=' + thStyle + '>Description</th>'
+            + '</tr>'
+            + '</thead>';
+        contentHtml += '<tbody>';
+
+        let variableData = AutoNotifyModule.variableData;
+
+        for (let i = 0; i < variableData.length; i++) {
+            let varData = variableData[i];
+            contentHtml += '<tr display="">'
+                + '<td style=' + tdStyle + '><button>' + varData.label + '</button></td>'
+                + '<td style=' + tdStyle + '>' + varData.optgroup + '</td>'
+                + '<td style=' + tdStyle + '>' + varData.help + '</td>'
+                + '<td hidden>' + varData.name + '</td>'
+                + '</tr>';
+        }
+
+        contentHtml += '</tbody></table>';
+
+
+        searchDialog.html(contentHtml);
+
+        searchDialog.dialog({
+            width: 840,
+            maxHeight: 480,
+            modal: true,
+            buttons: {
+                Cancel: function() {$(this).dialog("destroy").remove();},
+            },
+            title: 'Query Variable Search',
+            //position: {
+            //    my: "left top",
+            //    at: "left bottom+7",
+            //    of: li
+            //}
+        })
+        ;
+
+        // Initialize all rows to being visible
+        //let trs = $("#searchTable tbody tr");
+        //for (i = 0; i < trs.length; i++) {
+            //tr.style.display = '';
+        //}
+
+        // Set variable insert events
+        let trs = $("#searchTable tbody tr");
+        for (i = 0; i < trs.length; i++) {
+            let tr = trs[i];
+            let tds = $("td", tr);
+            let varTd = tds[0];
+            let varName = $(tds[3]).text().trim();
+            $(varTd).on("click", function() {
+                //alert("Clicked " + varName + "!");
+                varSelect.val(varName);
+                searchDialog.dialog("destroy").remove();
+                return false;
+            });
+        }
+
+        // Set input event for search text
+        $("#variableSearchText").on("input", function() {
+        // $("*").on("input", "#variableSearchText", function() {
+            let pattern = $("#variableSearchText").val();
+
+            let trs = $("#searchTable tbody tr");
+
+            for (i = 0; i < trs.length; i++) {
+                let tr = trs[i];
+                let tds = $("td", tr);
+                let varName = $(tds[0]).text().trim();
+                if (varName.indexOf(pattern) >= 0) {
+                    tr.style.display = '';
+                }
+                else {
+                    tr.style.display = 'none';
+                }
+            }
+
+            return false;
+        });
+
         return false;
     });
 

@@ -140,7 +140,7 @@
             [1, "true"],
             [0, "false"]
         ],
-        "help": "Used users who have at least one project that meets the specified 'Project Design and Setup Privilege' condition."
+        "help": "Selects users who have at least one project that meets the specified 'Project Design and Setup Privilege' condition."
     },
     {
         "name": "api_token",
