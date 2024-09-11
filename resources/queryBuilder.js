@@ -117,7 +117,7 @@ AutoNotifyModule.toJsonR = function(node) {
     }
     else {
         var select   = node.children().eq(0);
-        var operator = select.next();
+        var operator = select.next().next();    // Skip the variable search button
         var value    = operator.next();
 
         string += '{"variable": "' + select.val() + '"'
@@ -206,15 +206,6 @@ AutoNotifyModule.getCondition = function(variable = null, operator = null, value
 
     let html = '';
 
-    //----------------------------------------
-    // Create autocomplete field
-    //----------------------------------------
-    //var autocompleteData = [];
-    //for (let i = 0; i < this.variableData.length; i++) {
-    //    let data = this.variableData[i];
-    //}
-    //html += '<input class="anmVariableAutocomplete" size="7">' + "\n";
-
     //----------------------------------
     // Create variable select
     //----------------------------------
@@ -249,6 +240,9 @@ AutoNotifyModule.getCondition = function(variable = null, operator = null, value
 
     html += '</select>' + "\n";
 
+    //-----------------------------------------------------
+    // Create query variable search button
+    //-----------------------------------------------------
     html += '<button class="anmVariableSearch" style="margin-right: 1em;">'
         + '<i class="fa fa-magnifying-glass" style="color: gray;"></i>'
         + '</button>'
@@ -403,7 +397,7 @@ $(document).ready(function(){
 
         // AutoNotifyModule.processVariableSelect($(this));
         var selectVal = $(this).val();
-        // alert("TIMES OP CHANGE: '" + selectVal + "'");
+
         var value = $(this).next();
         if (selectVal == 'is' || selectVal == 'is not') {
             // alert('selectVal: is/is not');
@@ -500,12 +494,6 @@ $(document).ready(function(){
             //}
         })
         ;
-
-        // Initialize all rows to being visible
-        //let trs = $("#searchTable tbody tr");
-        //for (i = 0; i < trs.length; i++) {
-            //tr.style.display = '';
-        //}
 
         // Set variable insert events
         let trs = $("#searchTable tbody tr");
