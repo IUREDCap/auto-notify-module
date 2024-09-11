@@ -36,6 +36,24 @@
         "help": "Selects users with the specified tertiary e-mail address. The '%' character can be used as a wildcard character with the 'like' operator. For example, 'User E-mail 3 like %.edu' will select users whose tertiary e-mail address ends with '.edu'."
     },
     {
+        "name": "user_firstname",
+        "table": "redcap_user_information",
+        "label": "User First Name",
+        "operators": ["=", "<>", "like", "not like"],
+        "valueType": "inputText",
+        "optgroup": "User",
+        "help": "Selects users with the specified first name. The '%' character can be used as a wildcard character with the 'like' operator."
+    },
+    {
+        "name": "user_lastname",
+        "table": "redcap_user_information",
+        "label": "User Last Name",
+        "operators": ["=", "<>", "like", "not like"],
+        "valueType": "inputText",
+        "optgroup": "User",
+        "help": "Selects users with the specified last name. The '%' character can be used as a wildcard character with the 'like' operator."
+    },
+    {
         "name": "user_lastlogin",
         "table": "redcap_user_information",
         "label": "User Last Login",
@@ -316,6 +334,24 @@
         "valueType": "inputText",
         "optgroup": "Project",
         "help": "Selects users with a project where the e-mail of the PI (Principal Investigator) matches the specified e-mail address. The '%' character can be used as a wildcard character with the 'like' operator. For example, 'Project PI E-mail like %.edu' will select users with projects where the PI's e-mail address ends with '.edu'."
+    },
+    {
+        "name": "project_pi_firstname",
+        "table": "redcap_projects",
+        "label": "Project PI First Name",
+        "operators": ["=", "<>", "like", "not like"],
+        "valueType": "inputText",
+        "optgroup": "Project",
+        "help": "Selects users with a project where the first name of the PI (Principal Investigator) matches the specified value. The '%' character can be used as a wildcard character with the 'like' operator."
+    },
+    {
+        "name": "project_pi_lastname",
+        "table": "redcap_projects",
+        "label": "Project PI Last Name",
+        "operators": ["=", "<>", "like", "not like"],
+        "valueType": "inputText",
+        "optgroup": "Project",
+        "help": "Selects users with a project where the last name of the PI (Principal Investigator) matches the specified value. The '%' character can be used as a wildcard character with the 'like' operator."
     },
     {
         "name": "directory_prefix",

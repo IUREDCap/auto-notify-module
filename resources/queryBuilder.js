@@ -127,6 +127,17 @@ AutoNotifyModule.toJsonR = function(node) {
     return string;
 }
 
+AutoNotifyModule.getOptgroups = function() {
+    // UNTESTED
+    let optgroups = new Set();
+    for (let i = 0; i < this.variableData.length; i++) {
+        let varData = this.variableData[i];
+        optgroups.add(varData.optgroup);
+    }
+
+    return optgroups;
+}
+
 AutoNotifyModule.getLogicalOp = function(operator = 'ALL', addDelete = true) {
     var allSelected = '';
     var anySelected = '';
@@ -521,7 +532,8 @@ $(document).ready(function(){
                 let tr = trs[i];
                 let tds = $("td", tr);
                 let varName = $(tds[0]).text().trim();
-                if (varName.indexOf(pattern) >= 0) {
+                if (varName.toLowerCase().indexOf(pattern.toLowerCase()) >= 0) {
+                    // Case-insensitive check
                     tr.style.display = '';
                 }
                 else {

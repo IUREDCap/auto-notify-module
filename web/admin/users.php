@@ -144,7 +144,8 @@ if (!empty($queryName)) {
                 <thead>
                     <tr> 
                         <th>username</th>
-                        <th>user first name</th> <th>user last name</th>
+                        <th>user first name</th>
+                        <th>user last name</th>
                         <th>user e-mail</th>
                         <th>user e-mail 2</th>
                         <th>user e-mail 3</th>

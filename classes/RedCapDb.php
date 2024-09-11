@@ -238,6 +238,8 @@ class RedCapDb
                     $projectInfo->setCompletedTime($row['completed_time']);
                     $projectInfo->setDeletedTime($row['date_deleted']);
                     $projectInfo->setPiEmail($row['project_pi_email']);
+                    $projectInfo->setPiFirstName($row['project_pi_firstname']);
+                    $projectInfo->setPiLastName($row['project_pi_lastname']);
                     $projectInfo->addUsername($username);
                 }
                 $queryResults->addOrUpdateProjectInfo($projectInfo);

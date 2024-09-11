@@ -161,8 +161,8 @@ if (!empty($queryName)) {
             <table id="userProjectsTable" style="white-space: nowrap;">
                 <thead>
                     <tr> 
-                        <th colspan="8">Project Information</th>
-                        <th colspan="6">User Project Rights</th>
+                        <th colspan="13">Project Information</th>
+                        <th colspan="7">User Project Rights</th>
                     </tr>
                     <tr> 
                         <th>Project ID</th>
@@ -177,6 +177,8 @@ if (!empty($queryName)) {
                         <th>Deleted Time</th>
 
                         <th>PI E-Mail</th>
+                        <th>PI First Name</th>
+                        <th>PI Last Name</th>
 
                         <th>Role Name</th>
                         <th>Design Rights</th>
@@ -261,7 +263,10 @@ if (!empty($queryName)) {
                         echo "<td>{$projectCreationTime}</td>";
                         echo "<td>{$projectCompletedTime}</td>";
                         echo "<td>{$projectDeletedTime}</td>";
+
                         echo "<td>{$projectInfo->getPiEmail()}</td>";
+                        echo "<td>{$projectInfo->getPiFirstName()}</td>";
+                        echo "<td>{$projectInfo->getPiLastName()}</td>";
 
                         echo "<td>{$roleName}</td>";
                         echo "<td>{$designLabel}</td>";
