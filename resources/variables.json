@@ -309,6 +309,15 @@
         "help": "Selects users with a project that has a 'Project Deleted Time' that matches the specified condition. Projects that have not been deleted will have a null 'Project Deleted Time'. For the age operators, the allowed values are an integer or negative integer followed by one of: years, months, weeks, days, hours, minutes, seconds. For example: \"2 weeks\", \"1 year\", \"6 months\"."
     },
     {
+        "name": "project_pi_email",
+        "table": "redcap_projects",
+        "label": "Project PI E-mail",
+        "operators": ["=", "<>", "like", "not like"],
+        "valueType": "inputText",
+        "optgroup": "Project",
+        "help": "Selects users with a project where the e-mail of the PI (Principal Investigator) matches the specified e-mail address. The '%' character can be used as a wildcard character with the 'like' operator. For example, 'Project PI E-mail like %.edu' will select users with projects where the PI's e-mail address ends with '.edu'."
+    },
+    {
         "name": "directory_prefix",
         "table": "redcap_external_modules",
         "label": "Project External Module",

@@ -22,6 +22,7 @@ class ProjectInfo
     private $creationTime;
     private $completedTime;
     private $deletedTime;
+    private $piEmail;
     private $usernames; // array with usernames as key (set of usernames)
 
     public function __construct()
@@ -184,5 +185,15 @@ class ProjectInfo
     public function setDeletedTime($deletedTime)
     {
         $this->deletedTime = $deletedTime;
+    }
+
+    public function getPiEmail()
+    {
+        return $this->piEmail;
+    }
+
+    public function setPiEmail($piEmail)
+    {
+        $this->piEmail = $piEmail;
     }
 }

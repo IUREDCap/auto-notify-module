@@ -445,6 +445,7 @@ class Conditions
             $query .= ",\n" . '        projects.creation_time';
             $query .= ",\n" . '        projects.completed_time';
             $query .= ",\n" . '        projects.date_deleted';
+            $query .= ",\n" . '        projects.project_pi_email';
 
             $query .= ",\n" . "        "
                 . "IF(rights.role_id is NULL, rights.user_rights, roles.user_rights) as user_rights";

@@ -176,6 +176,8 @@ if (!empty($queryName)) {
                         <th>Completed Time</th>
                         <th>Deleted Time</th>
 
+                        <th>PI E-Mail</th>
+
                         <th>Role Name</th>
                         <th>Design Rights</th>
                         <th>User Rights</th>
@@ -259,6 +261,8 @@ if (!empty($queryName)) {
                         echo "<td>{$projectCreationTime}</td>";
                         echo "<td>{$projectCompletedTime}</td>";
                         echo "<td>{$projectDeletedTime}</td>";
+                        echo "<td>{$projectInfo->getPiEmail()}</td>";
+
                         echo "<td>{$roleName}</td>";
                         echo "<td>{$designLabel}</td>";
                         echo "<td>{$hasUserRightsLabel}</td>";

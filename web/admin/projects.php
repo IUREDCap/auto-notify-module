@@ -179,6 +179,7 @@ if (!empty($queryName)) {
                         <th>Creation Time</th>
                         <th>Completed Time</th>
                         <th>Deleted Time</th>
+                        <th>PI E-mail</th>
                         <th>Number of Users</th>
                     </tr>
                 </thead>
@@ -227,6 +228,7 @@ if (!empty($queryName)) {
                         echo "<td>{$projectCreationTime}</td>";
                         echo "<td>{$projectCompletedTime}</td>";
                         echo "<td>{$projectDeletedTime}</td>";
+                        echo "<td>{$projectInfo->getPiEmail()}</td>";
                         echo '<td style="text-align: right;">';
                         echo '<a href="' . $userRightsUrl . '" target="_blank">'
                             . $projectInfo->getNumberOfUsers() . '</a></td>';
