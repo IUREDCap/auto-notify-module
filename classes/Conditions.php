@@ -446,9 +446,9 @@ class Conditions
             $query .= ",\n" . '        projects.completed_time';
             $query .= ",\n" . '        projects.date_deleted';
 
-            $query .= ",\n" . '        projects.project_pi_email';
-            $query .= ",\n" . "        IFNULL(projects.project_pi_firstname, '') as project_pi_firstname";
-            $query .= ",\n" . "        IFNULL(projects.project_pi_lastname, '') as project_pi_lastname";
+            $query .= ",\n" . "        project_pi_email";
+            $query .= ",\n" . "        project_pi_firstname";
+            $query .= ",\n" . "        project_pi_lastname";
 
             $query .= ",\n" . "        "
                 . "IF(rights.role_id is NULL, rights.user_rights, roles.user_rights) as user_rights";
@@ -643,7 +643,11 @@ class Conditions
                 $tableAlias = $tableMap[$table];
                 $valueType  = $variable->getValueType();
 
-                if ($variable->getName() === 'role_name' || $variable->getName() === 'user_comments') {
+                if ($variable->getName() === 'role_name' || $variable->getName() === 'user_comments'
+                    || $variable->getName() === 'project_pi_email'
+                    || $variable->getName() === 'project_pi_firstname'
+                    || $variable->getName() === 'project_pi_lastname'
+                ) {
                     $field = $tableAlias . '.' . $variable->getName();
                     $field = "IFNULL({$field}, '')";
                 } elseif ($variable->isUserRightsVariable()) {
