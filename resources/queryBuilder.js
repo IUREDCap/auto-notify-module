@@ -129,11 +129,13 @@ AutoNotifyModule.toJsonR = function(node) {
 
 AutoNotifyModule.getOptgroups = function() {
     // UNTESTED
-    let optgroups = new Set();
+    let optgroupsSet = new Set();
     for (let i = 0; i < this.variableData.length; i++) {
         let varData = this.variableData[i];
-        optgroups.add(varData.optgroup);
+        optgroupsSet.add(varData.optgroup);
     }
+
+    let optgroups = Array.from(optgroupsSet);
 
     return optgroups;
 }
@@ -254,8 +256,8 @@ AutoNotifyModule.getCondition = function(variable = null, operator = null, value
     //-----------------------------------------------------
     // Create query variable search button
     //-----------------------------------------------------
-    html += '<button class="anmVariableSearch" style="margin-right: 1em;">'
-        + '<i class="fa fa-magnifying-glass" style="color: gray;"></i>'
+    html += '<button class="anmVariableSearch" style="margin-right: 1em; background-color: green;">'
+        + '<i class="fa fa-magnifying-glass" style="color: white;"></i>'
         + '</button>'
 
 
@@ -459,16 +461,41 @@ $(document).ready(function(){
 
         let searchDialog = $(document.createElement('div'));
 
-        let thStyle = '"border: 1px solid black; border-collapse: collapse; padding: 4px; background-color: #EEEEEE;"';
-        let tdStyle = '"border: 1px solid black; border-collapse: collapse; padding: 4px;"';
+        let thStyle = 'border: 1px solid #426B48; color: #426B48; border-collapse: collapse; padding: 4px; background-color: #EEEEEE;';
+        let tdStyle = 'border: 1px solid #426B48; border-collapse: collapse; padding: 4px;';
 
-        let contentHtml = '<p>Search: <input type="text" id="variableSearchText"></p>';
-        contentHtml += '<table id="searchTable" style="border: 1px solid black; border-collapse: collapse;">'
+        let labelStyle = 'font-weight: bold; color: #426B48;';
+
+        let contentHtml = '';
+        contentHtml += '<div id="variableSearchDiv">';
+        contentHtml += 
+            '<fieldset style="background-color: white; border: 1px solid #462B48; border-radius: 5px; padding: 5px; margin-bottom: 14px;">'
+            + '<span style="' + labelStyle + '">Search:</span>'
+            + ' <input type="text" id="variableSearchText" style="margin-right: 1em;">'
+            + ' <span style="' + labelStyle + '">Group:</span>'
+            + ' <select id="groupSelect">'
+            + '<option value="All">All</option>';
+
+        let optgroups = AutoNotifyModule.getOptgroups();
+        for (let i = 0; i < optgroups.length; i++) {
+            optgroup = optgroups[i];
+            contentHtml += '<option value="' + optgroup + '">' + optgroup + '</option>';
+        }
+
+        contentHtml +=
+            '</select>'
+            + ' <input type="checkbox" id="showDescriptionsCheckbox" style="margin-left: 2em;">'
+            + ' <span style="' + labelStyle + '">Show Descriptions</span>'
+            + '</fieldset>'
+            ;
+
+        contentHtml +=
+            '<table id="searchTable" style="border: 1px solid #426B48; border-collapse: collapse; background-color: white;">'
             + '<thead>'
             + '<tr>'
-            + '<th style=' + thStyle + '>Variable</th>'
-            + '<th style=' + thStyle + '>Group</th>'
-            + '<th style=' + thStyle + '>Description</th>'
+            + '<th style="' + thStyle + ' width: 14em;">Variable</th>'
+            + '<th style="' + thStyle + ' width: 7em;">Group</th>'
+            + '<th style="' + thStyle + ' display: none;">Description</th>'
             + '</tr>'
             + '</thead>';
         contentHtml += '<tbody>';
@@ -478,31 +505,31 @@ $(document).ready(function(){
         for (let i = 0; i < variableData.length; i++) {
             let varData = variableData[i];
             contentHtml += '<tr display="">'
-                + '<td style=' + tdStyle + '><button>' + varData.label + '</button></td>'
-                + '<td style=' + tdStyle + '>' + varData.optgroup + '</td>'
-                + '<td style=' + tdStyle + '>' + varData.help + '</td>'
+                + '<td style="' + tdStyle + '"><button style="width: 100%; text-align: left;">' + varData.label + '</button></td>'
+                + '<td style="' + tdStyle + '">' + varData.optgroup + '</td>'
+                + '<td style="' + tdStyle + ' display: none;">' + varData.help + '</td>'
                 + '<td hidden>' + varData.name + '</td>'
                 + '</tr>';
         }
 
         contentHtml += '</tbody></table>';
+        contentHtml += '</div>';
 
 
         searchDialog.html(contentHtml);
 
         searchDialog.dialog({
-            width: 840,
+            width: 940,
             maxHeight: 480,
             modal: true,
             buttons: {
                 Cancel: function() {$(this).dialog("destroy").remove();},
             },
             title: 'Query Variable Search',
-            //position: {
-            //    my: "left top",
-            //    at: "left bottom+7",
-            //    of: li
-            //}
+            dialogClass: 'variable-search-dialog',
+            close: function( event, ui ) {
+                $(this).dialog("destroy").remove();
+            }
         })
         ;
 
@@ -515,34 +542,67 @@ $(document).ready(function(){
             let varName = $(tds[3]).text().trim();
             $(varTd).on("click", function() {
                 //alert("Clicked " + varName + "!");
-                varSelect.val(varName);
+                varSelect.val(varName).trigger("change");
                 searchDialog.dialog("destroy").remove();
                 return false;
             });
         }
 
-        // Set input event for search text
-        $("#variableSearchText").on("input", function() {
-        // $("*").on("input", "#variableSearchText", function() {
-            let pattern = $("#variableSearchText").val();
+        // Show Descriptions change
+        $("#showDescriptionsCheckbox").on("change", function() {
+            let headerTr = $("#searchTable thead tr");
+            let headerThs = $("th", headerTr);
+            let descriptionTh = headerThs[2];
 
             let trs = $("#searchTable tbody tr");
-
             for (i = 0; i < trs.length; i++) {
                 let tr = trs[i];
                 let tds = $("td", tr);
-                let varName = $(tds[0]).text().trim();
-                if (varName.toLowerCase().indexOf(pattern.toLowerCase()) >= 0) {
-                    // Case-insensitive check
+                let descriptionTd = tds[2];
+                if (this.checked) {
+                    //alert('Checked!');
+                    descriptionTh.style.display = '';
+                    descriptionTd.style.display = '';
+                }
+                else {
+                    //alert('Unchecked!');
+                    descriptionTh.style.display = 'none';
+                    descriptionTd.style.display = 'none';
+                }
+            }
+        });
+
+        // Set input event for search text
+        $("#variableSearchText").on("input", function() {
+            filterVariableSearch();
+            return false;
+        });
+
+        $("#groupSelect").on("change", function() {
+            filterVariableSearch();
+            return false;
+        });
+
+        function filterVariableSearch() {
+            let groupOption = $("#groupSelect").find(":selected").text();
+            let variablePattern = $("#variableSearchText").val();
+
+            let trs = $("#searchTable tbody tr");
+            for (i = 0; i < trs.length; i++) {
+                let tr = trs[i];
+                let tds = $("td", tr);
+                let variableName = $(tds[0]).text().trim();
+                let groupName = $(tds[1]).text().trim();
+                if ((groupOption === groupName || groupOption === 'All') &&
+                    (variablePattern === '' || variableName.toLowerCase().indexOf(variablePattern.toLowerCase()) >= 0)
+                ) {
                     tr.style.display = '';
                 }
                 else {
                     tr.style.display = 'none';
                 }
             }
-
-            return false;
-        });
+        }
 
         return false;
     });

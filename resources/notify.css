@@ -159,3 +159,7 @@ div.ui-dialog {
     z-index: 100000 !important;
 }
 
+.variable-search-dialog {
+     background-color: #EDF4EE;
+}
+

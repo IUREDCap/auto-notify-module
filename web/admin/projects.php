@@ -181,7 +181,7 @@ if (!empty($queryName)) {
                         <th>Deleted Time</th>
                         <th>PI E-mail</th>
                         <th>PI First Name</th>
-                        <th>PI Last Namel</th>
+                        <th>PI Last Name</th>
                         <th>Number of Users</th>
                     </tr>
                 </thead>
