@@ -21,6 +21,7 @@ class User
     private $suspendedTime;
     private $expiration;
     private $displayOnEmailUsers;
+    private $userSponsor;
     private $comments;
 
     private $userRights;    // map from project ID to user rights for the project
@@ -29,6 +30,7 @@ class User
     {
         $this->userRights = [];
         $this->displayOnEmailUsers = true;
+        $this->userSponsor = '';
         $this->comments = '';
     }
 
@@ -199,6 +201,16 @@ class User
     public function setDisplayOnEmailUsers($displayOnEmailUsers)
     {
         $this->displayOnEmailUsers = $displayOnEmailUsers;
+    }
+
+    public function getUserSponsor()
+    {
+        return $this->userSponsor;
+    }
+
+    public function setUserSponsor($userSponsor)
+    {
+        $this->userSponsor = $userSponsor;
     }
 
     public function getComments()

@@ -21,6 +21,7 @@ class Query
         'user_email3',
         'user_firstname',
         'user_lastname',
+        'user_sponsor',
         'user_comments',
         'display_on_email_users',
         'project_id',

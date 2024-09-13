@@ -107,6 +107,15 @@
         "help": "When set to true, selects users who have the \"Display user on 'Email Users' page?\" option checked. This option is on the Control Center page for editing a user's information."
     },
     {
+        "name": "user_sponsor",
+        "table": "redcap_user_information",
+        "label": "User Sponsor",
+        "operators": ["=", "<>", "like", "not like"],
+        "valueType": "inputText",
+        "optgroup": "User",
+        "help": "Selects users who have the specified user sponsor. The '%' character can be used as a wildcard character with the 'like' operator."
+    },
+    {
         "name": "user_comments",
         "table": "redcap_user_information",
         "label": "User Comments",

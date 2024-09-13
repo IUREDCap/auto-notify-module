@@ -155,6 +155,7 @@ if (!empty($queryName)) {
                         <th>suspended time</th>
                         <th>expiration</th>
                         <th>display on email users</th>
+                        <th>user sponsor</th>
                         <th>comments</th>
                     </tr>
                 </thead>
@@ -188,6 +189,7 @@ if (!empty($queryName)) {
                         echo "<td>{$user->getSuspendedTime()}</td>";
                         echo "<td>{$user->getExpiration()}</td>";
                         echo "<td>{$displayOnEmailUsersLabel}</td>";
+                        echo "<td>{$user->getUserSponsor()}</td>";
                         echo '<td class="ellipsis"'
                             . ' title="' . $user->getComments() . '"'
                             . '>'

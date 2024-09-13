@@ -159,6 +159,7 @@ class RedCapDb
                 $user->setCreationTime($row['user_creation']);
                 $user->setSuspendedTime($row['user_suspended_time']);
                 $user->setExpiration($row['user_expiration']);
+                $user->setUserSponsor($row['user_sponsor']);
                 $user->setComments($row['user_comments']);
                 $user->setDisplayOnEmailUsers($row['display_on_email_users']);
             }
