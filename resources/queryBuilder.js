@@ -486,6 +486,9 @@ $(document).ready(function(){
             '</select>'
             + ' <input type="checkbox" id="showDescriptionsCheckbox" style="margin-left: 2em;">'
             + ' <span style="' + labelStyle + '">Show Descriptions</span>'
+            + ' <button style="float: right; margin-right: 17px;" class="anmVariableSearchHelp">'
+            + ' <i class="fa fa-question-circle" style="color: blue;"></i></button>'
+            + ' <span style="clear: both;"></span>'
             + '</fieldset>'
             ;
 
@@ -638,6 +641,47 @@ $(document).ready(function(){
         // variableHelpForm.dialog();
         // var li = $(this).closest("li");
         // li.remove();
+        return false;
+    });
+
+    // QUERY VARIABLE SEARCH HELP
+    $("*").on("click", "button.anmVariableSearchHelp", function() {
+        let helpDialog = $(document.createElement('div'));
+        let helpHtml = 'Search for query variables using:'
+            + '<ul>'
+            + '<li>'
+            + '<b>Search.</b>'
+            + ' Enter text into the "Search" box to filter variables by their names. For example, if you'
+            + ' enter "api" (without the quotes) into the search box, only variables that have "api" somewhere in their names'
+            + ' will be displayed in the table. The filtering is case-insensitive, so variables with "API", "Api", etc. will'
+            + ' also be displayed.'
+            + '</li>'
+            + '<li>'
+            + '<b>Group.</b>'
+            + ' You can select a group to limit the variables displayed in the table. For example, if you select "Project"'
+            + ' for the group, then only query variables dependent on the project specified in a query (and not the user),'
+            + ' such as "Project ID" and "Project Ttile", '
+            + ' will be'
+            + ' displayed.'
+            + '</ul>'
+            + '<p>'
+            + 'Click the <b>Show Descriptions</b> checkbox to display variable descriptions in the table.'
+            + '</p>'
+            + '<p>'
+            + '<b>Variable Selection.</b> Once you have found the variable you want, click on its name to set the'
+            + ' condition variable selection in the query builder to that variable and return to the query builder.'
+            + '</p>'
+            ;
+        helpDialog.html(helpHtml);
+        helpDialog.dialog({
+            width: 620,
+            modal: false,
+            buttons: {
+                Close: function() {$(this).dialog("close");},
+            },
+            title: 'Query Variable Search Help'
+        });
+
         return false;
     });
 
