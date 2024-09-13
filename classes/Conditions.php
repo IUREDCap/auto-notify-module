@@ -450,6 +450,7 @@ class Conditions
             $query .= ",\n" . "        project_pi_email";
             $query .= ",\n" . "        project_pi_firstname";
             $query .= ",\n" . "        project_pi_lastname";
+            $query .= ",\n" . "        project_irb_number";
 
             $query .= ",\n" . "        "
                 . "IF(rights.role_id is NULL, rights.user_rights, roles.user_rights) as user_rights";
@@ -644,12 +645,14 @@ class Conditions
                 $tableAlias = $tableMap[$table];
                 $valueType  = $variable->getValueType();
 
-                if ($variable->getName() === 'role_name'
+                if (
+                    $variable->getName() === 'role_name'
                     || $variable->getName() === 'user_sponsor'
                     || $variable->getName() === 'user_comments'
                     || $variable->getName() === 'project_pi_email'
                     || $variable->getName() === 'project_pi_firstname'
                     || $variable->getName() === 'project_pi_lastname'
+                    || $variable->getName() === 'project_irb_number'
                 ) {
                     # For variables that can be null, change null to blank in comparison to make
                     # querying easier and more intuitive

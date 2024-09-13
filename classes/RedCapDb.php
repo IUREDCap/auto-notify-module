@@ -241,6 +241,7 @@ class RedCapDb
                     $projectInfo->setPiEmail($row['project_pi_email']);
                     $projectInfo->setPiFirstName($row['project_pi_firstname']);
                     $projectInfo->setPiLastName($row['project_pi_lastname']);
+                    $projectInfo->setIrbNumber($row['project_irb_number']);
                     $projectInfo->addUsername($username);
                 }
                 $queryResults->addOrUpdateProjectInfo($projectInfo);

@@ -25,6 +25,7 @@ class ProjectInfo
     private $piEmail;
     private $piFirstName;
     private $piLastName;
+    private $irbNumber;
     private $usernames; // array with usernames as key (set of usernames)
 
     public function __construct()
@@ -217,5 +218,15 @@ class ProjectInfo
     public function setPiLastName($piLastName)
     {
         $this->piLastName = $piLastName;
+    }
+
+    public function getIrbNumber()
+    {
+        return $this->irbNumber;
+    }
+
+    public function setIrbNumber($irbNumber)
+    {
+        $this->irbNumber = $irbNumber;
     }
 }

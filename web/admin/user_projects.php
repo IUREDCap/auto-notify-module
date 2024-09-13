@@ -161,7 +161,7 @@ if (!empty($queryName)) {
             <table id="userProjectsTable" style="white-space: nowrap;">
                 <thead>
                     <tr> 
-                        <th colspan="13">Project Information</th>
+                        <th colspan="14">Project Information</th>
                         <th colspan="7">User Project Rights</th>
                     </tr>
                     <tr> 
@@ -179,6 +179,7 @@ if (!empty($queryName)) {
                         <th>PI E-Mail</th>
                         <th>PI First Name</th>
                         <th>PI Last Name</th>
+                        <th>IRB Number</th>
 
                         <th>Role Name</th>
                         <th>Design Rights</th>
@@ -267,6 +268,7 @@ if (!empty($queryName)) {
                         echo "<td>{$projectInfo->getPiEmail()}</td>";
                         echo "<td>{$projectInfo->getPiFirstName()}</td>";
                         echo "<td>{$projectInfo->getPiLastName()}</td>";
+                        echo "<td>{$projectInfo->getIrbNumber()}</td>";
 
                         echo "<td>{$roleName}</td>";
                         echo "<td>{$designLabel}</td>";

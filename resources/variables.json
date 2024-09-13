@@ -351,7 +351,7 @@
         "operators": ["=", "<>", "like", "not like"],
         "valueType": "inputText",
         "optgroup": "Project",
-        "help": "Selects users with a project where the first name of the PI (Principal Investigator) matches the specified value. The '%' character can be used as a wildcard character with the 'like' operator."
+        "help": "Selects users with a project where the first name of the PI (Principal Investigator) matches the specified condition. The '%' character can be used as a wildcard character with the 'like' operator."
     },
     {
         "name": "project_pi_lastname",
@@ -360,7 +360,16 @@
         "operators": ["=", "<>", "like", "not like"],
         "valueType": "inputText",
         "optgroup": "Project",
-        "help": "Selects users with a project where the last name of the PI (Principal Investigator) matches the specified value. The '%' character can be used as a wildcard character with the 'like' operator."
+        "help": "Selects users with a project where the last name of the PI (Principal Investigator) matches the specified condition. The '%' character can be used as a wildcard character with the 'like' operator."
+    },
+    {
+        "name": "project_irb_number",
+        "table": "redcap_projects",
+        "label": "Project IRB Number",
+        "operators": ["=", "<>", "like", "not like"],
+        "valueType": "inputText",
+        "optgroup": "Project",
+        "help": "Selects users with a project where the IRB (Institutional Review Board) number matches the specified condition. The '%' character can be used as a wildcard character with the 'like' operator."
     },
     {
         "name": "directory_prefix",
