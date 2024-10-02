@@ -402,7 +402,7 @@ $(document).ready(function(){
         $(this).data('savedVal', $(this).val());
     });
 
-    // CHANGE TIME SELECT
+    // CHANGE TIME VARIABLE OPERATION SELECT
     $("*").on("change", "select.anmTimeOpsSelect", function() {
         let previousVal = $(this).data("savedVal");
 
@@ -424,6 +424,7 @@ $(document).ready(function(){
         }
         else if (selectVal.startsWith("age")) {
             if (!previousVal.startsWith("age")) {
+                $(value).datepicker( "destroy");
                 value.attr("class", "");
                 value.off('focus');
                 value.attr("readonly", false);
