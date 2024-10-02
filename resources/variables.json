@@ -306,6 +306,16 @@
         "help": "When set to true, selects users who have a project where surveys have been enabled."
     },
     {
+        "name": "last_logged_event",
+        "table": "redcap_projects",
+        "label": "Project Last Logged Event",
+        "operators": ["=", "<", "<=", ">", ">=", "<>", "is", "is not", "age <", "age <=", "age >", "age >="],
+        "operatorClass": "anmTimeOpsSelect",
+        "valueType": "dateTimeNull",
+        "optgroup": "Project",
+        "help": "Selects users with a project that has a 'Project Last Logged Event' time that matches the specified condition. For the age operators, the allowed values are an integer or negative integer followed by one of: years, months, weeks, days, hours, minutes, seconds. For example: \"2 weeks\", \"1 year\", \"6 months\"."
+    },
+    {
         "name": "creation_time",
         "table": "redcap_projects",
         "label": "Project Creation Time",

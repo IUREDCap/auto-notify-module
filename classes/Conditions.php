@@ -443,6 +443,7 @@ class Conditions
             $query .= ",\n" . '        projects.online_offline';
             $query .= ",\n" . '        projects.repeatforms';
             $query .= ",\n" . '        projects.surveys_enabled';
+            $query .= ",\n" . '        projects.last_logged_event';
             $query .= ",\n" . '        projects.creation_time';
             $query .= ",\n" . '        projects.completed_time';
             $query .= ",\n" . '        projects.date_deleted';

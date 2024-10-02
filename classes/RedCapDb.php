@@ -235,6 +235,7 @@ class RedCapDb
                     $projectInfo->setIsLongitudinal($row['repeatforms']);
                     $projectInfo->setIsOnline($row['online_offline']);
                     $projectInfo->setSurveysEnabled($row['surveys_enabled']);
+                    $projectInfo->setlastloggedEvent($row['last_logged_event']);
                     $projectInfo->setCreationTime($row['creation_time']);
                     $projectInfo->setCompletedTime($row['completed_time']);
                     $projectInfo->setDeletedTime($row['date_deleted']);

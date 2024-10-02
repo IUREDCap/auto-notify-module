@@ -19,6 +19,7 @@ class ProjectInfo
     private $surveysEnabled;
     private $isLongitudinal;
     private $isOnline;
+    private $lastLoggedEvent;   // time of last logged event
     private $creationTime;
     private $completedTime;
     private $deletedTime;
@@ -148,6 +149,16 @@ class ProjectInfo
     public function setIsOnline($isOnline)
     {
         $this->isOnline = $isOnline;
+    }
+
+    public function getLastLoggedEvent()
+    {
+        return $this->lastLoggedEvent;
+    }
+
+    public function setLastLoggedEvent($lastLoggedEvent)
+    {
+        $this->lastLoggedEvent = $lastLoggedEvent;
     }
 
     public function getSurveysEnabled()

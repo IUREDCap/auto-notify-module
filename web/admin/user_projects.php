@@ -161,7 +161,7 @@ if (!empty($queryName)) {
             <table id="userProjectsTable" style="white-space: nowrap;">
                 <thead>
                     <tr> 
-                        <th colspan="14">Project Information</th>
+                        <th colspan="15">Project Information</th>
                         <th colspan="7">User Project Rights</th>
                     </tr>
                     <tr> 
@@ -172,6 +172,7 @@ if (!empty($queryName)) {
                         <th>Is Online</th>
                         <th>Surveys Enabled</th>
                         <th>Is Longitudinal</th>
+                        <th>Last Logged Event</th>
                         <th>Creation Time</th>
                         <th>Completed Time</th>
                         <th>Deleted Time</th>
@@ -218,6 +219,8 @@ if (!empty($queryName)) {
                         $projectIsLongitudinalLabel = $variable->getSelectValueLabel($projectIsLongitudinal);
                         $projectIsLongitudinalLabel = ProjectInfo::convertTrueFalseToYesNo($projectIsLongitudinalLabel);
 
+                        $projectLastLoggedEvent = $projectInfo->getLastLoggedEvent();
+
                         $projectCreationTime = $projectInfo->getCreationTime();
 
                         $projectCompletedTime = $projectInfo->getCompletedTime();
@@ -261,6 +264,8 @@ if (!empty($queryName)) {
                         echo "<td>{$projectIsOnlineLabel}</td>";
                         echo "<td>{$projectSurveysEnabledLabel}</td>";
                         echo "<td>{$projectIsLongitudinalLabel}</td>";
+
+                        echo "<td>{$projectLastLoggedEvent}</td>";
                         echo "<td>{$projectCreationTime}</td>";
                         echo "<td>{$projectCompletedTime}</td>";
                         echo "<td>{$projectDeletedTime}</td>";

@@ -35,6 +35,10 @@ class ProjectInfoTest extends TestCase
         $projectInfo->setIsLongitudinal(1);
         $this->assertEquals(1, $projectInfo->getIsLongitudinal(), 'Project is longitudinal test');
 
+        $lastLoggedEvent = '2022-01-02 02:10';
+        $projectInfo->setLastLoggedEvent($lastLoggedEvent);
+        $this->assertEquals($lastLoggedEvent, $projectInfo->getLastLoggedEvent(), 'Project last logged event test');
+
         $completedTime = '2023-01-02 03:04';
         $projectInfo->setCompletedTime($completedTime);
         $this->assertEquals($completedTime, $projectInfo->getCompletedTime(), 'Project completed time test');
