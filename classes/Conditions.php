@@ -424,9 +424,15 @@ class Conditions
      * Generates the SQL corresponding to this Conditions object.
      *
      * @param array $variables map from variable name to Variable object for the condition variables.
+     * @param boolean $getProjectInfo indicates if project information should be rerieved.
+     * @param string $nowDateTime the current date/time in yyyy-mm-dd hh:mm:ss format, e.g., '2022-12-31 14:45'.
      */
     public function toSql($variables, $getProjectInfo = false, $nowDateTime = null)
     {
+        if ($nowDateTime === null) {
+            $nowDateTime = DateInfo::timestampToString(time());
+        }
+
         $query = 'SELECT DISTINCT info.username, info.user_email, info.user_email2, info.user_email3,' . "\n"
             . '        info.user_firstname, info.user_lastname,' . "\n"
             . '        info.user_lastlogin, info.user_creation, info.user_suspended_time, info.user_expiration,' . "\n"

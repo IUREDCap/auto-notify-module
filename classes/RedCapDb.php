@@ -119,6 +119,8 @@ class RedCapDb
         $conditions = $query->getConditions();
         $jsonConditions = $conditions->toJson();
 
+        # error_log($jsonConditions, 3, __DIR__ . '/../json-conditions.log');
+
         $getProjectInfo = false;
 
         $queryResults = $this->getUsersFromJsonConditions($jsonConditions, $getProjectInfo, $nowDateTime);
@@ -129,15 +131,25 @@ class RedCapDb
     }
 
     /*
+     * Gets the users from the specified JSON query conditions.
+     *
+     * @param string $nowDateTime to time to use as the current time.
+     *
      * @return UsersQueryResults the query results from the specified JSON query conditions.
      */
     public function getUsersFromJsonConditions($jsonConditions, $getProjectInfo = false, $nowDateTime = null)
     {
         $queryResults = new UsersQueryResults();
 
+        if ($nowDateTime === null) {
+            $nowDateTime = DateInfo::timestampToString(time());
+        }
+
         $parameters = [];
         $variables = $this->module->getVariables();
         $query = Query::queryConditionsToSql($variables, $jsonConditions, $getProjectInfo, $nowDateTime);
+
+        # error_log($query, 3, __DIR__ . '/../query.log');
 
         $result = $this->module->query($query, $parameters);
 
@@ -235,7 +247,7 @@ class RedCapDb
                     $projectInfo->setIsLongitudinal($row['repeatforms']);
                     $projectInfo->setIsOnline($row['online_offline']);
                     $projectInfo->setSurveysEnabled($row['surveys_enabled']);
-                    $projectInfo->setlastloggedEvent($row['last_logged_event']);
+                    $projectInfo->setLastLoggedEvent($row['last_logged_event']);
                     $projectInfo->setCreationTime($row['creation_time']);
                     $projectInfo->setCompletedTime($row['completed_time']);
                     $projectInfo->setDeletedTime($row['date_deleted']);

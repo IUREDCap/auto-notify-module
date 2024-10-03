@@ -384,6 +384,9 @@ class AutoNotifyModule extends \ExternalModules\AbstractExternalModule
      */
     public function getUsers($usersSpecification, $nowDateTime = null)
     {
+        if ($nowDateTime === null) {
+            $nowDateTime = time();
+        }
         return ($this->getDb())->getUsers($usersSpecification, $nowDateTime);
     }
 

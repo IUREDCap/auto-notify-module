@@ -222,13 +222,19 @@ class Notification
     {
         $queryVariables = $module->getVariables();
 
-        $nowDateTime = DateInfo::timestampToString($cronTimestamp);
+        if ($cronTimestamp === null) {
+            $nowDateTime = DateInfo::timestampToString(time());
+        } else {
+            $nowDateTime = DateInfo::timestampToString($cronTimestamp);
+        }
 
         $usersQueryResults = $module->getUsers($this->usersSpecification, $nowDateTime);
 
         $users               = $usersQueryResults->getUsers();
         $projectInfoMap      = $usersQueryResults->getProjectInfoMap();
         $projectTableColumns = $usersQueryResults->getProjectTableColumns();
+
+        # error_log(print_r($users, true), 3, __DIR__ . '/../user-query.log');
 
         $secondaryProjectInfoMap = $usersQueryResults->getSecondaryProjectInfoMap();
 
