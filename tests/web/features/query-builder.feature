@@ -4,7 +4,7 @@
 #-------------------------------------------------------
 
 Feature: Query builder
-  In order to create queries for notifications
+  In order to create queries for notifications or for querying the REDCap database
   As an admin
   I need to be able to be able to use the query builder to create and run queries
 
@@ -12,12 +12,12 @@ Feature: Query builder
     Given I am on "/"
     When I access the admin interface
 
-  Scenario: Create new Query
+  Scenario: Create new Query with project conditions
     When I follow "Queries"
     And I follow "Saved Queries"
-    And I delete queries with name "Query creation web test"
+    And I delete queries with name "behat projects query 1"
     And I follow "Query Builder"
-    And I fill in "Query Name:" with "Query creation web test"
+    And I fill in "Query Name:" with "behat projects query 1"
     And I add condition to group number 1
     And I set condition number 1 to "Project Status" "=" "Development"
     And I add condition to group number 1
@@ -36,55 +36,23 @@ Feature: Query builder
     And  table column "Is Online" should contain only "yes"
     And  table column "Is Longitudinal" should contain only "no"
     
-    #  Scenario: Show SQL query
-    #When I follow "Queries"
-    #And I follow "Saved Queries"
-    #And I follow last query
-    #And I press "Show SQL Query"
-    #And I wait for 2 seconds
-    #Then I should see "SELECT DISTINCT"
-    #And I should see "FROM"
-    #And I should see "JOIN"
-    #And I should see "WHERE"
+  Scenario: Create new Query with user conditions
+    When I follow "Queries"
+    And I follow "Saved Queries"
+    And I delete queries with name "behat users query 1"
+    And I follow "Query Builder"
+    And I fill in "Query Name:" with "behat users query 1"
+    And I add condition to group number 1
+    And I set condition number 1 to "User Suspended Time" "is" "NULL"
+    And I add condition to group number 1
+    And I set condition number 2 to "User Expiration" "is" "NULL"
+    And I press "Save"
+    Then I should see "Query saved."
+    But I should not see "REDCap crashed"
 
-    #  Scenario: Show conditions
-    #When I follow "Queries"
-    #And I follow "Saved Queries"
-    #And I follow last query
-    #And I press button "showConditionsButton" to new window
-    #Then I should see "Query Conditions"
-    #But I should not see "Error:"
-
-    #  Scenario: Show queries conditions
-    #When I follow "Queries"
-    #And I follow "Saved Queries"
-    #And I show conditions for last query
-    #And I wait for 4 seconds
-    #Then I should see "Query Conditions"
-    #But I should not see "Error:"
-
-    #  Scenario: View users
-    #When I follow "Queries"
-    #And I follow "Saved Queries"
-    #And I follow last query
-    #And I press button "viewUsersButton" to new window
-    #Then I should see "user first name"
-    #And I should see "user last name"
-    #When I press first number of projects button
-    #Then I should see "Projects for user"
-    #And I should see "Project ID"
-    #And I should see "Title"
-    #And I should see "Status"
-    #And I should see "Purpose"
-
-    #  Scenario: View projects
-    #When I follow "Queries"
-    #And I follow "Saved Queries"
-    #And I follow last query
-    #And I press button "viewProjectsButton" to new window
-    #Then I should see "Projects"
-    #And I should see "Project ID"
-    #And I should see "Title"
-    #And I should see "Status"
-    #And I should see "Purpose"
-
+    When I press button "viewUsersButton" to new window
+    And I select "All" from "userTable_length"
+    Then I should see "Users"
+    And I should see "username"
+    And  table column "suspended time" should contain only ""
+    And  table column "expiration" should contain only ""
