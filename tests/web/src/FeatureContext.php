@@ -484,6 +484,45 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
     }
 
     #---------------------------------
+    # QUERY
+    #---------------------------------
+
+    /**
+     * @When /^I add condition to group number (\d+)$/
+     *
+     * Adds a condition on the Query Builder page using the button for
+     * the specified grouping operator number, where operators are
+     * numbered sequentially starting from the top and going down.
+     */
+    public function iAddConditionToGroupNumber($groupNumber)
+    {
+        $session = $this->getSession();
+        QueryPage::addCondition($session, $groupNumber);
+    }
+
+    /**
+     * @When /^I set condition number (\d+) to "([^"]*)" "([^"]*)" "([^"]*)"$/
+     */
+    public function iSetConditionNumber($conditionNumber, $variable, $operator, $value)
+    {
+        $session = $this->getSession();
+        QueryPage::setCondition($session, $conditionNumber, $variable, $operator, $value);
+    }
+
+    /**
+     * @Then /^table column "([^"]*)" should contain only "([^"]*)"$/
+     */
+    public function tableColumnShouldContainOnly($columnName, $value)
+    {
+        $session = $this->getSession();
+        $containsOnly = Util::tableColumnContainsOnly($session, $columnName, $value);
+        if ($containsOnly !== true) {
+            throw new \Exception("Table column \"{$columnName}\" contains value(s) other than \"{$value}\".");
+        }
+    }
+
+
+    #---------------------------------
     # QUERIES
     #---------------------------------
 

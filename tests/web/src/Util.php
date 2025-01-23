@@ -224,6 +224,28 @@ class Util
     }
 
     /**
+     * Checks if a table column contains only the specified value. If the
+     * table contains no values, then true is also returned.
+     */
+    public static function tableColumnContainsOnly($session, $columnName, $value)
+    {
+        $containsOnly = false;
+
+        $values = self::getTableColumnValues($session, $columnName);
+
+        if (empty($values)) {
+            $containsOnly = true;
+        } else {
+            $uniqueValues = array_unique($values);
+            if (count($uniqueValues) === 1 && $uniqueValues[0] === $value) {
+                $containsOnly = true;
+            }
+        }
+
+        return $containsOnly;
+    }
+
+    /**
      * Note: matches full values
      */
     public static function tableColumnDoesNotContain($session, $columnName, $value)
@@ -239,6 +261,10 @@ class Util
     {
         $page = $session->getPage();
         $elements = $page->findall('xpath', "//table//td[count(//table//th[text()='{$columnName}']/preceding-sibling::*) +1]");
+
+        if ($elements === null) {
+            throw new \Exception("Table column \"{$columnName}\" not found.");
+        }
 
         $values = [];
         if ($elements != null && is_array($elements)) {

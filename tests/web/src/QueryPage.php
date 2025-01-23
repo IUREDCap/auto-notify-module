@@ -36,4 +36,50 @@ class QueryPage
         $button = $elements[$groupNumber - 1];
         $button->click();
     }
+
+
+    /**
+     * @param int $conditionNumber The condition number (1-based index) to set.
+     */
+    public static function setCondition($session, $conditionNumber, $variable, $operator, $value)
+    {
+        $page = $session->getPage();
+        $elements = $page->findAll("css", 'li.condition');
+
+        if ($elements == null || count($elements) < $conditionNumber) {
+            throw new \Exception("Condition number {$conditionNumber} does not exits.");
+        }
+
+        $condition = $elements[$conditionNumber - 1];
+
+        #---------------------------
+        # Set the variable
+        #---------------------------
+        $variableSelect = $condition->find("css", "select.anmVariableSelect");
+        // print "{$variableSelect->getText()}\n";
+        $variableSelect->selectOption($variable);
+
+        #---------------------------
+        # Set the operator
+        #---------------------------
+        $operatorSelect = $condition->find("css", "select.anmOperatorSelect");
+        $operatorSelect->selectOption($operator);
+
+        #---------------------------
+        # Set the value
+        #---------------------------
+        $valueElement = $operatorSelect->find("xpath", "/following-sibling::*");
+        $valueTag = $valueElement->getTagName();
+
+        if ($valueElement->hasAttribute('readonly')) {
+            ; // don't update value
+        } elseif ($valueTag === 'input') {
+            $valueType = $valueElement->getAttribute("type");
+            if ($valueType === 'text') {
+                $valueElement->setValue($value);
+            }
+        } elseif ($valueTag === 'select') {
+            $valueElement->selectOption($value);
+        }
+    }
 }
