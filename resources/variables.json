@@ -396,7 +396,7 @@
         "name": "cdos_source_project_id",
         "table": "cdos",
         "label": "Copy Data on Save Source Project",
-        "operators": ["is not", "is"],
+        "operators": ["is not"],
         "valueType": "null",
         "optgroup": "Special",
         "help": "When set to 'is not NULL', selects users who have a project that has a 'Copy Data on Save' source project, i.e., users with a project that may have data copied to it by another project that has the 'Copy Data on Save' external module enabled."
@@ -405,7 +405,7 @@
         "name": "cpp_destination_project_id",
         "table": "cpp",
         "label": "Cross-Project Piping Destination Project",
-        "operators": ["is not", "is"],
+        "operators": ["is not"],
         "valueType": "null",
         "optgroup": "Special",
         "help": "When set to 'is not NULL', selects users who have a project that has a 'Cross-Project Piping' external module destination project, i.e., users with a project that may have its data piped to another project that has the 'Cross-Project Piping' external module enabled."

@@ -465,7 +465,7 @@ class Conditions
             $query .= ",\n" . "        "
                 . "IF(rights.role_id is NULL, rights.design, roles.design) as design";
 
-            $query .= ",\n" . "        if(rights.api_token is null, 'no', 'yes') as has_api_token";
+            $query .= ",\n" . "        IF(rights.api_token is null, 'no', 'yes') as has_api_token";
 
             $query .= ",\n" . "        "
                 . "IF(rights.role_id is NULL, rights.api_export, roles.api_export) as api_export";
@@ -525,7 +525,8 @@ class Conditions
                 . "            SELECT em_settings.project_id as cpp_destination_project_id,\n"
                 . "                     em_settings.value as cpp_source_project_ids,\n"
                 . "                     cpp_dest_projects.app_title as cpp_destination_project_name\n"
-                . "                FROM redcap_external_modules ems, redcap_external_module_settings em_settings,\n"
+                . "                FROM redcap_external_modules ems,\n"
+                . "                        redcap_external_module_settings em_settings,\n"
                 . "                        redcap_external_module_settings em_settings2,\n"
                 . "                        redcap_projects cpp_dest_projects\n"
                 . "                WHERE ems.directory_prefix = 'cross_project_piping'\n"
@@ -534,7 +535,7 @@ class Conditions
                 . "                    AND em_settings.external_module_id = em_settings2.external_module_id\n"
                 . "                    AND em_settings.`key`= 'project-id'\n"
                 . "                    AND (em_settings2.key = 'enabled' and em_settings2.value = 'true')) AS cpp\n"
-                . "            ON instr(cpp.cpp_source_project_ids, CONCAT('\"', projects.project_id, '\"'))\n"
+                . "            ON instr(cpp.cpp_source_project_ids, CONCAT('\"', projects.project_id, '\"')) \n"
                 ;
         }
 
@@ -645,8 +646,32 @@ class Conditions
             #------------------------------------------------
             $variable = $variables[$this->variable];
 
-            if ($variable->getName() === 'cross_project_piping_source') {
-                ;
+            if (
+                $variable->getName() === 'cpp_destination_project_id'
+                # || $variable->getName() === 'cdos_source_project_id'
+            ) {
+                #----------------------------------------------
+                # Processing for variables associated
+                # with specific external modules
+                #----------------------------------------------
+                $table      = $variable->getTable();
+                $tableAlias = $tableMap[$table];
+                $field = $tableAlias . '.' . $variable->getName();
+                $operator = strtoupper($operator);
+                $value = $this->value;
+
+                $dirPrefix = '';
+                if ($variable->getName() === 'cpp_destination_project_id') {
+                    $dirPrefix = 'cross_project_piping';
+                } elseif ($variable->getName() === 'cdos_source_project_id') {
+                    $dirPrefix = 'copy_data_on_save';
+                }
+
+                $string = $indent
+                    . '(' . $field . ' ' . $operator . ' ' . $value . "\n"
+                    . $indent . "AND ems.directory_prefix = '{$dirPrefix}'"
+                    . ")\n"
+                    ;
             } else {
                 $table      = $variable->getTable();
                 $tableAlias = $tableMap[$table];
@@ -762,9 +787,6 @@ class Conditions
             $whereConditions = [];
 
             foreach ($this->conditions as $condition) {
-                #if ($condition->variable === 'cross_project_piping_source') {
-                #    ; // don't add
-                #}
                 if (in_array($condition->operator, [self::ALL_OP, self::ANY_OP, self::NOT_ALL_OP, self::NOT_ANY_OP])) {
                     $subConditions = $condition->getSqlWhereClauseConditions();
                     if (!empty($subConditions)) {
