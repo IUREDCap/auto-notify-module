@@ -55,7 +55,7 @@ Feature: Notifications
     And I follow "Saved Queries"
     And I follow last query
     And I press button "viewUsersButton" to new window
-    Then I should see "user first name"
+    Then I should eventually see "user first name"
     And I should see "user last name"
     When I press first number of projects button
     Then I should see "Projects for user"
@@ -69,8 +69,8 @@ Feature: Notifications
     And I follow "Saved Queries"
     And I follow last query
     And I press button "viewProjectsButton" to new window
-    Then I should see "Projects"
-    And I should see "Project ID"
+    Then I should eventually see "Projects"
+    And I should eventually see "Project ID"
     And I should see "Title"
     And I should see "Status"
     And I should see "Purpose"

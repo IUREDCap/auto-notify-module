@@ -33,6 +33,8 @@ class QueriesPage
     {
         $page = $session->getPage();
 
+        sleep(10);
+
         $elements = $page->findAll("xpath", "//tr/td[4]/a");
         $lastElement = end($elements);
         $lastElement->click();

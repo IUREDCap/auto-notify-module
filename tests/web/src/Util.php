@@ -84,6 +84,56 @@ class Util
     }
 
 
+
+    public static function waitForElement($session, $id, $timeout = 10)
+    {
+        $waitTime = 0;
+
+        $page = $session->getPage();
+
+        $element = $page->findById($id);
+        while (empty($element) && $waitTime < $timeout) {
+            sleep(1);
+            $element = $page->findById($id);
+            $waitTime++;
+        }
+    }
+
+
+    public static function waitForAndPressButton($session, $buttonId, $timeout = 10)
+    {
+        Util::waitForElement($session, $buttonId, $timeout);
+        $page = $session->getPage();
+        $page->pressButton($buttonId);
+    }
+
+    public static function waitForAndSee($session, $value, $timeout = 10)
+    {
+        $waitTime = 0;
+        $found = false;
+
+        $page = $session->getPage();
+
+        sleep(1);
+
+        $pageText = $page->getText();
+        while ($waitTime < $timeout) {
+            if (str_contains($pageText, $value)) {
+                $found = true;
+                break;
+            }
+            sleep(1);
+            $page = $session->getPage();
+            $pageText = $page->getText();
+            $waitTime++;
+        }
+
+        if (!$found) {
+            throw new \Exception("Value \"{$value}\" was not found on the page.");
+        }
+    }
+
+
     /**
      * Checks for module page tabs.
      *
@@ -295,7 +345,8 @@ class Util
         # Follow the link (which should create a new window name)
         $page = $session->getPage();
         $page->clickLink($link);
-        sleep(2); // Give some time for new window to open
+
+        sleep(4); // Give some time for new window to open
 
         # See what window name was added (this should be the new window)
         $newWindowNames = $session->getWindowNames();
@@ -309,13 +360,17 @@ class Util
 
     public static function pressButtonToNewWindow($session, $button)
     {
+        sleep(4);
         # Save the current window names
         $windowNames = $session->getWindowNames();
 
         # Press the button (which should create a new window name)
         $page = $session->getPage();
-        $page->pressButton($button);
-        sleep(4); // Give some time for new window to open
+        
+        // $page->pressButton($button);
+        Util::waitForAndPressButton($session, $button);
+
+        sleep(7); // Give some time for new window to open
 
         # See what window name was added (this should be the new window)
         $newWindowNames = $session->getWindowNames();

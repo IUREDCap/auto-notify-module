@@ -338,6 +338,16 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
         sleep($seconds);
     }
 
+    /**
+     * @Then /^I should eventually see "([^"]*)"$/
+     */
+    public function iShouldEventuallySee($value)
+    {
+        $session = $this->getSession();
+        $found = Util::waitForAndSee($session, $value);
+    }
+
+
 
     /**
      * @When /^I log in as admin$/
