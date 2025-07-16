@@ -104,6 +104,10 @@ Message variables supported include:
         <td> [redcap_url] </td>
         <td> The URL for the REDCap instance from which the notification was sent. </td>
     </tr>
+    <tr>
+        <td> [redcap_version] </td>
+        <td> The REDCap version number. </td>
+    </tr>
 </table>
 
 

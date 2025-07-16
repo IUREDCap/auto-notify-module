@@ -49,6 +49,11 @@ AutoNotifyModule.initializeMessageEditor = function() {
                         type: 'menuitem',
                         text: 'URL',
                         onAction: () => editor.insertContent(`[redcap_url]`)
+                    },
+                    {
+                        type: 'menuitem',
+                        text: 'version',
+                        onAction: () => editor.insertContent(`[redcap_version]`)
                     }
                 ]
             });

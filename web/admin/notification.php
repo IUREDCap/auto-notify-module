@@ -532,6 +532,7 @@ if ($id == null) {
                         <ul>
                             <li id="var_redcap_institution"><div>institution</div></li>
                             <li id="var_redcap_url"><div>URL</div></li>
+                            <li id="var_redcap_version"><div>version</div></li>
                         </ul>
                     </li>
                     <li id="category_user"><div>user</div>

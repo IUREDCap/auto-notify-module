@@ -14,6 +14,7 @@ class RedCapInfo
 {
     private $url;
     private $institution;
+    private $version;
 
     public function getUrl()
     {
@@ -33,5 +34,15 @@ class RedCapInfo
     public function setInstitution($institution)
     {
         $this->institution = $institution;
+    }
+
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    public function setVersion($version)
+    {
+        $this->version = $version;
     }
 }

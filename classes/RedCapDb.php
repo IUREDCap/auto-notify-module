@@ -88,6 +88,7 @@ class RedCapDb
             . " where field_name in ("
             . "     'from_email', 'homepage_contact', 'homepage_contact_email'"
             . "     , 'redcap_base_url', 'institution', 'site_org_type'"
+            . "     , 'redcap_version'"
             . ")";
         $parameters = [];
 
@@ -99,6 +100,8 @@ class RedCapDb
                 $info->setUrl($row['value']);
             } elseif ($row['field_name'] === 'institution') {
                 $info->setInstitution($row['value']);
+            } elseif ($row['field_name'] === 'redcap_version') {
+                $info->setVersion($row['value']);
             }
         }
         # print ("</pre>\n");

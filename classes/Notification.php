@@ -124,6 +124,7 @@ class Notification
         #-------------------------------------
         $message = preg_replace('/\[redcap_url\]/', $redCapInfo->getUrl(), $message);
         $message = preg_replace('/\[redcap_institution\]/', $redCapInfo->getInstitution(), $message);
+        $message = preg_replace('/\[redcap_version\]/', $redCapInfo->getVersion(), $message);
 
         #-------------------------------------
         # Testing variables
