@@ -217,7 +217,7 @@ class UsersSpecification
         // WORK IN PROGRESS
         $value = '';
         if ($this->usersOption === self::USERS_OPT_API_TOKEN) {
-            $value .= 'All API token users';
+            $value .= 'API token users';
         } elseif ($this->usersOption == self::USERS_OPT_EXT_MOD) {
             if ($this->externalModuleOptions === self::EXT_MOD_OPT_ANY) {
                 $value .= 'Users of any external module';
