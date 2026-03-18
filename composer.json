@@ -9,7 +9,7 @@
         "vendor-dir": "dev"
     },
     "require-dev": {
-        "phpunit/phpunit": "12.5.12",
+        "phpunit/phpunit": "13.0.5",
         "squizlabs/php_codesniffer": "4.0.1"
     },
 	"autoload" : {
