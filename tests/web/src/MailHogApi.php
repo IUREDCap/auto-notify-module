@@ -79,7 +79,7 @@ class MailHogApi
             }
         }
 
-        curl_close($connection);
+        // DEPRECATED: curl_close($connection);
 
         return $messages;
     }
